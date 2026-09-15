@@ -1,0 +1,2248 @@
+{
+  "schema": 1,
+  "experiment": "nociception-open-loop-probe",
+  "milestone": 3,
+  "claim": "Model propagation under an artificial drive; not pain, not validated physiology.",
+  "deterministic": true,
+  "weights_frozen": true,
+  "game_running": false,
+  "parameters": {
+    "arms": "sham,snxx29,random-matched",
+    "gain": 20.0,
+    "gain_sweep": "5,7.5,10,15,20,30,40",
+    "pulses": 5,
+    "pulse_ms": 200,
+    "interval_ms": 1200,
+    "jitter_ms": 400,
+    "warmup_ms": 2000,
+    "seed": 41027,
+    "frame": null,
+    "bin_ms": 10,
+    "pulse_onsets_ms": [
+      200,
+      1710,
+      3110,
+      4400,
+      5650
+    ],
+    "windows_ms": {
+      "pre": [
+        -200,
+        0
+      ],
+      "onset_0_50": [
+        0,
+        50
+      ],
+      "pulse_50_200": [
+        50,
+        200
+      ],
+      "after_200_1000": [
+        200,
+        1000
+      ]
+    },
+    "frame_sha256": "e542c4497387ecf0fd0edeb1e38c881f40bd74f7be404ca839499086143ac01d"
+  },
+  "provenance": {
+    "fork_commit": "68841cd2da3ea9ea79b7bf9d82dd09d80ee18688",
+    "kernel": {
+      "model": "adaptive-centered-v6",
+      "source_sha256": "0c2fa74922323acb8b55309af7b720d54377de962266272f69375c6d77e40180",
+      "binary_sha256": "31788ff73b551a07b02c70785e97af55377454883a60aa9a1baf230074c2bd64",
+      "flags": [
+        "-O3",
+        "-std=c++17",
+        "-shared",
+        "-Xlinker",
+        "/EXPORT:memory_advance"
+      ]
+    },
+    "graph_sha256": "dfc765c999404463110a6e993348fb77d5db559d9e0e6f4fee16932a516bc296",
+    "configuration": {
+      "initial_weight": "40a2e78d7299197d24ba03a24c94a8e1cd0eb45a653d69f001fc3acee2fdc779",
+      "modulation_mask": "914dcf25dae442aecbcf27565f7bc8be76ea8254e7fbc944f2efe6e2413e6d5a",
+      "rule": {
+        "trace_kc_seconds": 1.0,
+        "trace_dan_seconds": 1.0,
+        "memory_decay_seconds": 1800.0,
+        "weight_filter_seconds": 0.05,
+        "minimum_fraction": 0.1,
+        "maximum_fraction": 2.0,
+        "maximum_rate_bin_ms": 10.0,
+        "source": "https://doi.org/10.1038/s41586-024-07819-w",
+        "interpretation": "Centered rate-rule adaptation on existing individual edges, not an exact reproduction of the published nine-unit model. Equal trace constants, efficacy bounds, gain and 50 ms weight filter require calibration."
+      },
+      "rule_sha256": "fc1da7d35eb64a709e0e31b8b512ba50dd73917ffe28e983be45008bc5779bad",
+      "tonic": "9987b0e2557db3948dd617b9a70397a9ad7bf0367f8cf9e3e29af4d8d05f0420",
+      "dan_baseline_hz": "986c1936fd3d3ff90de54565be34655fda3e5157d9bd1ee7e032be868fb9a799",
+      "rest": "275bd935e4f1a56cbc2ca22b8f258f1cef511894f42f531e9a52476dd7b02946",
+      "adaptation_jump": 8.0,
+      "adaptation_tau": 200.0,
+      "retina": "5ec145156d998f582e5d8f08c4174e10f7f853d34745118adab8589f192d04b4",
+      "uv": "51f7dafd4355a06176418e22373ffcdf5bc066f75050da6dcbaaaccbad55a714",
+      "lamina": "22d6fa8ac7aa40700d09394aea1cf35226711d2efc78bc716882920ba180e47e",
+      "sugar": "89b057c7b57d5e783f608815b4219b17b54c812c3fa229bcb78b1cafa30d37a1",
+      "pre": "a58bac7b66de7bbc48f47c4c5d12db216cbfbeed4a2148020ac4638dde143acd",
+      "gain": "94a6bdd055ad6010d8e476c97eea5af1c240009c7068be0d82b4bfa07fdc5cfd",
+      "kc_mask": "43e6ed840af2d547a3ae5848155e639f6e2abf60d5b7caa83c4298a3fb64c617",
+      "dan_index": "2a62818a14eb7fb9a288eaf1dd4e93dec4e66de1428f12e844ca2ba5497823dd",
+      "r8": "27c803c738f86c0509cabc57269e265bac832d8b4477773688e59a14d671f0ff",
+      "r8_uv": "e567b93a289fa467ec1096295c4682dce0dfd4f7d92844159f7eb4a380e22719",
+      "r8_channel": "350fc24c7884470b78254805a557e57bf12b89b71ea8a32af2f4929e951555ae",
+      "corrected_edges": "64916a520f2d1e7daf30bfd027a67d53ceb0f8270097b17c0635572ce2db658d"
+    },
+    "calibration": {
+      "MBON_current": 9.87,
+      "DAN_current": 11.3125,
+      "observed_MBON_hz": [
+        37,
+        37
+      ],
+      "observed_DAN_hz": [
+        23,
+        19
+      ],
+      "target_MBON_hz": 37.16625,
+      "target_MBON_sd": 9.06014,
+      "target_DAN_hz": 20.09,
+      "target_DAN_sd": 4.30193,
+      "evidence": "https://doi.org/10.1038/s41586-024-07819-w",
+      "source_data": "Figure 1, panels d/e, n=20 flies per type",
+      "limits": "A fitted background current is not identified pacemaker physiology. This only constrains baseline rates, not cue responses, burst statistics or learned behavior."
+    },
+    "dataset": "male-cns",
+    "dataset_version": "v1.0"
+  },
+  "populations": {
+    "snxx29": {
+      "source": "snxx29",
+      "selection_rule": "Exact type == \"SNxx29\"; side from rootSide; 10 L + 10 R; acetylcholine model transmitter.",
+      "seed": null,
+      "count": 20,
+      "sides": {
+        "L": 10,
+        "R": 10
+      },
+      "outgoing_synapses_total": 35140,
+      "reference_snxx29_outgoing_synapses_total": 35140,
+      "outgoing_ratio_to_snxx29": 1.0,
+      "match_attempts": null,
+      "identity_evidence": "ppk+/Gr28b.d+ heat-nociceptive leg sensory identity is inferred from MANC-era annotation literature. MaleCNS v1.0 has no receptorType for these cells and the MaleCNS paper (Berg et al.) does not describe SNxx29 or nociception.",
+      "neurons": [
+        {
+          "index": 145904,
+          "body_id": "802125",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MetaLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1760,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.8920744012972635,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 146015,
+          "body_id": "802282",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MetaLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 3182,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.7134973375903879,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 146668,
+          "body_id": "803140",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MetaLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 3125,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.7467833619746883,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 147263,
+          "body_id": "803903",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 3084,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.8012891244685291,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 147503,
+          "body_id": "804191",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MetaLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1625,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "serotonin",
+          "predicted_nt_confidence": 0.6285437344913152,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 148151,
+          "body_id": "805000",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "ProLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 2522,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.8335728210026497,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 148152,
+          "body_id": "805001",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1543,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.670060623663992,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 149426,
+          "body_id": "806548",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1493,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.811963828264727,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 150261,
+          "body_id": "807533",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1406,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.8177246242832686,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 150341,
+          "body_id": "807629",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MetaLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1657,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "serotonin",
+          "predicted_nt_confidence": 0.5307227366255145,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 150458,
+          "body_id": "807767",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MetaLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1542,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "serotonin",
+          "predicted_nt_confidence": 0.5827069080594026,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 151065,
+          "body_id": "808503",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MetaLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1394,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "serotonin",
+          "predicted_nt_confidence": 0.6477415716999051,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 154926,
+          "body_id": "813268",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "ProLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 502,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.7025972932348479,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 157305,
+          "body_id": "816463",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 713,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.667216997701657,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 157593,
+          "body_id": "816922",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "ProLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 576,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.7073628098277852,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 159284,
+          "body_id": "820805",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "ProLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 389,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "unclear",
+          "predicted_nt_confidence": 0.40271461963450916,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 160812,
+          "body_id": "902991",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MetaLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 2298,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.6049716836430837,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 161487,
+          "body_id": "905002",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 2992,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.861508560947988,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 161932,
+          "body_id": "906292",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "ProLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1962,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9008614629299039,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        },
+        {
+          "index": 164554,
+          "body_id": "935915",
+          "type": "SNxx29",
+          "class": "unknown_sensory",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1375,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "serotonin",
+          "predicted_nt_confidence": 0.6379820411070412,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.6743733507066244
+        }
+      ],
+      "dataset": "male-cns",
+      "dataset_version": "v1.0"
+    },
+    "random-matched": {
+      "source": "random-matched",
+      "selection_rule": "For each SNxx29 cell, one draw without replacement from the 3 nearest same-side leg sensory neurons (superclass vnc_sensory, subclass leg, acetylcholine, non-modulatory, not SNxx29) by outgoing synapse count; whole draws repeated from the seeded generator until total outgoing synapses are within 10%.",
+      "seed": 41027,
+      "count": 20,
+      "sides": {
+        "L": 10,
+        "R": 10
+      },
+      "outgoing_synapses_total": 31802,
+      "reference_snxx29_outgoing_synapses_total": 35140,
+      "outgoing_ratio_to_snxx29": 0.905,
+      "match_attempts": 2,
+      "identity_evidence": "Control: identity deliberately not nociceptive-specific.",
+      "neurons": [
+        {
+          "index": 146683,
+          "body_id": "803161",
+          "type": null,
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 3229,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9612895821428779,
+          "celltype_predicted_nt": "unclear",
+          "celltype_predicted_nt_confidence": NaN
+        },
+        {
+          "index": 146958,
+          "body_id": "803512",
+          "type": "SNppxx",
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 2506,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9500386298493209,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.9152700649896027
+        },
+        {
+          "index": 147691,
+          "body_id": "804430",
+          "type": "SNppxx",
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 2654,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9701087310071288,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.9152700649896027
+        },
+        {
+          "index": 147979,
+          "body_id": "804782",
+          "type": null,
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MetaLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1849,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9630709356812706,
+          "celltype_predicted_nt": "unclear",
+          "celltype_predicted_nt_confidence": NaN
+        },
+        {
+          "index": 148064,
+          "body_id": "804888",
+          "type": null,
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 2052,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9591130503898764,
+          "celltype_predicted_nt": "unclear",
+          "celltype_predicted_nt_confidence": NaN
+        },
+        {
+          "index": 148806,
+          "body_id": "805799",
+          "type": null,
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1477,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9525664642243179,
+          "celltype_predicted_nt": "unclear",
+          "celltype_predicted_nt_confidence": NaN
+        },
+        {
+          "index": 148889,
+          "body_id": "805900",
+          "type": "SNppxx",
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1559,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9613023938360835,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.9152700649896027
+        },
+        {
+          "index": 149146,
+          "body_id": "806212",
+          "type": null,
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MetaLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1752,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.964656369487988,
+          "celltype_predicted_nt": "unclear",
+          "celltype_predicted_nt_confidence": NaN
+        },
+        {
+          "index": 149559,
+          "body_id": "806698",
+          "type": "SNppxx",
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1770,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9704136125867049,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.9152700649896027
+        },
+        {
+          "index": 150036,
+          "body_id": "807272",
+          "type": "SNppxx",
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1563,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9602597888758369,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.9152700649896027
+        },
+        {
+          "index": 150389,
+          "body_id": "807687",
+          "type": "SNta20",
+          "class": "mechanosensory_tactile",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 717,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9747326673375372,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.958929403058444
+        },
+        {
+          "index": 152831,
+          "body_id": "810628",
+          "type": "SNppxx",
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1526,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.964002799550122,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.9152700649896027
+        },
+        {
+          "index": 156303,
+          "body_id": "815032",
+          "type": null,
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MetaLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1620,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.890195467956549,
+          "celltype_predicted_nt": "unclear",
+          "celltype_predicted_nt_confidence": NaN
+        },
+        {
+          "index": 157665,
+          "body_id": "817036",
+          "type": "SNta20",
+          "class": "mechanosensory_tactile",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 581,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9603519065970623,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.958929403058444
+        },
+        {
+          "index": 160336,
+          "body_id": "848741",
+          "type": "SNppxx",
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1890,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9233619355514693,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.9152700649896027
+        },
+        {
+          "index": 160599,
+          "body_id": "902301",
+          "type": "SNppxx",
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MetaLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1410,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9694530099407335,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.9152700649896027
+        },
+        {
+          "index": 162366,
+          "body_id": "907990",
+          "type": "SNppxx",
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "L",
+          "entry_nerve": "MetaLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1398,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "unclear",
+          "predicted_nt_confidence": 0.48028792400230774,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.9152700649896027
+        },
+        {
+          "index": 163120,
+          "body_id": "910104",
+          "type": "SNppxx",
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MesoLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 1347,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9597664300223069,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.9152700649896027
+        },
+        {
+          "index": 163711,
+          "body_id": "912673",
+          "type": "SNta28",
+          "class": "mechanosensory_tactile",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MetaLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 398,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9747326673375373,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.9581303517398415
+        },
+        {
+          "index": 164425,
+          "body_id": "933319",
+          "type": "SNpp55",
+          "class": "mechanosensory_proprioceptive",
+          "superclass": "vnc_sensory",
+          "subclass": "leg",
+          "side": "R",
+          "entry_nerve": "MetaLN",
+          "model_neurotransmitter": "acetylcholine",
+          "outgoing_synapses": 504,
+          "dataset": "male-cns",
+          "dataset_version": "v1.0",
+          "predicted_nt": "acetylcholine",
+          "predicted_nt_confidence": 0.9589190038473562,
+          "celltype_predicted_nt": "acetylcholine",
+          "celltype_predicted_nt_confidence": 0.9193756544721934
+        }
+      ],
+      "dataset": "male-cns",
+      "dataset_version": "v1.0"
+    }
+  },
+  "dose_check": {
+    "snxx29": {
+      "stimulated_population_spikes_during_pulses": 152,
+      "rate_hz": 7.6
+    },
+    "random-matched": {
+      "stimulated_population_spikes_during_pulses": 1539,
+      "rate_hz": 76.95
+    }
+  },
+  "gain_sweep": [
+    {
+      "gain_mv": 5.0,
+      "SNxx29_rate_hz": 0.0,
+      "AN09B018_rate_hz": 0.0,
+      "AN05B004_rate_hz": 42.5,
+      "ascending_neuron_rate_hz": 4.943,
+      "DAN_rate_hz": 5.603,
+      "descending_neuron_rate_hz": 7.827
+    },
+    {
+      "gain_mv": 7.5,
+      "SNxx29_rate_hz": 0.0,
+      "AN09B018_rate_hz": 0.0,
+      "AN05B004_rate_hz": 42.5,
+      "ascending_neuron_rate_hz": 4.943,
+      "DAN_rate_hz": 5.603,
+      "descending_neuron_rate_hz": 7.827
+    },
+    {
+      "gain_mv": 10.0,
+      "SNxx29_rate_hz": 1.5,
+      "AN09B018_rate_hz": 0.0,
+      "AN05B004_rate_hz": 47.5,
+      "ascending_neuron_rate_hz": 4.694,
+      "DAN_rate_hz": 5.412,
+      "descending_neuron_rate_hz": 7.667
+    },
+    {
+      "gain_mv": 15.0,
+      "SNxx29_rate_hz": 3.0,
+      "AN09B018_rate_hz": 0.0,
+      "AN05B004_rate_hz": 55.0,
+      "ascending_neuron_rate_hz": 4.913,
+      "DAN_rate_hz": 5.588,
+      "descending_neuron_rate_hz": 8.048
+    },
+    {
+      "gain_mv": 20.0,
+      "SNxx29_rate_hz": 8.5,
+      "AN09B018_rate_hz": 0.625,
+      "AN05B004_rate_hz": 57.5,
+      "ascending_neuron_rate_hz": 4.932,
+      "DAN_rate_hz": 5.691,
+      "descending_neuron_rate_hz": 8.291
+    },
+    {
+      "gain_mv": 30.0,
+      "SNxx29_rate_hz": 26.25,
+      "AN09B018_rate_hz": 8.125,
+      "AN05B004_rate_hz": 82.5,
+      "ascending_neuron_rate_hz": 4.989,
+      "DAN_rate_hz": 5.515,
+      "descending_neuron_rate_hz": 7.842
+    },
+    {
+      "gain_mv": 40.0,
+      "SNxx29_rate_hz": 55.5,
+      "AN09B018_rate_hz": 41.25,
+      "AN05B004_rate_hz": 115.0,
+      "ascending_neuron_rate_hz": 5.279,
+      "DAN_rate_hz": 5.75,
+      "descending_neuron_rate_hz": 8.158
+    }
+  ],
+  "results": {
+    "snxx29": {
+      "groups": {
+        "random_matched": {
+          "neurons": 20,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "median_first_divergence_ms": null,
+          "pulses_with_divergence_within_1s": 0
+        },
+        "SNxx29": {
+          "neurons": 20,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 5.0,
+              "min": 4.0,
+              "max": 6.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 8.4667,
+              "min": 8.0,
+              "max": 9.3333
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            0,
+            0,
+            10,
+            0,
+            10
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "AN09B018": {
+          "neurons": 8,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": -0.5,
+              "min": -2.5,
+              "max": 0.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            250,
+            null,
+            null,
+            10,
+            null
+          ],
+          "median_first_divergence_ms": 130.0,
+          "pulses_with_divergence_within_1s": 2
+        },
+        "AN05B004": {
+          "neurons": 2,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": -0.5,
+              "min": -5.0,
+              "max": 2.5
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 26.0,
+              "min": 10.0,
+              "max": 40.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 20.0,
+              "min": 13.3333,
+              "max": 26.6667
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 2.625,
+              "min": 0.0,
+              "max": 4.375
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            10,
+            30,
+            0,
+            10,
+            0
+          ],
+          "median_first_divergence_ms": 10.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "AN17A018": {
+          "neurons": 6,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "median_first_divergence_ms": null,
+          "pulses_with_divergence_within_1s": 0
+        },
+        "ANXXX196": {
+          "neurons": 2,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 1.3333,
+              "min": 0.0,
+              "max": 3.3333
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            null,
+            110,
+            120,
+            null,
+            null
+          ],
+          "median_first_divergence_ms": 115.0,
+          "pulses_with_divergence_within_1s": 2
+        },
+        "AN05B097": {
+          "neurons": 8,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "median_first_divergence_ms": null,
+          "pulses_with_divergence_within_1s": 0
+        },
+        "ascending_neuron": {
+          "neurons": 1846,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": -0.0157,
+              "min": -0.1733,
+              "max": 0.1598
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.1972,
+              "min": 0.0,
+              "max": 0.4117
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.0253,
+              "min": -0.0614,
+              "max": 0.1517
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.059,
+              "min": 0.0142,
+              "max": 0.1557
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            10,
+            0,
+            0,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "DAN": {
+          "neurons": 340,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.05,
+              "min": -0.2206,
+              "max": 0.3235
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": -0.3176,
+              "min": -1.3529,
+              "max": 0.5882
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.1137,
+              "min": -0.6078,
+              "max": 1.2157
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -0.0154,
+              "min": -0.0515,
+              "max": 0.0147
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            30,
+            0,
+            0,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "PPL1": {
+          "neurons": 16,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": -0.625,
+              "min": -5.625,
+              "max": 1.5625
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": -1.75,
+              "min": -6.25,
+              "max": 2.5
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 1.5833,
+              "min": -4.5833,
+              "max": 12.0833
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -0.2031,
+              "min": -0.9375,
+              "max": 0.7812
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            30,
+            0,
+            0,
+            0,
+            10
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "PPL101": {
+          "neurons": 2,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": -4.0,
+              "min": -12.5,
+              "max": 2.5
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 4.0,
+              "min": -10.0,
+              "max": 20.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 4.6667,
+              "min": -3.3333,
+              "max": 26.6667
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -0.625,
+              "min": -4.375,
+              "max": 4.375
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            60,
+            0,
+            0,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "PAM": {
+          "neurons": 316,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.1171,
+              "min": 0.0,
+              "max": 0.3481
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": -0.3418,
+              "min": -1.4557,
+              "max": 0.3797
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.0759,
+              "min": -0.5063,
+              "max": 0.7173
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.0103,
+              "min": -0.0514,
+              "max": 0.0435
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            40,
+            0,
+            0,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "MBON": {
+          "neurons": 97,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": -0.2784,
+              "min": -1.6495,
+              "max": 0.6701
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.7423,
+              "min": -2.268,
+              "max": 3.7113
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.4674,
+              "min": -0.9622,
+              "max": 1.7869
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -0.0644,
+              "min": -0.5412,
+              "max": 0.3479
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            40,
+            0,
+            20,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "KC": {
+          "neurons": 4064,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": -0.0792,
+              "min": -0.326,
+              "max": 0.0234
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.0344,
+              "min": -0.3346,
+              "max": 0.2904
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.0823,
+              "min": -0.0787,
+              "max": 0.3018
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -0.0231,
+              "min": -0.0957,
+              "max": 0.0391
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            30,
+            0,
+            0,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "descending_neuron": {
+          "neurons": 1314,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": -0.0015,
+              "min": -0.2397,
+              "max": 0.1142
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": -0.1157,
+              "min": -0.3349,
+              "max": 0.0152
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": -0.1624,
+              "min": -0.3704,
+              "max": -0.0203
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -0.0778,
+              "min": -0.293,
+              "max": 0.1322
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            30,
+            0,
+            0,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "DNp20_L": {
+          "neurons": 1,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": -2.0,
+              "min": -10.0,
+              "max": 5.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": -20.0,
+              "max": 20.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": -5.3333,
+              "min": -20.0,
+              "max": 6.6667
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -2.0,
+              "min": -6.25,
+              "max": 6.25
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            70,
+            0,
+            0,
+            10,
+            10
+          ],
+          "median_first_divergence_ms": 10.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "DNp20_R": {
+          "neurons": 1,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 4.0,
+              "min": -10.0,
+              "max": 20.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 4.0,
+              "min": -20.0,
+              "max": 20.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": -6.6667,
+              "min": -20.0,
+              "max": 0.0
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -4.0,
+              "min": -10.0,
+              "max": 5.0
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            70,
+            30,
+            0,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "DNpe017": {
+          "neurons": 2,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": -1.5,
+              "min": -2.5,
+              "max": 0.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": -3.3333,
+              "max": 3.3333
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.75,
+              "min": -2.5,
+              "max": 2.5
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            80,
+            120,
+            200,
+            60,
+            530
+          ],
+          "median_first_divergence_ms": 120.0,
+          "pulses_with_divergence_within_1s": 5
+        }
+      },
+      "decoded_open_loop_delta_vs_sham": {
+        "turn": {
+          "pre": 0.03975,
+          "onset_0_50": 0.46649,
+          "pulse_50_200": 0.19032,
+          "after_200_1000": -0.23272
+        },
+        "forward": {
+          "pre": -0.45914,
+          "onset_0_50": -0.59054,
+          "pulse_50_200": -0.10971,
+          "after_200_1000": 0.40553
+        },
+        "attack_fraction": {
+          "pre": -0.03,
+          "onset_0_50": 0.0,
+          "pulse_50_200": 0.0,
+          "after_200_1000": 0.015
+        }
+      }
+    },
+    "random-matched": {
+      "groups": {
+        "random_matched": {
+          "neurons": 20,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 71.8,
+              "min": 71.0,
+              "max": 73.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 78.6667,
+              "min": 78.0,
+              "max": 79.6667
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "SNxx29": {
+          "neurons": 20,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "median_first_divergence_ms": null,
+          "pulses_with_divergence_within_1s": 0
+        },
+        "AN09B018": {
+          "neurons": 8,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": -0.5,
+              "min": -2.5,
+              "max": 0.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -0.0312,
+              "min": -0.1562,
+              "max": 0.0
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            990,
+            null,
+            null,
+            10,
+            null
+          ],
+          "median_first_divergence_ms": 500.0,
+          "pulses_with_divergence_within_1s": 2
+        },
+        "AN05B004": {
+          "neurons": 2,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": -2.5,
+              "min": -7.5,
+              "max": 2.5
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 12.0,
+              "min": 0.0,
+              "max": 30.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": -1.3333,
+              "min": -3.3333,
+              "max": 3.3333
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.625,
+              "min": -1.25,
+              "max": 2.5
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            60,
+            0,
+            0,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "AN17A018": {
+          "neurons": 6,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "median_first_divergence_ms": null,
+          "pulses_with_divergence_within_1s": 0
+        },
+        "ANXXX196": {
+          "neurons": 2,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "median_first_divergence_ms": null,
+          "pulses_with_divergence_within_1s": 0
+        },
+        "AN05B097": {
+          "neurons": 8,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "median_first_divergence_ms": null,
+          "pulses_with_divergence_within_1s": 0
+        },
+        "ascending_neuron": {
+          "neurons": 1846,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.0114,
+              "min": -0.2898,
+              "max": 0.2627
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.3857,
+              "min": 0.0325,
+              "max": 0.7692
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.039,
+              "min": -0.1372,
+              "max": 0.39
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -0.0257,
+              "min": -0.105,
+              "max": 0.0467
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            20,
+            10,
+            0,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "DAN": {
+          "neurons": 340,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": -0.0588,
+              "min": -0.3971,
+              "max": 0.1912
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.0588,
+              "min": -1.7647,
+              "max": 1.2941
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": -0.051,
+              "min": -0.5882,
+              "max": 0.6863
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.0037,
+              "min": -0.0919,
+              "max": 0.1434
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            20,
+            0,
+            0,
+            0,
+            10
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "PPL1": {
+          "neurons": 16,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.125,
+              "min": -2.1875,
+              "max": 2.1875
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 1.25,
+              "min": -2.5,
+              "max": 5.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": -0.1667,
+              "min": -5.0,
+              "max": 5.4167
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -0.2188,
+              "min": -1.25,
+              "max": 0.4688
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            20,
+            0,
+            0,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "PPL101": {
+          "neurons": 2,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": -0.5,
+              "min": -12.5,
+              "max": 7.5
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 16.0,
+              "min": -10.0,
+              "max": 40.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 8.6667,
+              "min": -6.6667,
+              "max": 26.6667
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -2.25,
+              "min": -6.25,
+              "max": 1.875
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            30,
+            0,
+            0,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "PAM": {
+          "neurons": 316,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": -0.057,
+              "min": -0.3165,
+              "max": 0.1108
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": -0.0759,
+              "min": -2.1519,
+              "max": 1.2658
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": -0.0211,
+              "min": -0.4219,
+              "max": 0.4641
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": 0.0237,
+              "min": -0.0949,
+              "max": 0.1661
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            50,
+            0,
+            0,
+            10,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "MBON": {
+          "neurons": 97,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": -0.3814,
+              "min": -0.9794,
+              "max": 0.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 2.3093,
+              "min": -1.2371,
+              "max": 7.6289
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.4124,
+              "min": -1.512,
+              "max": 2.543
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -0.0258,
+              "min": -0.8247,
+              "max": 0.5799
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            40,
+            0,
+            0,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "KC": {
+          "neurons": 4064,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": -0.1213,
+              "min": -0.2042,
+              "max": 0.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.19,
+              "min": -0.5807,
+              "max": 0.7874
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 0.0784,
+              "min": -0.2051,
+              "max": 0.4331
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -0.0311,
+              "min": -0.132,
+              "max": 0.0738
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            30,
+            0,
+            0,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "descending_neuron": {
+          "neurons": 1314,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 0.2352,
+              "min": -0.0647,
+              "max": 0.586
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.1157,
+              "min": -0.1979,
+              "max": 0.5936
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": -0.0254,
+              "min": -0.2537,
+              "max": 0.411
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -0.1115,
+              "min": -0.2159,
+              "max": -0.0143
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            20,
+            0,
+            0,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 0.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "DNp20_L": {
+          "neurons": 1,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": -8.0,
+              "min": -25.0,
+              "max": 0.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": -4.0,
+              "min": -20.0,
+              "max": 20.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": -10.6667,
+              "min": -20.0,
+              "max": -6.6667
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -1.25,
+              "min": -11.25,
+              "max": 7.5
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            70,
+            40,
+            30,
+            0,
+            0
+          ],
+          "median_first_divergence_ms": 30.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "DNp20_R": {
+          "neurons": 1,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 3.0,
+              "min": -15.0,
+              "max": 15.0
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 8.0,
+              "min": -20.0,
+              "max": 60.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": 1.3333,
+              "min": -6.6667,
+              "max": 13.3333
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -2.0,
+              "min": -10.0,
+              "max": 3.75
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            100,
+            30,
+            0,
+            50,
+            0
+          ],
+          "median_first_divergence_ms": 30.0,
+          "pulses_with_divergence_within_1s": 5
+        },
+        "DNpe017": {
+          "neurons": 2,
+          "windows": {
+            "pre": {
+              "mean_rate_delta_hz_vs_sham": 1.0,
+              "min": -2.5,
+              "max": 7.5
+            },
+            "onset_0_50": {
+              "mean_rate_delta_hz_vs_sham": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "pulse_50_200": {
+              "mean_rate_delta_hz_vs_sham": -2.0,
+              "min": -6.6667,
+              "max": 3.3333
+            },
+            "after_200_1000": {
+              "mean_rate_delta_hz_vs_sham": -0.125,
+              "min": -1.875,
+              "max": 1.875
+            }
+          },
+          "first_divergence_ms_per_pulse": [
+            110,
+            220,
+            600,
+            70,
+            170
+          ],
+          "median_first_divergence_ms": 170.0,
+          "pulses_with_divergence_within_1s": 5
+        }
+      },
+      "decoded_open_loop_delta_vs_sham": {
+        "turn": {
+          "pre": 0.41475,
+          "onset_0_50": 1.1159,
+          "pulse_50_200": 1.54772,
+          "after_200_1000": 0.18371
+        },
+        "forward": {
+          "pre": 1.00309,
+          "onset_0_50": 0.77826,
+          "pulse_50_200": -0.73392,
+          "after_200_1000": -0.21602
+        },
+        "attack_fraction": {
+          "pre": 0.01,
+          "onset_0_50": 0.0,
+          "pulse_50_200": -0.04,
+          "after_200_1000": -0.0025
+        }
+      }
+    }
+  },
+  "group_definitions": {
+    "random_matched": 20,
+    "SNxx29": 20,
+    "AN09B018": 8,
+    "AN05B004": 2,
+    "AN17A018": 6,
+    "ANXXX196": 2,
+    "AN05B097": 8,
+    "ascending_neuron": 1846,
+    "DAN": 340,
+    "PPL1": 16,
+    "PPL101": 2,
+    "PAM": 316,
+    "MBON": 97,
+    "KC": 4064,
+    "descending_neuron": 1314,
+    "DNp20_L": 1,
+    "DNp20_R": 1,
+    "DNpe017": 2
+  },
+  "wall_seconds": 222.6
+}

@@ -26,7 +26,8 @@ followed by the abrupt new-arena image.
 | Control A, upstream | `ppl101` (default) | +4 mV-eq, 200 ms | none |
 | Control B, no damage signal | `none` | none | none |
 | Experiment | `snxx29` | none | 20 SNxx29 cells |
-| Random control | `random-matched --nociception-seed N` | none | 20 matched leg sensory cells |
+| Random control, same drive | `random-matched --nociception-seed N` | none | 20 matched leg sensory cells, SNxx29 gain |
+| Random control, same spike dose | `random-dose-matched --nociception-seed N` | none | same 20 cells, calibrated gain |
 
 No condition has a damage reward (`--reward off` is required for v6). The
 calibrated PPL101 tonic background (11.3125 mV-eq, baseline rate target) is
@@ -78,9 +79,10 @@ drive_mv          = gain * damage_normalized
   drive.
 - Fatal damage also produces drive, and a pulse continues across the arena
   reset. Each such overlap is counted (`pulses_spanning_respawn`).
-- Defaults: `damage_reference = 20 HP`, and `gain = 20 mV-eq` pending the
-  Milestone 3 sweep. The resting-to-threshold gap is 7 mV, so smaller drives
-  never fire an unstimulated cell.
+- Defaults: `damage_reference = 20 HP`, and `gain = 30 mV-eq`. That is the
+  lowest swept gain at which both strongest ascending partners (AN05B004,
+  AN09B018) respond. The resting-to-threshold gap is 7 mV; SNxx29 stayed silent
+  at 5 and 7.5 mV-eq.
 - None of these values is physiologically calibrated.
 
 ## Random control
@@ -95,7 +97,26 @@ SNxx29 is unusually strongly connected: 1,757 outgoing synapses per cell on
 average, against a median of 176 in the pool. The two strongest left SNxx29
 cells exceed every left candidate, so the control is matched on total output,
 not cell by cell. With seed 41027 it reaches 90.5% of SNxx29's total outgoing
-synapses. The stimulated cells get identical drive, duration and timing.
+synapses. In `random-matched` the stimulated cells get identical drive,
+duration and timing.
+
+Equal drive is not equal spike dose. SNxx29 sits in a feedback loop: its most
+responsive ascending partner, AN05B004, is also its largest inhibitory input
+(weight 838 of 1,185 incoming inhibition). Driven SNxx29 therefore fire far
+less than the control cells at the same drive: 7.6 Hz against 77 Hz at
+20 mV-eq.
+
+`random-dose-matched` reuses the same cells, but with a gain calibrated on the
+equilibrated brain so single-pulse population rates match SNxx29 at the SNxx29
+gain:
+
+```sh
+python -m doom.nociception_probe --calibrate-dose   # → outputs/doom/nociception/dose-calibration-v1.json
+```
+
+The server refuses a calibration record made for another seed, pulse duration
+or decay. Same-drive and same-dose controls answer different questions, and
+both are kept.
 
 ## Recording
 
@@ -151,4 +172,88 @@ condition, `none` included, receives a visual damage cue.
 
 ## Results
 
-Recorded after the runs; negative results are kept.
+### Probe v1 (gain 20 mV-eq, commit 68841cd, `outputs/doom/nociception/probe-snxx29-v1`)
+
+Five 200 ms pulses on a gray frame; values are arm minus sham, per cell.
+
+- SNxx29 fired +5 Hz in the first 50 ms and +8.5 Hz for the rest of the pulse.
+- AN05B004 responded on every pulse: +26 Hz at onset and +20 Hz during the
+  pulse, with first divergence at 10 ms. It is the only consistent ascending
+  response at this gain.
+- AN09B018, the strongest anatomical partner, was not recruited at 20 mV-eq. In
+  the single-pulse sweep it reached 8 Hz at 30 mV-eq and 41 Hz at 40 mV-eq.
+- AN17A018 and AN05B097 did not respond, and ANXXX196 responded only weakly.
+- DAN, PPL1, PAM, MBON, KC and descending populations changed immediately in
+  every arm, the random arm included, with mixed signs and per-pulse ranges
+  spanning zero. After the first pulse the "pre" windows also differ.
+  - This is divergence of the deterministic recurrent network, not a specific
+    nociceptive DAN or DN response.
+  - First-divergence latency is meaningful only for small direct partners.
+- The dose check failed at equal drive: SNxx29 fired at 7.6 Hz and the
+  same-drive random cells at 77 Hz. This led to the dose-matched control and
+  the 30 mV-eq default.
+
+Probe v1 establishes no endogenous dopamine response and no behavioral effect.
+
+### Dose calibration (commit 33c7b6d, `outputs/doom/nociception/dose-calibration-v1.json`)
+
+Single 200 ms pulse from the equilibrated brain, gray frame, seed 41027:
+
+| Arm | Gain | Population rate during the pulse |
+| --- | --- | --- |
+| SNxx29 | 30 mV-eq | 26.25 Hz |
+| Matched random cells | 30 mV-eq (same drive) | 116.5 Hz |
+| Matched random cells | 9.5 mV-eq (`random-dose-matched`) | 25.5 Hz |
+
+- The rate error at 9.5 mV-eq is 2.9%.
+- The search was monotonic from 7 to 30 mV-eq.
+- The match holds for one full-damage pulse on one state and frame. In game,
+  hit size and network state still change the dose.
+
+### Probe v2 (gain 30 mV-eq, commit 33c7b6d, `outputs/doom/nociception/probe-snxx29-v2`)
+
+The protocol is the same as v1, with four arms. Values are arm minus sham
+during the 50–200 ms part of the pulse, as a mean across 5 pulses, with the
+per-pulse range in brackets.
+
+| Group | SNxx29 (30 mV-eq) | Random, same drive (30) | Random, same dose (9.5) |
+| --- | --- | --- | --- |
+| Stimulated cells | +28.1 Hz (25.9 Hz during pulses) | +118.7 Hz (116.6) | +28.8 Hz (26.3) |
+| AN05B004 | **+43.3 [+36.7, +53.3]** | +0.7 [−6.7, +10.0] | −2.0 [−6.7, +6.7] |
+| AN09B018 | **+8.5 [+6.7, +12.5]**, 5/5 pulses, 40 ms | 0 | 0 |
+| ANXXX196 | **+10.0 [+10.0, +10.0]**, 5/5 pulses | 0 | 0 |
+| AN05B097 | +1.7 [+0.8, +2.5], 5/5 pulses | 0 | 0 |
+| AN17A018 | 0 | 0 | 0 |
+| All ascending neurons | +0.13 [−0.0, +0.4] | +0.06 | −0.02 |
+| DAN / PAM / MBON / KC | mixed sign, ranges span zero | same | same |
+| PPL101 (0–50 ms) | +20 [−10, +30] | +8 [−10, +30] | +12 [0, +30] |
+| DNp20 / DNpe017 | mixed sign, ranges span zero | same | same |
+
+- The dose match held across all five pulses: 25.85 Hz for SNxx29 and 26.3 Hz
+  for the dose-matched cells.
+- **Topology-specific ascending recruitment:** SNxx29 drove four of its
+  anatomical ascending partners on every pulse. Neither random control did,
+  not at the same spike dose and not at 4.5× that dose.
+  - This is the first model evidence for the SNxx29 → ascending neuron step.
+  - It rests on one state, one frame and a deterministic simulation, so it is
+    not a statistical sample.
+- **No specific brain-level response:** dopaminergic, mushroom-body and
+  descending populations changed in every arm, including the "pre" windows
+  that follow earlier pulses, with signs and sizes that do not separate the
+  arms.
+  - The SNxx29 → ascending neuron → central brain → DAN/DN part of Milestone 3
+    is therefore not demonstrated.
+  - Endogenous DAN activation is not established.
+- Decoded open-loop turn and forward changes were small and not consistent
+  across arms. No behavioral effect is claimed; Milestone 4 needs closed-loop
+  game runs.
+
+### Live smoke test (gain 20 mV-eq, 91 s neural time, 14 rounds)
+
+This run checked the plumbing only; it is not a result.
+
+- 128 damage events reached SNxx29, with 0 ms of PPL101 damage pulse.
+- 13 pulses spanned a respawn.
+- `neural_ms` stayed continuous across 13 deaths.
+- Every death produced a complete record in `lives.jsonl` and
+  `death-snapshots.jsonl`, with all six offsets.
