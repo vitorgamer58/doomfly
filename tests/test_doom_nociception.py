@@ -295,8 +295,37 @@ def test_damage_window_analysis_compares_within_event_changes(tmp_path):
     assert difference['difference'] == pytest.approx(3) and difference['ci95'][0] > 0
 
 
+def test_dose_matched_control_reuses_cells_and_requires_matching_calibration(tmp_path):
+    from doom.nociception import load_dose_calibration
+    a, tx, out, mod = fake_connectome()
+    same = select_population('random-matched', a, tx, out, seed=5, modulation_mask=mod)
+    dose = select_population('random-dose-matched', a, tx, out, seed=5, modulation_mask=mod)
+    np.testing.assert_array_equal(same['indices'], dose['indices'])
+    assert dose['source'] == 'random-dose-matched' and 'calibrated' in dose['report']['selection_rule']
+    path = tmp_path/'calibration.json'
+    path.write_text(json.dumps({'schema': 1, 'seed': 5, 'pulse_ms': 200., 'decay_ms': 0., 'snxx29_gain_mv': 30.,
+                                'snxx29_rate_hz': 26., 'random_dose_matched_gain_mv': 12.5, 'random_rate_hz': 25.5}))
+    calibration = load_dose_calibration(path, seed=5, pulse_ms=200, decay_ms=0)
+    assert calibration['random_dose_matched_gain_mv'] == 12.5 and len(calibration['sha256']) == 64
+    for kwargs in [dict(seed=6, pulse_ms=200, decay_ms=0), dict(seed=5, pulse_ms=100, decay_ms=0), dict(seed=5, pulse_ms=200, decay_ms=50)]:
+        with pytest.raises(ValueError):
+            load_dose_calibration(path, **kwargs)
+    with pytest.raises(ValueError, match='dose calibration'):
+        NociceptiveTransducer(dose, gain=12.5)
+    with pytest.raises(ValueError, match='dose calibration'):
+        NociceptiveTransducer(same, gain=12.5, calibration=calibration)
+    noc = NociceptiveTransducer(dose, gain=12.5, calibration=calibration)
+    t = DamageTraining(RecordingBrain(), False, damage_input='random-dose-matched', nociception=noc)
+    assert t.state()['nociception']['events'] == 0 and noc.parameters()['dose_calibration']['sha256'] == calibration['sha256']
+    with pytest.raises(ValueError):
+        DamageTraining(RecordingBrain(), False, damage_input='random-matched', nociception=noc)
+
+
 @pytest.mark.parametrize('argv', [
     ['--damage-input', 'snxx29'],
+    ['--model', 'experimental-v6', '--damage-input', 'random-dose-matched'],
+    ['--model', 'experimental-v6', '--damage-input', 'random-dose-matched', '--nociception-seed', '3', '--nociception-gain', '12'],
+    ['--model', 'experimental-v6', '--damage-input', 'snxx29', '--nociception-dose-calibration', 'x.json'],
     ['--model', 'experimental-v6', '--damage-input', 'random-matched'],
     ['--model', 'experimental-v6', '--damage-input', 'snxx29', '--nociception-seed', '3'],
     ['--model', 'experimental-v6', '--nociception-gain', '9'],
@@ -312,4 +341,6 @@ def test_server_accepts_experimental_conditions():
     args = parse_args(['--model', 'experimental-v6', '--damage-input', 'random-matched', '--nociception-seed', '3',
                        '--nociception-gain', '25'])
     assert args.damage_input == 'random-matched' and args.nociception_gain == 25
-    assert parse_args([]).damage_input == 'ppl101'
+    assert parse_args([]).damage_input == 'ppl101' and parse_args([]).nociception_gain == 30
+    dose = parse_args(['--model', 'experimental-v6', '--damage-input', 'random-dose-matched', '--nociception-seed', '3'])
+    assert dose.damage_input == 'random-dose-matched'

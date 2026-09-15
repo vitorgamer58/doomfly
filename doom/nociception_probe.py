@@ -70,6 +70,38 @@ def run_arm(brain, frame, groups, controls, *, indices, gain, starts, pulse_ms, 
     return spikes, decoded
 
 
+def pulse_rate(brain, state, frame, groups, controls, key, indices, gain, pulse_ms):
+    """Population rate (Hz per cell) of ``groups[key]`` during one pulse from the saved state."""
+    brain.restore(state)
+    spikes, _ = run_arm(brain, frame, groups, controls, indices=indices, gain=gain,
+                        starts=[100], pulse_ms=pulse_ms, total_ms=100 + pulse_ms)
+    column = list(groups).index(key)
+    return float(spikes[100//BIN_MS:, column].sum()/len(groups[key])/(pulse_ms/1000))
+
+
+def calibrate_dose(brain, state, frame, groups, controls, snxx29, random, gain, pulse_ms):
+    """Grid then refined search for the random-population gain matching the SNxx29 rate at ``gain``.
+
+    The recurrent network is not guaranteed monotonic in drive, so every
+    evaluated point is kept and the best observed point is chosen.
+    """
+    target = pulse_rate(brain, state, frame, groups, controls, 'SNxx29', snxx29, gain, pulse_ms)
+    search = []
+    def evaluate(g):
+        rate = pulse_rate(brain, state, frame, groups, controls, 'random_matched', random, g, pulse_ms)
+        search.append({'gain_mv': round(g, 4), 'random_rate_hz': round(rate, 4)})
+        print(json.dumps(search[-1]), flush=True)
+        return rate
+    for g in np.arange(7., gain + 1e-9, 1.):
+        evaluate(float(g))
+    best = min(search, key=lambda s: abs(s['random_rate_hz'] - target))['gain_mv']
+    for g in np.arange(best - .75, best + .76, .25):
+        if g > 0 and all(abs(s['gain_mv'] - g) > 1e-6 for s in search):
+            evaluate(float(g))
+    chosen = min(search, key=lambda s: (abs(s['random_rate_hz'] - target), s['gain_mv']))
+    return target, chosen, sorted(search, key=lambda s: s['gain_mv'])
+
+
 def summarize(spikes, decoded, sham_spikes, sham_decoded, groups, starts):
     names = list(groups)
     out = {}
@@ -109,8 +141,11 @@ def summarize(spikes, decoded, sham_spikes, sham_decoded, groups, starts):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--arms', default='sham,snxx29,random-matched')
-    p.add_argument('--gain', type=float, default=20.)
+    p.add_argument('--arms', default='sham,snxx29,random-matched,random-dose-matched')
+    p.add_argument('--gain', type=float, default=30.)
+    p.add_argument('--calibrate-dose', action='store_true',
+                   help='Only calibrate the random-dose-matched gain and write the calibration record')
+    p.add_argument('--calibration', default=str(ROOT/'outputs/doom/nociception/dose-calibration-v1.json'))
     p.add_argument('--gain-sweep', default='', help='Comma-separated gains for a single-pulse SNxx29 sweep, e.g. 5,7.5,10,15,20,30,40')
     p.add_argument('--pulses', type=int, default=5)
     p.add_argument('--pulse-ms', type=int, default=200)
@@ -122,8 +157,8 @@ def main():
     p.add_argument('--out', default=str(ROOT/'outputs/doom/nociception/probe-snxx29-v1'))
     args = p.parse_args()
     arms = args.arms.split(',')
-    if 'sham' not in arms or not set(arms) <= {'sham', 'snxx29', 'random-matched'}:
-        p.error('Arms must include sham and only sham, snxx29, random-matched')
+    if not args.calibrate_dose and ('sham' not in arms or not set(arms) <= {'sham', 'snxx29', 'random-matched', 'random-dose-matched'}):
+        p.error('Arms must include sham and only sham, snxx29, random-matched, random-dose-matched')
     if args.pulse_ms % BIN_MS or args.interval_ms % BIN_MS or args.warmup_ms % BIN_MS or args.pulse_ms <= 0:
         p.error(f'Durations must be positive multiples of {BIN_MS} ms')
 
@@ -148,6 +183,41 @@ def main():
     total_ms = starts[-1] + args.pulse_ms + 1000
 
     brain.rgb_step(frame, float(args.warmup_ms), learning=False)
+    provenance = {'fork_commit': git_commit(), 'kernel': brain.build,
+                  'graph_sha256': sha256_file(ROOT/'outputs/doom/malecns_v1/graph.npz'),
+                  'configuration': brain.configuration_signature(), 'calibration': brain.calibration,
+                  'dataset': 'male-cns', 'dataset_version': 'v1.0'}
+    if args.calibrate_dose:
+        with tempfile.TemporaryDirectory() as tmp:
+            state = Path(tmp)/'equilibrated.npz'
+            brain.checkpoint(state)
+            controls = NeuralControls(manifest['readouts'], mode='bci')
+            target, chosen, search = calibrate_dose(brain, state, frame, groups, controls, populations['snxx29']['indices'],
+                                                    populations['random-matched']['indices'], args.gain, args.pulse_ms)
+        record = {'schema': 1, 'purpose': 'Gain for the random-dose-matched control: equal population spike rate to SNxx29, not equal drive.',
+                  'seed': args.seed, 'pulse_ms': float(args.pulse_ms), 'decay_ms': 0., 'warmup_ms': args.warmup_ms,
+                  'frame_sha256': hashlib.sha256(frame.tobytes()).hexdigest(),
+                  'snxx29_gain_mv': args.gain, 'snxx29_rate_hz': round(target, 4),
+                  'random_dose_matched_gain_mv': chosen['gain_mv'], 'random_rate_hz': chosen['random_rate_hz'],
+                  'relative_rate_error': round(abs(chosen['random_rate_hz'] - target)/target, 4) if target else None,
+                  'search': search, 'random_population_body_ids': [r['body_id'] for r in populations['random-matched']['report']['neurons']],
+                  'limits': 'Matched for one pulse at full damage from one equilibrated state on a fixed frame. In-game dose still varies with network state and hit size, and spikes scale nonlinearly with drive.',
+                  'provenance': provenance, 'wall_seconds': round(time.time() - started, 1)}
+        path = Path(args.calibration)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(record, indent=2)+'\n')
+        print(json.dumps({k: record[k] for k in ['snxx29_gain_mv', 'snxx29_rate_hz', 'random_dose_matched_gain_mv', 'random_rate_hz', 'relative_rate_error']}))
+        print(path)
+        return
+    gains = {'snxx29': args.gain, 'random-matched': args.gain}
+    calibration = None
+    if 'random-dose-matched' in arms:
+        from doom.nociception import load_dose_calibration
+        calibration = load_dose_calibration(args.calibration, seed=args.seed, pulse_ms=args.pulse_ms, decay_ms=0.)
+        if float(calibration['snxx29_gain_mv']) != args.gain:
+            p.error('Dose calibration was made for a different SNxx29 gain')
+        gains['random-dose-matched'] = calibration['random_dose_matched_gain_mv']
+        populations['random-dose-matched'] = populations['random-matched']
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     series = {}
@@ -160,7 +230,7 @@ def main():
             controls = NeuralControls(manifest['readouts'], mode='bci')
             indices = None if arm == 'sham' else populations[arm]['indices']
             t0 = time.time()
-            spikes, decoded = run_arm(brain, frame, groups, controls, indices=indices, gain=args.gain,
+            spikes, decoded = run_arm(brain, frame, groups, controls, indices=indices, gain=gains.get(arm, 0.),
                                       starts=starts, pulse_ms=args.pulse_ms, total_ms=total_ms)
             series[arm] = (spikes, decoded)
             print(json.dumps({'arm': arm, 'neural_ms': total_ms, 'wall_s': round(time.time() - t0, 1)}), flush=True)
@@ -168,11 +238,11 @@ def main():
             if arm != 'sham':
                 results[arm] = summarize(*series[arm], *series['sham'], groups, starts)
         dose = {}
-        for arm, key in [('snxx29', 'SNxx29'), ('random-matched', 'random_matched')]:
+        for arm, key in [('snxx29', 'SNxx29'), ('random-matched', 'random_matched'), ('random-dose-matched', 'random_matched')]:
             if arm in series:
                 col = list(groups).index(key)
                 during = sum(series[arm][0][s//BIN_MS:(s + args.pulse_ms)//BIN_MS, col].sum() for s in starts)
-                dose[arm] = {'stimulated_population_spikes_during_pulses': int(during),
+                dose[arm] = {'gain_mv': gains[arm], 'stimulated_population_spikes_during_pulses': int(during),
                              'rate_hz': round(during/len(groups[key])/(len(starts)*args.pulse_ms/1000), 3)}
         sweep = []
         for gain in [float(x) for x in args.gain_sweep.split(',') if x.strip()]:
@@ -193,10 +263,7 @@ def main():
               'deterministic': True, 'weights_frozen': True, 'game_running': False,
               'parameters': {**{k: v for k, v in vars(args).items() if k != 'out'}, 'bin_ms': BIN_MS, 'pulse_onsets_ms': starts,
                              'windows_ms': WINDOWS_MS, 'frame_sha256': hashlib.sha256(frame.tobytes()).hexdigest()},
-              'provenance': {'fork_commit': git_commit(), 'kernel': brain.build,
-                             'graph_sha256': sha256_file(ROOT/'outputs/doom/malecns_v1/graph.npz'),
-                             'configuration': brain.configuration_signature(), 'calibration': brain.calibration,
-                             'dataset': 'male-cns', 'dataset_version': 'v1.0'},
+              'provenance': provenance, 'dose_calibration': calibration,
               'populations': {k: v['report'] for k, v in populations.items()},
               'dose_check': dose, 'gain_sweep': sweep, 'results': results,
               'group_definitions': {k: len(v) for k, v in groups.items()},

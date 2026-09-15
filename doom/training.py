@@ -16,15 +16,16 @@ selects buttons or directly sets weights, and no damage reward exists.
 import hashlib
 import numpy as np
 
-DAMAGE_INPUTS = ('ppl101', 'none', 'snxx29', 'random-matched')
+NOCICEPTIVE_INPUTS = ('snxx29', 'random-matched', 'random-dose-matched')
+DAMAGE_INPUTS = ('ppl101', 'none', *NOCICEPTIVE_INPUTS)
 
 
 class DamageTraining:
     def __init__(self, brain, enabled=True, *, damage_input='ppl101', nociception=None):
         if damage_input not in DAMAGE_INPUTS:
             raise ValueError(f'Unknown damage input: {damage_input}')
-        if (nociception is not None) != (damage_input in ('snxx29', 'random-matched')):
-            raise ValueError('A nociceptive transducer is required exactly for snxx29 and random-matched')
+        if (nociception is not None) != (damage_input in NOCICEPTIVE_INPUTS):
+            raise ValueError('A nociceptive transducer is required exactly for the sensory damage inputs')
         if nociception is not None and nociception.source != damage_input:
             raise ValueError('Transducer population does not match the damage input')
         self.brain = brain
@@ -144,6 +145,7 @@ REINFORCEMENT = {
     'none': 'No neural damage input. Health loss reaches the network only through the rendered game image. No PPL101 damage pulse, no nociceptor drive, no damage reward.',
     'snxx29': 'Simulated nociception: health loss drives the 20 identified SNxx29 leg sensory neurons through an artificial transducer (see nociception parameters). Fatal damage included; pulses continue across arena resets. No PPL101 damage pulse (calibrated tonic background retained) and no damage reward.',
     'random-matched': 'Control: health loss drives 20 leg sensory neurons matched to SNxx29 for side, transmitter and outgoing synapses, with the same transducer. No PPL101 damage pulse and no damage reward.',
+    'random-dose-matched': 'Control: the same matched leg sensory neurons as random-matched, with the transducer gain calibrated so their spike rate matches SNxx29 at the SNxx29 gain. No PPL101 damage pulse and no damage reward.',
 }
 
 

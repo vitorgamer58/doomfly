@@ -23,6 +23,8 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT/'connectome_data/malecns_v1'
 DATASET = {'dataset': 'male-cns', 'dataset_version': 'v1.0'}
 SOURCES = ('snxx29', 'random-matched')
+RANDOM_SOURCES = ('random-matched', 'random-dose-matched')
+DOSE_CALIBRATION = ROOT/'outputs/doom/nociception/dose-calibration-v1.json'
 SNXX29 = 'SNxx29'
 PER_SIDE = 10
 MATCH_NEIGHBOURS = 3
@@ -105,12 +107,15 @@ def select_population(source, annotations, transmitter, outgoing, *, seed=None, 
         indices = reference
         rule = 'Exact type == "SNxx29"; side from rootSide; 10 L + 10 R; acetylcholine model transmitter.'
         seed = None
-    elif source == 'random-matched':
+    elif source in RANDOM_SOURCES:
         indices, attempts = matched_random_indices(annotations, transmitter, outgoing, reference, seed, modulation_mask)
         rule = (f'For each SNxx29 cell, one draw without replacement from the {MATCH_NEIGHBOURS} nearest '
             'same-side leg sensory neurons (superclass vnc_sensory, subclass leg, acetylcholine, non-modulatory, '
             f'not SNxx29) by outgoing synapse count; whole draws repeated from the seeded generator until total '
             f'outgoing synapses are within {MATCH_TOLERANCE:.0%}.')
+        if source == 'random-dose-matched':
+            rule += (' Same cells as random-matched for this seed; the drive gain is calibrated separately so the '
+                'population spike rate matches SNxx29 (see the dose calibration record).')
     else:
         raise ValueError(f'Unknown nociceptive population: {source}')
     transmitter = np.asarray(transmitter)
@@ -164,6 +169,30 @@ def load_population(source, ids, *, seed=None, modulation_mask=None, annotations
         modulation_mask=modulation_mask, predictions=predictions)
 
 
+def load_dose_calibration(path, *, seed, pulse_ms, decay_ms):
+    """Validated gain for the random-dose-matched control.
+
+    The SNxx29 feedback loop (AN05B004 inhibits SNxx29) keeps SNxx29 far below
+    a same-drive random population, so equal amplitude is not equal spike dose.
+    The calibration matches single-pulse population rates on one equilibrated
+    state and frame; in-game dose still depends on state and hit size.
+    """
+    import hashlib
+    path = Path(path)
+    raw = path.read_bytes()
+    c = json.loads(raw)
+    required = {'schema', 'seed', 'pulse_ms', 'decay_ms', 'snxx29_gain_mv', 'snxx29_rate_hz',
+                'random_dose_matched_gain_mv', 'random_rate_hz'}
+    if c.get('schema') != 1 or not required <= set(c):
+        raise ValueError('Invalid nociception dose calibration record')
+    if c['seed'] != seed or float(c['pulse_ms']) != float(pulse_ms) or float(c['decay_ms']) != float(decay_ms):
+        raise ValueError('Dose calibration was made for a different seed, pulse duration or decay')
+    gain = float(c['random_dose_matched_gain_mv'])
+    if not math.isfinite(gain) or gain <= 0:
+        raise ValueError('Invalid calibrated gain')
+    return {**{k: c[k] for k in sorted(required)}, 'path': str(path), 'sha256': hashlib.sha256(raw).hexdigest()}
+
+
 class NociceptiveTransducer:
     """Artificial health-loss transducer driving one population bilaterally.
 
@@ -183,7 +212,7 @@ class NociceptiveTransducer:
     FLOAT_STATE = ['peak', 'damage_total', 'delivered_dose']
 
     def __init__(self, population, *, gain, pulse_ms=200., decay_ms=0., damage_reference=20.,
-                 left_right_mode='bilateral', dt_ms=.1):
+                 left_right_mode='bilateral', dt_ms=.1, calibration=None):
         values = {'gain': gain, 'pulse_ms': pulse_ms, 'decay_ms': decay_ms, 'damage_reference': damage_reference}
         if not all(math.isfinite(float(v)) for v in values.values()):
             raise ValueError('Finite nociception parameters required')
@@ -194,8 +223,11 @@ class NociceptiveTransducer:
         indices = np.asarray(population['indices'], dtype=np.int32)
         if indices.ndim != 1 or not len(indices) or len(np.unique(indices)) != len(indices):
             raise ValueError('A nonempty set of unique neuron indices is required')
+        if (population['source'] == 'random-dose-matched') != (calibration is not None):
+            raise ValueError('A dose calibration is required exactly for the random-dose-matched control')
         self.source = population['source']
         self.report = population['report']
+        self.calibration = calibration
         self.indices = indices
         self.gain = float(gain)
         self.pulse_ms = float(pulse_ms)
@@ -213,11 +245,14 @@ class NociceptiveTransducer:
         self.last_drive = 0.
 
     def parameters(self):
-        return {'source': self.source, 'gain_mv': self.gain, 'pulse_ms': self.pulse_ms, 'decay_ms': self.decay_ms,
+        out = {'source': self.source, 'gain_mv': self.gain, 'pulse_ms': self.pulse_ms, 'decay_ms': self.decay_ms,
             'damage_reference_hp': self.damage_reference, 'left_right_mode': self.left_right_mode,
             'seed': self.report['seed'], 'body_ids': [r['body_id'] for r in self.report['neurons']],
             'transducer': 'drive_mv = gain * clip(max(previous_health - max(current_health, 0), 0) / damage_reference, 0, 1); '
                 'engineering conversion, not physiology'}
+        if self.calibration is not None:
+            out['dose_calibration'] = self.calibration
+        return out
 
     def amplitude(self, cursor):
         if cursor >= self.until or cursor < self.onset or self.peak <= 0:

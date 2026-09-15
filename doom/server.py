@@ -24,6 +24,7 @@ from doom.monitor import ActivityMonitor,activity_groups
 from doom.life_metrics import LifeMetrics
 from doom.death_snapshots import DeathSnapshots
 ROOT=Path(__file__).resolve().parents[1]
+NOCICEPTIVE_INPUTS=['snxx29','random-matched','random-dose-matched'];RANDOM_INPUTS=['random-matched','random-dose-matched']
 latest={'status':'starting','generated_at_ms':0}; stop=threading.Event()
 broadcast=Broadcast()
 observer=None
@@ -41,12 +42,17 @@ def run_loop(args):
             from doom_learning_v6.calibration import calibrated_brain
             from doom.training import DamageTraining,candidate_provenance
             brain=calibrated_brain()
-            if args.damage_input in ['snxx29','random-matched']:
-                from doom.nociception import NociceptiveTransducer,load_population
+            if args.damage_input in NOCICEPTIVE_INPUTS:
+                from doom.nociception import NociceptiveTransducer,load_population,load_dose_calibration
                 population=load_population(args.damage_input,brain.ids,seed=args.nociception_seed,modulation_mask=brain.modulation_mask)
-                transducer=NociceptiveTransducer(population,gain=args.nociception_gain,pulse_ms=args.nociception_pulse_ms,
+                calibration=None;gain=args.nociception_gain
+                if args.damage_input=='random-dose-matched':
+                    calibration=load_dose_calibration(args.nociception_dose_calibration,seed=args.nociception_seed,
+                        pulse_ms=args.nociception_pulse_ms,decay_ms=args.nociception_decay_ms)
+                    gain=calibration['random_dose_matched_gain_mv']
+                transducer=NociceptiveTransducer(population,gain=gain,pulse_ms=args.nociception_pulse_ms,
                     decay_ms=args.nociception_decay_ms,damage_reference=args.nociception_damage_reference,
-                    left_right_mode=args.nociception_left_right_mode,dt_ms=brain.dt)
+                    left_right_mode=args.nociception_left_right_mode,dt_ms=brain.dt,calibration=calibration)
             training=DamageTraining(brain,args.learning,damage_input=args.damage_input,nociception=transducer)
             for r in brain.circuit['report']['DAN']+brain.circuit['report']['MBON']:
                 manifest['readouts'].append({k:r[k] for k in ['index','id','type']}|{'side':r['soma_side']})
@@ -218,7 +224,7 @@ def run_loop(args):
                     'full_sample_count':len(light),'display_stride':8},
                   'raster':{'neuron_ids':[str(brain.ids[i]) for i in display],'bins':list(history)},
                   'timeline':list(timeline),'audit':event,
-                  'reward':{'mode':{'ppl101':'damage-ppl101','none':'none','snxx29':'nociception-snxx29','random-matched':'nociception-random-matched'}[args.damage_input] if training else args.reward,'sugar_pulses':reward.pulses,
+                  'reward':{'mode':('damage-ppl101' if args.damage_input=='ppl101' else 'none' if args.damage_input=='none' else 'nociception-'+args.damage_input) if training else args.reward,'sugar_pulses':reward.pulses,
                     'active':training.last_steps>0 if training else reward.active(brain.sim_ms),'plasticity':args.learning},
                   'protocol':{'dt_ms':brain.dt,'lamina_bias_mv':12,'retinal_gain_mv':30,'photoreceptor_half_saturation':.02,'seed':args.seed,'replicate':'one reconstructed male',
                     'input_filter':'R1–R6 and R8 filters updated in <=10 ms bins' if training else '10 ms discrete low-pass, updated once per game interval; resulting current held for that interval',
@@ -298,25 +304,32 @@ def parse_args(argv=None):
     p.add_argument('--learning',action='store_true',help='Enable explicitly unvalidated v6 memory plasticity')
     p.add_argument('--seed',type=int,default=41027);p.add_argument('--reward',choices=['off','sugar'],default='off')
     p.add_argument('--condition',choices=['intact','blank_vision','frozen_vision','retina_disconnected','all_edges_disconnected','controls_clamped'],default='intact')
-    p.add_argument('--damage-input',choices=['ppl101','none','snxx29','random-matched'],default='ppl101',
-        help='How v6 health loss reaches the network: upstream PPL101 pulse, nothing, SNxx29 nociceptors, or matched random leg sensory neurons')
-    p.add_argument('--nociception-gain',type=float,default=20.,help='mV-equivalent drive at damage_reference HP (engineering value)')
+    p.add_argument('--damage-input',choices=['ppl101','none',*NOCICEPTIVE_INPUTS],default='ppl101',
+        help='How v6 health loss reaches the network: upstream PPL101 pulse, nothing, SNxx29 nociceptors, or matched random leg sensory neurons (same drive or calibrated spike dose)')
+    p.add_argument('--nociception-gain',type=float,default=30.,
+        help='mV-equivalent drive at damage_reference HP (engineering value; 30 is the lowest probed gain recruiting AN05B004 and AN09B018)')
     p.add_argument('--nociception-pulse-ms',type=float,default=200.)
     p.add_argument('--nociception-decay-ms',type=float,default=0.,help='0 keeps a constant pulse')
     p.add_argument('--nociception-damage-reference',type=float,default=20.,help='HP loss that produces the full gain')
     p.add_argument('--nociception-left-right-mode',choices=['bilateral'],default='bilateral')
-    p.add_argument('--nociception-seed',type=int,help='Required seed for the random-matched population')
+    p.add_argument('--nociception-seed',type=int,help='Required seed for the random control populations')
+    p.add_argument('--nociception-dose-calibration',default=str(ROOT/'outputs/doom/nociception/dose-calibration-v1.json'),
+        help='Calibration record providing the random-dose-matched gain (python -m doom.nociception_probe --calibrate-dose)')
     p.add_argument('--death-snapshot-full',action='store_true',help='Also save whole-brain voltages around each death')
     args=p.parse_args(argv)
     if args.learning and args.model!='experimental-v6':p.error('Learning requires the explicit experimental-v6 model')
     if args.model=='experimental-v6' and (args.condition!='intact' or args.reward!='off' or args.decoder!='bci'):
         p.error('Live candidate requires intact RGB, no reward input, and the fixed BCI')
     if args.damage_input!='ppl101' and args.model!='experimental-v6':p.error('--damage-input requires the experimental-v6 model')
-    if (args.damage_input=='random-matched')!=(args.nociception_seed is not None):
-        p.error('--nociception-seed is required for, and only valid with, --damage-input random-matched')
-    nociceptive=['nociception_gain','nociception_pulse_ms','nociception_decay_ms','nociception_damage_reference']
-    if args.damage_input not in ['snxx29','random-matched'] and any(getattr(args,k)!=p.get_default(k) for k in nociceptive):
-        p.error('Nociception parameters require --damage-input snxx29 or random-matched')
+    if (args.damage_input in RANDOM_INPUTS)!=(args.nociception_seed is not None):
+        p.error('--nociception-seed is required for, and only valid with, the random control damage inputs')
+    nociceptive=['nociception_gain','nociception_pulse_ms','nociception_decay_ms','nociception_damage_reference','nociception_dose_calibration']
+    if args.damage_input not in NOCICEPTIVE_INPUTS and any(getattr(args,k)!=p.get_default(k) for k in nociceptive):
+        p.error('Nociception parameters require a sensory --damage-input')
+    if args.damage_input=='random-dose-matched' and args.nociception_gain!=p.get_default('nociception_gain'):
+        p.error('random-dose-matched takes its gain from the dose calibration record')
+    if args.damage_input!='random-dose-matched' and args.nociception_dose_calibration!=p.get_default('nociception_dose_calibration'):
+        p.error('--nociception-dose-calibration only applies to random-dose-matched')
     if args.checkpoint_seconds<30:p.error('Checkpoint interval must be at least 30 seconds')
     if args.resume and not args.checkpoint_dir:p.error('--resume requires --checkpoint-dir')
     if args.checkpoint_dir and args.scenario!='combat_survival':p.error('Recovery requires the unlimited combat arena')
