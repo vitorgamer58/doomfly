@@ -9,7 +9,11 @@ def main():
     out.parent.mkdir(parents=True,exist_ok=True)
     temporary=out.with_suffix(out.suffix+'.partial')
     source=ROOT/'doom/kernel.cpp'
-    command=['clang++','-O3','-std=c++17','-shared','-fPIC',str(source),'-o',str(temporary)]
+    if sys.platform=='win32':
+        command=['clang++','-O3','-std=c++17','-shared',str(source),'-o',str(temporary),
+          '-Xlinker','/EXPORT:neural_advance']
+    else:
+        command=['clang++','-O3','-std=c++17','-shared','-fPIC',str(source),'-o',str(temporary)]
     subprocess.run(command,check=True)
     record={'kernel_source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
       'binary_sha256':hashlib.sha256(temporary.read_bytes()).hexdigest(),

@@ -24,10 +24,16 @@ def build():
         if record['source_sha256']==sha and record['binary_sha256']==hashlib.sha256(LIBRARY.read_bytes()).hexdigest():return record
     LIBRARY.parent.mkdir(parents=True,exist_ok=True)
     temp=LIBRARY.with_suffix(LIBRARY.suffix+'.partial')
-    subprocess.run(['clang++','-O3','-std=c++17','-shared','-fPIC',str(SOURCE),'-o',str(temp)],check=True)
+    if sys.platform=='win32':
+        subprocess.run(['clang++','-O3','-std=c++17','-shared',str(SOURCE),'-o',str(temp),
+          '-Xlinker','/EXPORT:memory_advance'],check=True)
+        flags=['-O3','-std=c++17','-shared','-Xlinker','/EXPORT:memory_advance']
+    else:
+        subprocess.run(['clang++','-O3','-std=c++17','-shared','-fPIC',str(SOURCE),'-o',str(temp)],check=True)
+        flags=['-O3','-std=c++17','-shared','-fPIC']
     temp.replace(LIBRARY)
     record={'model':MODEL,'source_sha256':sha,'binary_sha256':hashlib.sha256(LIBRARY.read_bytes()).hexdigest(),
-            'flags':['-O3','-std=c++17','-shared','-fPIC']}
+            'flags':flags}
     save_json(metadata,record);return record
 
 
