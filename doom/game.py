@@ -39,6 +39,7 @@ class Game:
         self.game.add_available_game_variable(vzd.GameVariable.HEALTH)
         self.game.add_available_game_variable(vzd.GameVariable.KILLCOUNT)
         self.game.add_available_game_variable(vzd.GameVariable.AMMO2)
+        self.game.add_available_game_variable(vzd.GameVariable.HITCOUNT)
         self.game.set_episode_timeout(0 if scenario=='combat_survival' else 35*60)
         self.game.set_seed(seed);self.game.init()
         self.episode=0;self.tick=0;self.episodes=[];self.new_episode()
@@ -80,6 +81,7 @@ class Game:
           'health':int(g.get_game_variable(vzd.GameVariable.HEALTH)),
           'kills':int(g.get_game_variable(vzd.GameVariable.KILLCOUNT)),
           'ammo':int(g.get_game_variable(vzd.GameVariable.AMMO2)),
+          'hits':int(g.get_game_variable(vzd.GameVariable.HITCOUNT)),
           'score':float(g.get_total_reward())}
         if self.scenario=='combat_survival':
             for name,var in [('enemies',vzd.GameVariable.USER1),('enemies_spawned',vzd.GameVariable.USER2),

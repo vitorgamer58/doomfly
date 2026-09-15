@@ -20,6 +20,9 @@ from doom.broadcast import Broadcast,DISPLAY_FPS
 from doom.checkpoint import Checkpoints
 from doom.archive import AuditArchive
 from doom.observer import NativeObserver,ObserverUnavailable,ObserverBusy,camera_query
+from doom.monitor import ActivityMonitor,activity_groups
+from doom.life_metrics import LifeMetrics
+from doom.death_snapshots import DeathSnapshots
 ROOT=Path(__file__).resolve().parents[1]
 latest={'status':'starting','generated_at_ms':0}; stop=threading.Event()
 broadcast=Broadcast()
@@ -33,13 +36,24 @@ def run_loop(args):
     global latest,observer
     try:
         manifest=json.loads((ROOT/'outputs/doom/malecns_v1/manifest.json').read_text())
-        training=None
+        training=None;transducer=None
         if args.model=='experimental-v6':
             from doom_learning_v6.calibration import calibrated_brain
             from doom.training import DamageTraining,candidate_provenance
-            brain=calibrated_brain();training=DamageTraining(brain,args.learning)
+            brain=calibrated_brain()
+            if args.damage_input in ['snxx29','random-matched']:
+                from doom.nociception import NociceptiveTransducer,load_population
+                population=load_population(args.damage_input,brain.ids,seed=args.nociception_seed,modulation_mask=brain.modulation_mask)
+                transducer=NociceptiveTransducer(population,gain=args.nociception_gain,pulse_ms=args.nociception_pulse_ms,
+                    decay_ms=args.nociception_decay_ms,damage_reference=args.nociception_damage_reference,
+                    left_right_mode=args.nociception_left_right_mode,dt_ms=brain.dt)
+            training=DamageTraining(brain,args.learning,damage_input=args.damage_input,nociception=transducer)
             for r in brain.circuit['report']['DAN']+brain.circuit['report']['MBON']:
                 manifest['readouts'].append({k:r[k] for k in ['index','id','type']}|{'side':r['soma_side']})
+            if transducer:
+                # Recording readouts only; the decoder selects DNp20/DNpe017 by type.
+                for r in transducer.report['neurons']:
+                    manifest['readouts'].append({'index':r['index'],'id':r['body_id'],'type':r['type'],'side':r['side']})
             manifest['training']='Experimental v6 plasticity on 4,184 existing KC-to-MBON11 edges; associative learning and survival improvement unvalidated.'
             manifest['visual_dynamics']='R1–R6 luminance and 811 R8 RGB proxies, filtered in <=10 ms bins; inferred projection, simplified spiking physiology; unvalidated.'
             manifest['additional_R8_inputs']=len(brain.r8)
@@ -48,7 +62,7 @@ def run_loop(args):
         controls=NeuralControls(manifest['readouts'],mode=args.decoder);game=Game(seed=args.seed,scenario=args.scenario,spectator=True)
         origin=provenance(ROOT/'outputs/doom/malecns_v1/graph.npz',BUILD,game.assets)
         if training:
-            origin['candidate']=candidate_provenance(brain,ROOT)
+            origin['candidate']=candidate_provenance(brain,ROOT,training)
             origin['model_revision']='adaptive-centered-v6-live-v1'
             origin['kernel']=brain.build
         reward=SugarReinforcement(args.reward=='sugar')
@@ -56,6 +70,8 @@ def run_loop(args):
             for i in brain.retina:brain.weight[brain.ptr[i]:brain.ptr[i+1]]=0
         if args.condition=='all_edges_disconnected':brain.weight.fill(0)
         identity={'provenance':origin,'seed':args.seed,'decoder':args.decoder,'condition':args.condition,'reward':args.reward,'phase':phase}
+        # Upstream identity is unchanged so existing PPL101 checkpoints still resume.
+        if training and args.damage_input!='ppl101':identity['damage_input']=args.damage_input
         CheckpointClass=Checkpoints
         if training:
             from doom.training_checkpoint import TrainingCheckpoints
@@ -78,6 +94,7 @@ def run_loop(args):
         nodes=feather.read_table(ROOT/'connectome_data/malecns_v1/normalized/neurons.feather').to_pandas()
         annotations=feather.read_table(ROOT/'connectome_data/malecns_v1/annotations.feather').to_pandas().set_index('bodyId')
         retina_sides=annotations.loc[brain.ids[brain.retina],'rootSide'].to_numpy()
+        monitor=ActivityMonitor(activity_groups(annotations.loc[brain.ids],transducer.indices if transducer else None),brain.ids)
         display=[]
         for superclass in ['ol_intrinsic','visual_projection','cb_intrinsic','descending_neuron']:
             inds=np.flatnonzero(nodes.superclass.eq(superclass).to_numpy())
@@ -89,7 +106,12 @@ def run_loop(args):
         audit_handler=RotatingFileHandler(audit_path,maxBytes=20_000_000,backupCount=4)
         archive=AuditArchive(audit_dir/'archive',run_id)
         audit_logger=logging.getLogger('doom-audit');audit_logger.handlers=[audit_handler,archive];audit_logger.setLevel(logging.INFO);audit_logger.propagate=False
+        lives=LifeMetrics(audit_dir/'lives.jsonl');lives.start(game.observation(),brain.sim_ms)
+        snapshots=DeathSnapshots(audit_dir/'death-snapshots.jsonl',full_dir=audit_dir/'death-voltages' if args.death_snapshot_full else None)
+        previous_light=None
         run_record={'run_id':run_id,'study_id':study_id,'phase':phase,'started_at_ms':int(time.time()*1000),
+            'damage_input':args.damage_input if training else None,'monitor':monitor.report(),
+            'logs':{'lives':'lives.jsonl','death_snapshots':'death-snapshots.jsonl'},
             'continuation_of':recovered.get('run_id') if recovered else None,
             'interrupted_round':recovered.get('interrupted_round') if recovered else None,
             'recovery':recovered.get('recovery') if recovered else None,
@@ -109,10 +131,11 @@ def run_loop(args):
             began=time.monotonic()
             before=game.observation()
             if before['finished']:
-                episodes.append(before);game.new_episode()
+                episodes.append(before);lives.finish(before,brain.sim_ms,run_id=run_id);game.new_episode()
                 if observer:observer.advance(game,reset=True)
+                # Death resets the world, not the brain: only pending PPL101 exposure is cancelled.
                 if training:training.new_round()
-                before=game.observation()
+                before=game.observation();lives.start(before,brain.sim_ms)
             frame=game.pixels();light=retinal_samples(frame,brain.uv)
             spectator=game.spectator() # Same pre-action state as RGB; observer path only.
             if args.condition=='blank_vision':light.fill(0)
@@ -133,6 +156,8 @@ def run_loop(args):
             if observer:observer.advance(game,action=applied)
             after=game.observation()
             if training:training.observe(before,after)
+            lives.tick(before,after,applied,spectator)
+            retina_change=0. if previous_light is None else float(np.abs(light-previous_light).mean());previous_light=light.copy()
             nonzero=abs(applied['turn'])>1e-9 or abs(applied['forward'])>1e-9 or applied['attack']
             total_actions+=int(nonzero)
             event={'run_id':run_id,'recorded_at_ms':int(time.time()*1000),'scenario':args.scenario,'decoder':args.decoder,'condition':args.condition,'reward_mode':args.reward,'tick':tick,'neural_ms':round(brain.sim_ms,3),'episode':game.episode,
@@ -147,7 +172,22 @@ def run_loop(args):
               'input_episode':game.episode,'input_game_tick':game.tick-1,'output_game_tick':game.tick,
               'neural_interval_ms':round(steps*.1,3)}
             if training:event['learning']=training.telemetry()
+            event['simulation_age_ms']=round(brain.sim_ms,3);event['monitor']=monitor.sums(counts);event['retina_change']=round(retina_change,6)
             audit_logger.info(json.dumps(event,separators=(',',':')))
+            sample={'neural_ms':round(brain.sim_ms,3),'tick':tick,'episode':game.episode,'health':after['health'],
+              'groups':event['monitor'],'retina_change':event['retina_change'],
+              'retina_mean_filtered_luminance':round(float(brain.luminance.mean()),6),'action':event['applied'],
+              'decoder':{r['id']:{'type':r['type'],'side':r['side'],'rate_hz':r['rate_hz'],'voltage_mv':round(float(brain.v[r['index']]),3)}
+                         for r in action['readouts'] if r['type'] in ['DNp20','DNpe017']}}
+            if training:
+                sample['ppl101_active']=training.last_steps>0
+                if transducer:sample['nociception_drive_mv']=event['learning']['nociception']['drive_mv_last_tic']
+            snapshots.record(sample,brain.v)
+            if after['finished']:
+                context={'run_id':run_id,'episode':game.episode,'tick':tick,'damage_input':args.damage_input if training else None,
+                         'decoder_rates':controls.rates.round(4).tolist()}
+                if training:context|={'memory':brain.memory(),'eligibility_sum':float(brain.eligibility.sum()),'damage_state':training.state()}
+                snapshots.death(context)
             timeline.append({'tick':tick,'spikes':int(counts.sum()),'action':event['applied']})
             window_counts+=counts;window_ms+=steps*.1
             now=time.monotonic()
@@ -178,13 +218,14 @@ def run_loop(args):
                     'full_sample_count':len(light),'display_stride':8},
                   'raster':{'neuron_ids':[str(brain.ids[i]) for i in display],'bins':list(history)},
                   'timeline':list(timeline),'audit':event,
-                  'reward':{'mode':'damage-ppl101' if training else args.reward,'sugar_pulses':reward.pulses,
+                  'reward':{'mode':{'ppl101':'damage-ppl101','none':'none','snxx29':'nociception-snxx29','random-matched':'nociception-random-matched'}[args.damage_input] if training else args.reward,'sugar_pulses':reward.pulses,
                     'active':training.last_steps>0 if training else reward.active(brain.sim_ms),'plasticity':args.learning},
                   'protocol':{'dt_ms':brain.dt,'lamina_bias_mv':12,'retinal_gain_mv':30,'photoreceptor_half_saturation':.02,'seed':args.seed,'replicate':'one reconstructed male',
                     'input_filter':'R1–R6 and R8 filters updated in <=10 ms bins' if training else '10 ms discrete low-pass, updated once per game interval; resulting current held for that interval',
                     'frame_timing':'JPEG of pre-action input frame; game counters are post-action; raw RGB hash differs from compressed JPEG hash',
                     'scenario':args.scenario,'episode_end':'death' if args.scenario=='combat_survival' else 'death or 60-second cap',
                     'automatic_episode_reset':True,'neural_state_persists_across_episodes':True,
+                    'damage_input':args.damage_input if training else None,
                     'broadcast_capture_fps_limit':DISPLAY_FPS,'phase':phase,'study_id':study_id,
                     'learning_enabled':args.learning,'scientifically_validated':False,'model':origin['model_revision'],
                     'continuation_of':run_record['continuation_of'],'recovery':run_record['recovery'],
@@ -200,6 +241,10 @@ def run_loop(args):
         finally:
             try:checkpoint()
             finally:
+                try:
+                    snapshots.close()
+                    if not game.game.is_episode_finished():lives.finish(game.observation(),brain.sim_ms,censored=True,run_id=run_id)
+                except Exception:logging.getLogger('doom-audit').exception('Could not close life or death logs')
                 if observer:observer.close()
                 game.close();audit_handler.close();archive.close()
     except Exception as e:
@@ -240,7 +285,7 @@ class Handler(BaseHTTPRequestHandler):
         except (BrokenPipeError,ConnectionResetError):pass
     def log_message(self,*args):pass
 
-def main():
+def parse_args(argv=None):
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--port',type=int,default=8766)
     p.add_argument('--decoder',choices=['biological','bci'],default='bci')
     p.add_argument('--scenario',choices=['combat_survival','defend_the_center'],default='combat_survival')
@@ -252,13 +297,32 @@ def main():
     p.add_argument('--learning',action='store_true',help='Enable explicitly unvalidated v6 memory plasticity')
     p.add_argument('--seed',type=int,default=41027);p.add_argument('--reward',choices=['off','sugar'],default='off')
     p.add_argument('--condition',choices=['intact','blank_vision','frozen_vision','retina_disconnected','all_edges_disconnected','controls_clamped'],default='intact')
-    args=p.parse_args()
+    p.add_argument('--damage-input',choices=['ppl101','none','snxx29','random-matched'],default='ppl101',
+        help='How v6 health loss reaches the network: upstream PPL101 pulse, nothing, SNxx29 nociceptors, or matched random leg sensory neurons')
+    p.add_argument('--nociception-gain',type=float,default=20.,help='mV-equivalent drive at damage_reference HP (engineering value)')
+    p.add_argument('--nociception-pulse-ms',type=float,default=200.)
+    p.add_argument('--nociception-decay-ms',type=float,default=0.,help='0 keeps a constant pulse')
+    p.add_argument('--nociception-damage-reference',type=float,default=20.,help='HP loss that produces the full gain')
+    p.add_argument('--nociception-left-right-mode',choices=['bilateral'],default='bilateral')
+    p.add_argument('--nociception-seed',type=int,help='Required seed for the random-matched population')
+    p.add_argument('--death-snapshot-full',action='store_true',help='Also save whole-brain voltages around each death')
+    args=p.parse_args(argv)
     if args.learning and args.model!='experimental-v6':p.error('Learning requires the explicit experimental-v6 model')
     if args.model=='experimental-v6' and (args.condition!='intact' or args.reward!='off' or args.decoder!='bci'):
-        p.error('Live candidate requires intact RGB, damage reinforcement only, and the fixed BCI')
+        p.error('Live candidate requires intact RGB, no reward input, and the fixed BCI')
+    if args.damage_input!='ppl101' and args.model!='experimental-v6':p.error('--damage-input requires the experimental-v6 model')
+    if (args.damage_input=='random-matched')!=(args.nociception_seed is not None):
+        p.error('--nociception-seed is required for, and only valid with, --damage-input random-matched')
+    nociceptive=['nociception_gain','nociception_pulse_ms','nociception_decay_ms','nociception_damage_reference']
+    if args.damage_input not in ['snxx29','random-matched'] and any(getattr(args,k)!=p.get_default(k) for k in nociceptive):
+        p.error('Nociception parameters require --damage-input snxx29 or random-matched')
     if args.checkpoint_seconds<30:p.error('Checkpoint interval must be at least 30 seconds')
     if args.resume and not args.checkpoint_dir:p.error('--resume requires --checkpoint-dir')
     if args.checkpoint_dir and args.scenario!='combat_survival':p.error('Recovery requires the unlimited combat arena')
+    return args
+
+def main():
+    args=parse_args()
     def shutdown_signal(*_):raise KeyboardInterrupt
     signal.signal(signal.SIGTERM,shutdown_signal)
     worker=threading.Thread(target=run_loop,args=(args,),daemon=True);worker.start()
