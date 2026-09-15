@@ -243,7 +243,8 @@ def run_loop(args):
             finally:
                 try:
                     snapshots.close()
-                    if not game.game.is_episode_finished():lives.finish(game.observation(),brain.sim_ms,censored=True,run_id=run_id)
+                    final=game.observation() # A death not yet followed by a new round is still a completed life.
+                    lives.finish(final,brain.sim_ms,censored=not final['finished'],run_id=run_id)
                 except Exception:logging.getLogger('doom-audit').exception('Could not close life or death logs')
                 if observer:observer.close()
                 game.close();audit_handler.close();archive.close()
