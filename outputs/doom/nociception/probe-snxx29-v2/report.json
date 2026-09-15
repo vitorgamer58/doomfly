@@ -540,7 +540,7 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.9612895821428779,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 146958,
@@ -594,7 +594,7 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.9630709356812706,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 148064,
@@ -612,7 +612,7 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.9591130503898764,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 148806,
@@ -630,7 +630,7 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.9525664642243179,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 148889,
@@ -666,7 +666,7 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.964656369487988,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 149559,
@@ -756,7 +756,7 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.890195467956549,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 157665,
@@ -919,7 +919,7 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.9612895821428779,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 146958,
@@ -973,7 +973,7 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.9630709356812706,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 148064,
@@ -991,7 +991,7 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.9591130503898764,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 148806,
@@ -1009,7 +1009,7 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.9525664642243179,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 148889,
@@ -1045,7 +1045,7 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.964656369487988,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 149559,
@@ -1135,7 +1135,7 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.890195467956549,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 157665,

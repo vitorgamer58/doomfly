@@ -401,7 +401,7 @@
         {
           "index": 146683,
           "body_id": "803161",
-          "type": "None",
+          "type": null,
           "class": "mechanosensory_proprioceptive",
           "superclass": "vnc_sensory",
           "subclass": "leg",
@@ -414,7 +414,7 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.9612895821428779,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 146958,
@@ -455,7 +455,7 @@
         {
           "index": 147979,
           "body_id": "804782",
-          "type": "None",
+          "type": null,
           "class": "mechanosensory_proprioceptive",
           "superclass": "vnc_sensory",
           "subclass": "leg",
@@ -468,12 +468,12 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.9630709356812706,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 148064,
           "body_id": "804888",
-          "type": "None",
+          "type": null,
           "class": "mechanosensory_proprioceptive",
           "superclass": "vnc_sensory",
           "subclass": "leg",
@@ -486,12 +486,12 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.9591130503898764,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 148806,
           "body_id": "805799",
-          "type": "None",
+          "type": null,
           "class": "mechanosensory_proprioceptive",
           "superclass": "vnc_sensory",
           "subclass": "leg",
@@ -504,7 +504,7 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.9525664642243179,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 148889,
@@ -527,7 +527,7 @@
         {
           "index": 149146,
           "body_id": "806212",
-          "type": "None",
+          "type": null,
           "class": "mechanosensory_proprioceptive",
           "superclass": "vnc_sensory",
           "subclass": "leg",
@@ -540,7 +540,7 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.964656369487988,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 149559,
@@ -617,7 +617,7 @@
         {
           "index": 156303,
           "body_id": "815032",
-          "type": "None",
+          "type": null,
           "class": "mechanosensory_proprioceptive",
           "superclass": "vnc_sensory",
           "subclass": "leg",
@@ -630,7 +630,7 @@
           "predicted_nt": "acetylcholine",
           "predicted_nt_confidence": 0.890195467956549,
           "celltype_predicted_nt": "unclear",
-          "celltype_predicted_nt_confidence": NaN
+          "celltype_predicted_nt_confidence": null
         },
         {
           "index": 157665,

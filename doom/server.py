@@ -33,6 +33,14 @@ def encoded_frame(rgb):
     f=io.BytesIO();Image.fromarray(rgb).save(f,format='JPEG',quality=75)
     return 'data:image/jpeg;base64,'+base64.b64encode(f.getvalue()).decode()
 
+def git_state():
+    import subprocess
+    def git(*command):
+        try:return subprocess.run(['git',*command],cwd=ROOT,capture_output=True,text=True,check=True).stdout.strip()
+        except Exception:return None
+    return {'fork_commit':git('rev-parse','HEAD'),'upstream_base_commit':git('merge-base','HEAD','main'),
+            'uncommitted_source_changes':git('status','--porcelain','--','doom','doom_learning','doom_learning_v6')}
+
 def run_loop(args):
     global latest,observer
     try:
@@ -117,7 +125,7 @@ def run_loop(args):
         previous_light=None
         run_record={'run_id':run_id,'study_id':study_id,'phase':phase,'started_at_ms':int(time.time()*1000),
             'damage_input':args.damage_input if training else None,'monitor':monitor.report(),
-            'logs':{'lives':'lives.jsonl','death_snapshots':'death-snapshots.jsonl'},
+            'logs':{'lives':'lives.jsonl','death_snapshots':'death-snapshots.jsonl'},'code':git_state(),'arguments':vars(args),
             'continuation_of':recovered.get('run_id') if recovered else None,
             'interrupted_round':recovered.get('interrupted_round') if recovered else None,
             'recovery':recovered.get('recovery') if recovered else None,
@@ -130,14 +138,14 @@ def run_loop(args):
                     'total_actions':total_actions,'episodes':list(episodes),'reward':reward.__dict__.copy(),
                     **({'training':training.state()} if training else {})})
         last_checkpoint=time.monotonic()
-        frozen=None
+        frozen=None;deaths=0;end_reason='error'
         print(json.dumps({'status':'running','run_id':run_id,'condition':args.condition,'port':args.port}),flush=True)
         try:
           while not stop.is_set():
             began=time.monotonic()
             before=game.observation()
             if before['finished']:
-                episodes.append(before);lives.finish(before,brain.sim_ms,run_id=run_id);game.new_episode()
+                episodes.append(before);deaths+=1;lives.finish(before,brain.sim_ms,run_id=run_id);game.new_episode()
                 if observer:observer.advance(game,reset=True)
                 # Death resets the world, not the brain: only pending PPL101 exposure is cancelled.
                 if training:training.new_round()
@@ -242,8 +250,11 @@ def run_loop(args):
                 last_publish=now;window_counts.fill(0);window_ms=0
             if checkpoints and now-last_checkpoint>=args.checkpoint_seconds:
                 checkpoint();last_checkpoint=time.monotonic()
+            if args.max_neural_seconds and brain.sim_ms/1000-neural_start>=args.max_neural_seconds:
+                end_reason='max-neural-seconds';break
             remaining=start+(brain.sim_ms/1000-neural_start)-time.monotonic()
             if remaining>0:stop.wait(remaining)
+          else:end_reason='stopped'
         finally:
             try:checkpoint()
             finally:
@@ -252,8 +263,19 @@ def run_loop(args):
                     final=game.observation() # A death not yet followed by a new round is still a completed life.
                     lives.finish(final,brain.sim_ms,censored=not final['finished'],run_id=run_id)
                 except Exception:logging.getLogger('doom-audit').exception('Could not close life or death logs')
+                try:
+                    end={'run_id':run_id,'study_id':study_id,'ended_at_ms':int(time.time()*1000),'end_reason':end_reason,
+                         'ticks':tick,'game_seconds':round(tick/35,4),'simulation_age_ms':round(brain.sim_ms,3),
+                         'neural_seconds_this_run':round(brain.sim_ms/1000-neural_start,4),'deaths':deaths,
+                         'final_weight_sha256':hashlib.sha256(brain.weight.tobytes()).hexdigest(),
+                         **({'final_memory':brain.memory(),'final_damage_state':training.state()} if training else {})}
+                    (audit_dir/f'run-{run_id}-end.json').write_text(json.dumps(end,indent=2)+'\n')
+                except Exception:logging.getLogger('doom-audit').exception('Could not write run end record')
                 if observer:observer.close()
                 game.close();audit_handler.close();archive.close()
+        if end_reason=='max-neural-seconds':
+            latest={'status':'finished','generated_at_ms':int(time.time()*1000),'message':'The run completed its planned neural time.'}
+            broadcast.offline(latest)
     except Exception as e:
         latest={'status':'error','generated_at_ms':int(time.time()*1000),'message':'The simulation stopped. No live data is available.'}
         broadcast.offline(latest)
@@ -316,6 +338,7 @@ def parse_args(argv=None):
     p.add_argument('--nociception-dose-calibration',default=str(ROOT/'outputs/doom/nociception/dose-calibration-v1.json'),
         help='Calibration record providing the random-dose-matched gain (python -m doom.nociception_probe --calibrate-dose)')
     p.add_argument('--death-snapshot-full',action='store_true',help='Also save whole-brain voltages around each death')
+    p.add_argument('--max-neural-seconds',type=float,help='Automated experiments: stop cleanly after this much neural time in this process')
     args=p.parse_args(argv)
     if args.learning and args.model!='experimental-v6':p.error('Learning requires the explicit experimental-v6 model')
     if args.model=='experimental-v6' and (args.condition!='intact' or args.reward!='off' or args.decoder!='bci'):
@@ -330,6 +353,7 @@ def parse_args(argv=None):
         p.error('random-dose-matched takes its gain from the dose calibration record')
     if args.damage_input!='random-dose-matched' and args.nociception_dose_calibration!=p.get_default('nociception_dose_calibration'):
         p.error('--nociception-dose-calibration only applies to random-dose-matched')
+    if args.max_neural_seconds is not None and not args.max_neural_seconds>0:p.error('--max-neural-seconds must be positive')
     if args.checkpoint_seconds<30:p.error('Checkpoint interval must be at least 30 seconds')
     if args.resume and not args.checkpoint_dir:p.error('--resume requires --checkpoint-dir')
     if args.checkpoint_dir and args.scenario!='combat_survival':p.error('Recovery requires the unlimited combat arena')
@@ -341,7 +365,16 @@ def main():
     signal.signal(signal.SIGTERM,shutdown_signal)
     worker=threading.Thread(target=run_loop,args=(args,),daemon=True);worker.start()
     server=ThreadingHTTPServer((args.bind,args.port),Handler)
-    try:server.serve_forever()
+    if args.max_neural_seconds is None:
+        # Live broadcast: keep serving, including the offline state after an error.
+        try:server.serve_forever()
+        except KeyboardInterrupt:pass
+        finally:stop.set();server.server_close();worker.join(timeout=45)
+        return
+    threading.Thread(target=server.serve_forever,daemon=True).start()
+    try:
+        while worker.is_alive():worker.join(1)
     except KeyboardInterrupt:pass
-    finally:stop.set();server.server_close();worker.join(timeout=45)
+    finally:stop.set();server.shutdown();server.server_close();worker.join(timeout=45)
+    if latest.get('status')!='finished':raise SystemExit(1)
 if __name__=='__main__':main()

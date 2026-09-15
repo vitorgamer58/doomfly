@@ -344,3 +344,40 @@ def test_server_accepts_experimental_conditions():
     assert parse_args([]).damage_input == 'ppl101' and parse_args([]).nociception_gain == 30
     dose = parse_args(['--model', 'experimental-v6', '--damage-input', 'random-dose-matched', '--nociception-seed', '3'])
     assert dose.damage_input == 'random-dose-matched'
+
+
+def test_server_fixed_duration_flag_is_validated():
+    from doom.server import parse_args
+    assert parse_args(['--max-neural-seconds', '600']).max_neural_seconds == 600
+    assert parse_args([]).max_neural_seconds is None
+    with pytest.raises(SystemExit):
+        parse_args(['--max-neural-seconds', '0'])
+
+
+def test_experiment_runner_commands_resume_and_preserve_failed_attempts(tmp_path):
+    from doom.nociception_experiment import command, completed, prepare_directory
+    snx = command('snxx29', tmp_path/'s', port=8811, neural_seconds=600, seed=41027, nociception_seed=7, python='py')
+    assert snx[:3] == ['py', '-m', 'doom.server'] and '--nociception-seed' not in snx
+    assert snx[snx.index('--max-neural-seconds') + 1] == '600' and snx[snx.index('--damage-input') + 1] == 'snxx29'
+    rnd = command('random-dose-matched', tmp_path/'r', port=8813, neural_seconds=600, seed=41027, nociception_seed=7)
+    assert rnd[rnd.index('--nociception-seed') + 1] == '7'
+    partial = tmp_path/'none'; partial.mkdir()
+    (partial/'audit.jsonl').write_text('{}\n')
+    (partial/'run-a-end.json').write_text(json.dumps({'end_reason': 'stopped'}))
+    assert not completed(partial)
+    moved = prepare_directory(partial)
+    assert moved is not None and moved.name.startswith('none.incomplete-') and (moved/'audit.jsonl').exists()
+    done = tmp_path/'ppl101'; done.mkdir()
+    (done/'run-b-end.json').write_text(json.dumps({'end_reason': 'max-neural-seconds'}))
+    assert completed(done) and prepare_directory(done) is None
+
+
+def test_population_report_is_strict_json_when_predictions_are_missing():
+    a, tx, out, mod = fake_connectome()
+    predictions = pd.DataFrame({'predicted_nt': ['acetylcholine', None], 'predicted_nt_confidence': [.8, float('nan')],
+                                'celltype_predicted_nt': ['acetylcholine', None], 'celltype_predicted_nt_confidence': [.67, float('nan')]},
+                               index=pd.Index([a.index[0], a.index[21]], name='body'))
+    report = select_population('random-matched', a, tx, out, seed=3, modulation_mask=mod, predictions=predictions)['report']
+    json.dumps(report, allow_nan=False)
+    snx = select_population('snxx29', a, tx, out, predictions=predictions)['report']['neurons'][0]
+    assert snx['predicted_nt_confidence'] == .8 and snx['celltype_predicted_nt'] == 'acetylcholine'

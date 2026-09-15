@@ -124,6 +124,10 @@ def select_population(source, annotations, transmitter, outgoing, *, seed=None, 
     rows = []
     def text(value):
         return None if value is None or (isinstance(value, float) and math.isnan(value)) else str(value)
+    def number(value):
+        # Some bodies lack a prediction; published provenance must stay strict JSON.
+        value = float(value)
+        return value if math.isfinite(value) else None
     for i in indices:
         a = annotations.iloc[i]
         body = int(annotations.index[i])
@@ -133,10 +137,10 @@ def select_population(source, annotations, transmitter, outgoing, *, seed=None, 
             'model_neurotransmitter': str(transmitter[i]), 'outgoing_synapses': int(outgoing[i]), **DATASET}
         if predictions is not None and body in predictions.index:
             p = predictions.loc[body]
-            row.update({'predicted_nt': str(p['predicted_nt']),
-                'predicted_nt_confidence': float(p['predicted_nt_confidence']),
-                'celltype_predicted_nt': str(p['celltype_predicted_nt']),
-                'celltype_predicted_nt_confidence': float(p['celltype_predicted_nt_confidence'])})
+            row.update({'predicted_nt': text(p['predicted_nt']),
+                'predicted_nt_confidence': number(p['predicted_nt_confidence']),
+                'celltype_predicted_nt': text(p['celltype_predicted_nt']),
+                'celltype_predicted_nt_confidence': number(p['celltype_predicted_nt_confidence'])})
         rows.append(row)
     report = {'source': source, 'selection_rule': rule, 'seed': seed, 'count': len(indices),
         'sides': {s: int(np.count_nonzero(sides[indices] == s)) for s in ['L', 'R']},
