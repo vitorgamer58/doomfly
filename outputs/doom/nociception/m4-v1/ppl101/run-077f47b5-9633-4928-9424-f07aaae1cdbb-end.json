@@ -1,0 +1,28 @@
+{
+  "run_id": "077f47b5-9633-4928-9424-f07aaae1cdbb",
+  "study_id": "077f47b5-9633-4928-9424-f07aaae1cdbb",
+  "ended_at_ms": 1789521543540,
+  "end_reason": "max-neural-seconds",
+  "ticks": 21000,
+  "game_seconds": 600.0,
+  "simulation_age_ms": 600000.0,
+  "neural_seconds_this_run": 600.0,
+  "deaths": 85,
+  "final_weight_sha256": "40a2e78d7299197d24ba03a24c94a8e1cd0eb45a653d69f001fc3acee2fdc779",
+  "final_memory": {
+    "plastic_edges": 4184,
+    "changed_edges": 0,
+    "mean_efficacy": 1.0,
+    "minimum_efficacy": 1.0,
+    "sha256": "68ca0e5ed93eb735d2a3185aabdc7b373f7ea4b38993af4e8859ca7562c74a43",
+    "model": "adaptive-centered-v6"
+  },
+  "final_damage_state": {
+    "until": 5995429,
+    "events": 665,
+    "delivered_steps": 1212566,
+    "last_steps": 0,
+    "terminal_events": 85,
+    "cancelled_steps": 19145
+  }
+}

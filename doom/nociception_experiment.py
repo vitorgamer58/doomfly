@@ -20,12 +20,19 @@ CONDITIONS = ['none', 'snxx29', 'random-matched', 'random-dose-matched', 'ppl101
 RANDOM = ('random-matched', 'random-dose-matched')
 
 
-def command(condition, directory, *, port, neural_seconds, seed, nociception_seed, python=sys.executable):
+def command(condition, directory, *, port, neural_seconds, seed, nociception_seed, learning=False,
+            checkpoint_seconds=None, python=sys.executable):
     cmd = [python, '-m', 'doom.server', '--model', 'experimental-v6', '--damage-input', condition,
            '--seed', str(seed), '--port', str(port), '--bind', '127.0.0.1', '--audit-dir', str(directory),
            '--max-neural-seconds', str(neural_seconds)]
     if condition in RANDOM:
         cmd += ['--nociception-seed', str(nociception_seed)]
+    if learning:
+        # Milestone 6+: plasticity on, one continuous brain across every death.
+        cmd += ['--learning']
+    if checkpoint_seconds:
+        cmd += ['--checkpoint-dir', str(Path(directory)/'checkpoints'), '--resume',
+                '--checkpoint-seconds', str(checkpoint_seconds)]
     return cmd
 
 
@@ -90,6 +97,9 @@ def main():
     p.add_argument('--min-free-gb', type=float, default=3.5, help='Start another brain only above this free memory')
     p.add_argument('--settle-seconds', type=float, default=150., help='Wait after each start so its memory is visible')
     p.add_argument('--base-port', type=int, default=8810)
+    p.add_argument('--learning', action='store_true', help='Milestone 6+: enable the v6 KC-to-MBON11 plasticity')
+    p.add_argument('--checkpoint-seconds', type=int,
+                   help='Checkpoint each brain this often and resume it in place after an interruption')
     p.add_argument('--analysis-only', action='store_true')
     args = p.parse_args()
     conditions = args.conditions.split(',')
@@ -97,9 +107,9 @@ def main():
         p.error(f'Conditions must be among {CONDITIONS}')
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    (out/'experiment.json').write_text(json.dumps({'schema': 1, 'milestone': 4, 'arguments': vars(args),
-        'weights_frozen': True, 'reward': 'off', 'model': 'experimental-v6',
-        'started_at_ms': int(time.time()*1000)}, indent=2)+'\n')
+    (out/'experiment.json').write_text(json.dumps({'schema': 1, 'milestone': 6 if args.learning else 4,
+        'arguments': vars(args), 'weights_frozen': not args.learning, 'reward': 'off',
+        'model': 'experimental-v6', 'started_at_ms': int(time.time()*1000)}, indent=2)+'\n')
 
     failures = {}
     if not args.analysis_only:
@@ -124,12 +134,14 @@ def main():
                     and (not running or free_memory_gb() >= args.min_free_gb)):
                 condition = pending.pop(0)
                 directory = out/condition
-                moved = prepare_directory(directory)
+                # With checkpoints the interrupted brain resumes in place instead.
+                moved = None if args.checkpoint_seconds else prepare_directory(directory)
                 directory.mkdir(parents=True, exist_ok=True)
                 log = open(directory/'server.log', 'a')
                 env = {**os.environ, 'OPENBLAS_NUM_THREADS': '1', 'OMP_NUM_THREADS': '1'}
                 cmd = command(condition, directory, port=args.base_port + CONDITIONS.index(condition),
-                              neural_seconds=args.neural_seconds, seed=args.seed, nociception_seed=args.nociception_seed)
+                              neural_seconds=args.neural_seconds, seed=args.seed, nociception_seed=args.nociception_seed,
+                              learning=args.learning, checkpoint_seconds=args.checkpoint_seconds)
                 running[condition] = (subprocess.Popen(cmd, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, env=env), log, now)
                 last_start = now
                 print(json.dumps({'started': condition, 'free_gb': round(free_memory_gb(), 2), 'running': sorted(running),

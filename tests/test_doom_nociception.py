@@ -381,3 +381,14 @@ def test_population_report_is_strict_json_when_predictions_are_missing():
     json.dumps(report, allow_nan=False)
     snx = select_population('snxx29', a, tx, out, predictions=predictions)['report']['neurons'][0]
     assert snx['predicted_nt_confidence'] == .8 and snx['celltype_predicted_nt'] == 'acetylcholine'
+
+
+def test_experiment_runner_supports_learning_and_checkpoints(tmp_path):
+    from doom.nociception_experiment import command
+    frozen = command('snxx29', tmp_path/'s', port=8811, neural_seconds=600, seed=1, nociception_seed=2)
+    assert '--learning' not in frozen and '--checkpoint-dir' not in frozen
+    learning = command('snxx29', tmp_path/'s', port=8811, neural_seconds=9000, seed=1, nociception_seed=2,
+                       learning=True, checkpoint_seconds=600)
+    assert '--learning' in learning and '--resume' in learning
+    assert learning[learning.index('--checkpoint-dir') + 1] == str(tmp_path/'s'/'checkpoints')
+    assert learning[learning.index('--checkpoint-seconds') + 1] == '600'

@@ -1,0 +1,28 @@
+{
+  "purpose": "Exact code identity for the m4-v1 runs, recorded before the pending GPG-signed commit. The later commit tree must equal index_tree.",
+  "recorded_at_ms": 1789511281252,
+  "head_commit": "791432b3aec8ea32c6e2aeb6890be96b0de44935",
+  "index_tree": "309c32697b8bc523f2338b141b05667d7242a9c1",
+  "staged_files": [
+    "doom/nociception.py",
+    "doom/nociception_experiment.py",
+    "doom/server.py",
+    "outputs/doom/nociception/populations-malecns_v1.json",
+    "outputs/doom/nociception/probe-snxx29-v1/report.json",
+    "outputs/doom/nociception/probe-snxx29-v2/report.json",
+    "tests/test_doom_nociception.py"
+  ],
+  "worktree_matches_index_for_code": true,
+  "sha256": {
+    "doom/server.py": "ef54c913201df2ed9c7f615e2e23d19fd359cc123e9e14116498747751a08298",
+    "doom/nociception.py": "d7fe938a22467b37931eaec52547ed208541e44107975c28c4858e8706cb55e1",
+    "doom/nociception_experiment.py": "bb74d3f38763067a67ea702004439471e7c470ebe4279203f829017669a45064",
+    "doom/training.py": "a50431371f89539d0fd250a976c521dbb72b1094185783f3ed93856b2229503b",
+    "doom/analyze_nociception.py": "87bb56ed0cfb68b221a7ef6ee1570f7a534fd82d4e1ffef4c8322141758d50d7",
+    "doom/monitor.py": "c3f2a8373bdde4d44d71515d8682671d7b8636e8574fab0f7e26a4f2bfa2b7ca",
+    "doom/life_metrics.py": "0b441a18b628fca586b4035fa9046599be55a075cebdd3aec43ac5a2493e80fa",
+    "doom/death_snapshots.py": "78b272a174ec56f04dea4906e96ee9b16fe005b531be6777400375cc2c59cb56",
+    "doom/game.py": "2572d3071dff613300e4b6af6cac11184979d6d39593c1a8396077fa766bf156",
+    "outputs/doom/nociception/dose-calibration-v1.json": "88aae9ed76f79484aaf8235126e872ede35db69782488bac283b68c77bd8b7e8"
+  }
+}

@@ -156,6 +156,22 @@ python -m doom.nociception_probe --gain-sweep 5,7.5,10,15,20,30,40
 
 ## Milestone 4: behavior around damage
 
+Automated run of every condition: frozen weights, shared seeds, fixed neural
+time, then the analysis.
+
+```sh
+python -m doom.nociception_experiment --out outputs/doom/nociception/m4-v1 --neural-seconds 600
+```
+
+Each condition is a separate `doom.server --max-neural-seconds` process. It
+writes `run-<id>.json`, which records the fork and upstream commits and every
+argument, and `run-<id>-end.json`, which records the end reason, ticks, neural
+and game time, deaths and final weight hash. Conditions run in parallel only
+while enough memory stays free. Completed conditions are skipped on restart,
+and an interrupted attempt is kept aside as `<condition>.incomplete-*`.
+
+Individual runs and the analysis can also be invoked directly:
+
 ```sh
 python -m doom.server --model experimental-v6 --damage-input snxx29 --audit-dir outputs/doom/nociception/run-snxx29
 python -m doom.analyze_nociception --run none=… --run snxx29=… --run random-matched=… --run ppl101=…
@@ -257,3 +273,58 @@ This run checked the plumbing only; it is not a result.
 - `neural_ms` stayed continuous across 13 deaths.
 - Every death produced a complete record in `lives.jsonl` and
   `death-snapshots.jsonl`, with all six offsets.
+
+### Milestone 4 (gain 30 mV-eq, `outputs/doom/nociception/m4-v1`)
+
+Five conditions, one brain each, 600 s of neural time, frozen weights, ViZDoom
+seed 41027, no reward. 85 to 102 lives and 527 to 602 analyzed damage events per
+condition; events whose window crosses a respawn are excluded.
+
+Per life:
+
+| Condition | Lives | Median survival | Damage/min | Kills/life |
+| --- | --- | --- | --- | --- |
+| `none` | 85 | 6.49 s | 921 | 0.91 |
+| `ppl101` | 85 | 6.49 s | 921 | 0.91 |
+| `random-dose-matched` | 95 | 6.00 s | 997 | 0.76 |
+| `snxx29` | 101 | 5.66 s | 1045 | 0.57 |
+| `random-matched` | 102 | 5.61 s | 1057 | 0.66 |
+
+Peri-damage change against `none`, 0–200 ms after a nonfatal hit, bootstrap 95%
+intervals; only intervals excluding zero are listed:
+
+| Condition | Effect |
+| --- | --- |
+| `snxx29` | ascending neurons +1.51 [+0.64, +2.37] spikes/tic; DNp20 R−L +0.91 [+0.03, +1.81] Hz |
+| `random-matched` | ascending +1.77 [+0.92, +2.63]; descending +1.34 [+0.48, +2.18]; forward −0.21 [−0.43, −0.00]; attack −0.019 [−0.04, −0.00]; DNpe017 −0.54 [−0.94, −0.13] at 200–1000 ms |
+| `random-dose-matched` | none |
+| `ppl101` | none |
+
+**Milestone 4 is not demonstrated.** An immediate behavioral change that is
+specific to nociception was not found:
+
+- `snxx29` raises ascending-neuron activity in the live game, which confirms the
+  probe, but its turn, forward and attack changes are indistinguishable from
+  `none`.
+- The same-drive random control, which fires 4.5 times more, produces *more*
+  behavioral change than SNxx29. What moves behavior here is the amount of
+  sensory drive, not nociceptive identity.
+- At matched spike dose the random control produces nothing measurable, and
+  SNxx29 keeps only the ascending-neuron response. That is the one effect that
+  survives dose matching.
+- No condition changed DAN activity: Milestone 8 stays negative in closed loop.
+- Shorter survival in the stimulated conditions is not evidence of avoidance.
+  It is consistent with extra sensory drive disturbing an already fragile
+  controller.
+
+**Control A equals Control B behaviorally.** Across all 21,000 tics, `ppl101`
+and `none` produced identical actions, health and kills. Only the PPL101 spike
+counts differ (+1,542 spikes). With frozen weights the upstream damage
+mechanism cannot change behavior at all: the two dopamine cells use the
+modulatory channel, which delivers no fast excitation and only feeds the
+plasticity trace. Control A is therefore a meaningful comparison only once
+plasticity is enabled (Milestone 6).
+
+Limits: one run per condition and no seed replicates, so these are single
+deterministic trajectories; ViZDoom also tints the screen on damage, so every
+condition receives a visual damage cue.
