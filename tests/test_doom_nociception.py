@@ -29,6 +29,11 @@ def fake_connectome():
             add(type=f'SNta{j:02d}', rootSide=side, out=600 + 40*j)
     add(type='SNppl', rootSide='L', out=1500, nt='dopamine')  # ideal degree, but modulatory
     add(type='INgaba', superclass='vnc_intrinsic', subclass=None, out=1500, nt='gaba')
+    for i in range(18):
+        add(type='SNch01', subclass='abdomen', rootSide='L' if i < 9 else 'R', out=900 + 60*i)
+    for side in 'LR':
+        for j in range(60):
+            add(type=f'SNab{j:02d}', subclass='abdomen', rootSide=side, out=600 + 40*j)
     add(type='DNp20', superclass='descending_neuron', subclass=None, rootSide=None, somaSide='L')
     add(type='DNp20', superclass='descending_neuron', subclass=None, rootSide=None, somaSide='R')
     frame = pd.DataFrame(rows)
@@ -87,6 +92,34 @@ def test_random_control_is_deterministic_side_balanced_and_degree_matched():
     assert abs(out[ix].sum()/out[reference].sum() - 1) <= MATCH_TOLERANCE
     with pytest.raises(ValueError, match='seed'):
         select_population('random-matched', a, tx, out)
+
+
+def test_snch01_family_selects_abdomen_population_and_matched_control():
+    from doom.nociception import family_for_source, type_indices, SNCH01
+    a, tx, out, mod = fake_connectome()
+    ix = type_indices(a, tx, SNCH01, per_side=None)
+    assert len(ix) == 18 and set(a.type.iloc[ix]) == {'SNch01'}
+    family, cfg = family_for_source('snch01')
+    assert family == 'snch01' and cfg['reference_type'] == 'SNch01' and cfg['pool_subclass'] == 'abdomen'
+    reference = select_population('snch01', a, tx, out)
+    assert reference['report']['family'] == 'snch01' and reference['report']['seed'] is None
+    control = select_population('snch01-random-matched', a, tx, out, seed=3, modulation_mask=mod)
+    cix = control['indices']
+    assert not a.type.iloc[cix].str.contains('SNch01').any()
+    assert set(a.subclass.iloc[cix]) == {'abdomen'}
+    assert abs(out[cix].sum()/out[ix].sum() - 1) <= cfg['match_tolerance']
+    with pytest.raises(ValueError, match='Unknown nociceptive population'):
+        select_population('snch01-not-a-real-source', a, tx, out)
+
+
+def test_transducer_requires_calibration_for_any_dose_matched_family():
+    ref = population([0, 1], source='snch01')
+    NociceptiveTransducer(ref, gain=20)  # no calibration required for a plain reference population
+    with pytest.raises(ValueError, match='dose calibration'):
+        NociceptiveTransducer(population([0, 1], source='snch01-random-dose-matched'), gain=8.25)
+    ok = NociceptiveTransducer(population([0, 1], source='snch01-random-dose-matched'), gain=8.25,
+                               calibration={'placeholder': True})
+    assert ok.source == 'snch01-random-dose-matched'
 
 
 def test_transducer_math_is_explicit_and_clipped():
@@ -286,13 +319,46 @@ def test_damage_window_analysis_compares_within_event_changes(tmp_path):
                           'readouts': [], 'monitor': {'SNxx29': 5 if recent else 0}, 'learning': {'damage_input': label}})
         (directory/'audit.jsonl').write_text('\n'.join(json.dumps(line) for line in lines)+'\n')
         return directory
-    report = analyze({'none': audit('none', 0.), 'snxx29': audit('snxx29', 3.)})
+    runs = {'none': audit('none', 0.), 'snxx29': audit('snxx29', 3.)}
+    report = analyze(runs)
     noc = report['conditions']['snxx29']
     assert noc['analyzed_events'] == 2 and noc['windows']['post_0_200']['abs_turn']['mean'] == pytest.approx(3)
+    # The second hit is at tick 250, neural_ms = 250*1000/35 ~= 7143; a cutoff before that keeps only the first.
+    trimmed = analyze(runs, max_simulation_age_ms=5000.)
+    assert trimmed['max_simulation_age_ms'] == 5000. and trimmed['conditions']['snxx29']['analyzed_events'] == 1
     assert noc['windows']['post_200_1000']['abs_turn']['mean'] == pytest.approx(0)
     assert report['conditions']['none']['windows']['post_0_200']['abs_turn']['mean'] == 0
     difference = report['comparisons_vs_none']['snxx29']['post_0_200']['abs_turn']
     assert difference['difference'] == pytest.approx(3) and difference['ci95'][0] > 0
+    # Milestone 6 labels aren't the bare damage_input (e.g. 'C_none'); an explicit reference must be honored.
+    relabeled = {'C_none': audit('C_none', 0.), 'A_snxx29': audit('A_snxx29', 3.)}
+    assert analyze(relabeled)['comparisons_vs_none'] == {}
+    named = analyze(relabeled, reference='C_none')
+    assert named['reference'] == 'C_none' and 'A_snxx29' in named['comparisons_vs_none']
+
+
+def test_read_events_tolerates_a_truncated_gzip_archive(tmp_path):
+    import gzip
+    from doom.analyze_nociception import read_events
+    directory = tmp_path/'run'; directory.mkdir()
+    archive = directory/'archive'; archive.mkdir()
+    lines = [json.dumps({'run_id': 'r', 'tick': t, 'recorded_at_ms': t, 'neural_ms': t*1000/35.}) for t in range(1, 2000)]
+    complete = gzip.compress(('\n'.join(lines)+'\n').encode())
+    (archive/'20260101T00-r.jsonl.gz').write_bytes(complete[:int(len(complete)*0.7)])  # truncated mid-stream
+    events = read_events(directory)
+    assert 0 < len(events) < 1999
+
+
+def test_learning_curve_analysis_trims_arms_to_a_common_duration(tmp_path):
+    from doom.analyze_learning import analyze_learning
+    directory = tmp_path/'arm'; directory.mkdir()
+    lives = [{'censored': False, 'died': True, 'survival_seconds': 5., 'damage_per_minute': 100., 'kills': 1,
+              'start_simulation_age_ms': age, 'end_simulation_age_ms': age + 4000.} for age in (0., 4000., 8000.)]
+    (directory/'lives.jsonl').write_text('\n'.join(json.dumps(l) for l in lives)+'\n')
+    full = analyze_learning({'arm': directory}, bin_seconds=100000.)
+    assert full['arms']['arm']['total_lives'] == 3
+    trimmed = analyze_learning({'arm': directory}, bin_seconds=100000., max_simulation_age_ms=6000.)
+    assert trimmed['max_simulation_age_ms'] == 6000. and trimmed['arms']['arm']['total_lives'] == 1
 
 
 def test_dose_matched_control_reuses_cells_and_requires_matching_calibration(tmp_path):
@@ -354,12 +420,27 @@ def test_server_fixed_duration_flag_is_validated():
         parse_args(['--max-neural-seconds', '0'])
 
 
+def test_experiment_runner_computes_remaining_budget_across_restarts(tmp_path):
+    from doom.nociception_experiment import simulated_seconds, mark_complete, completed
+    directory = tmp_path/'arm'
+    directory.mkdir()
+    assert simulated_seconds(directory) == 0.
+    lives = directory/'lives.jsonl'
+    lives.write_text(json.dumps({'end_simulation_age_ms': 1200.0})+'\n' + json.dumps({'end_simulation_age_ms': 3573057.1})+'\n')
+    assert simulated_seconds(directory) == pytest.approx(3573.0571)
+    assert not completed(directory)
+    mark_complete(directory)
+    assert completed(directory)
+
+
 def test_experiment_runner_commands_resume_and_preserve_failed_attempts(tmp_path):
     from doom.nociception_experiment import command, completed, prepare_directory
-    snx = command('snxx29', tmp_path/'s', port=8811, neural_seconds=600, seed=41027, nociception_seed=7, python='py')
+    frozen_arm = {'damage_input': 'snxx29', 'learning': False, 'reset_on_death': False}
+    snx = command(frozen_arm, tmp_path/'s', port=8811, neural_seconds=600, seed=41027, nociception_seed=7, python='py')
     assert snx[:3] == ['py', '-m', 'doom.server'] and '--nociception-seed' not in snx
     assert snx[snx.index('--max-neural-seconds') + 1] == '600' and snx[snx.index('--damage-input') + 1] == 'snxx29'
-    rnd = command('random-dose-matched', tmp_path/'r', port=8813, neural_seconds=600, seed=41027, nociception_seed=7)
+    dose_arm = {'damage_input': 'random-dose-matched', 'learning': False, 'reset_on_death': False}
+    rnd = command(dose_arm, tmp_path/'r', port=8813, neural_seconds=600, seed=41027, nociception_seed=7)
     assert rnd[rnd.index('--nociception-seed') + 1] == '7'
     partial = tmp_path/'none'; partial.mkdir()
     (partial/'audit.jsonl').write_text('{}\n')
@@ -385,10 +466,15 @@ def test_population_report_is_strict_json_when_predictions_are_missing():
 
 def test_experiment_runner_supports_learning_and_checkpoints(tmp_path):
     from doom.nociception_experiment import command
-    frozen = command('snxx29', tmp_path/'s', port=8811, neural_seconds=600, seed=1, nociception_seed=2)
+    frozen_arm = {'damage_input': 'snxx29', 'learning': False, 'reset_on_death': False}
+    frozen = command(frozen_arm, tmp_path/'s', port=8811, neural_seconds=600, seed=1, nociception_seed=2)
     assert '--learning' not in frozen and '--checkpoint-dir' not in frozen
-    learning = command('snxx29', tmp_path/'s', port=8811, neural_seconds=9000, seed=1, nociception_seed=2,
-                       learning=True, checkpoint_seconds=600)
+    learning_arm = {'damage_input': 'snxx29', 'learning': True, 'reset_on_death': False}
+    learning = command(learning_arm, tmp_path/'s', port=8811, neural_seconds=9000, seed=1, nociception_seed=2,
+                       checkpoint_seconds=600)
     assert '--learning' in learning and '--resume' in learning
     assert learning[learning.index('--checkpoint-dir') + 1] == str(tmp_path/'s'/'checkpoints')
     assert learning[learning.index('--checkpoint-seconds') + 1] == '600'
+    reset_arm = {'damage_input': 'snxx29', 'learning': True, 'reset_on_death': True}
+    reset_cmd = command(reset_arm, tmp_path/'s', port=8811, neural_seconds=600, seed=1, nociception_seed=2)
+    assert '--reset-on-death' in reset_cmd

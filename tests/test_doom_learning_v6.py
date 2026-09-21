@@ -46,6 +46,24 @@ def test_freeze_mode_and_background_are_checkpointed(tmp_path):
     with pytest.raises(ValueError,match='provenance'):b.restore(p)
 
 
+def test_reset_dynamic_state_keeps_weights_and_traces(tmp_path):
+    b=brain(tmp_path)
+    b.step([],100,learning=True,stimulation=([0],20),lamina_bias=0)
+    b.step([],100,learning=True,stimulation=([2],12),lamina_bias=0)
+    assert b.v.any() and b.eligibility.any() and b.modulation.any()
+    weight,elig,mod,memw,cursor,sim_ms,total_spikes=(b.weight.copy(),b.eligibility.copy(),b.modulation.copy(),
+        b.memory_w.copy(),b.cursor,b.sim_ms,b.total_spikes)
+    b.reset_dynamic_state()
+    np.testing.assert_array_equal(b.v,b.initial['v'])
+    np.testing.assert_array_equal(b.g,b.initial['g'])
+    np.testing.assert_array_equal(b.refractory,b.initial['refractory'])
+    np.testing.assert_array_equal(b.weight,weight)
+    np.testing.assert_array_equal(b.eligibility,elig)
+    np.testing.assert_array_equal(b.modulation,mod)
+    np.testing.assert_array_equal(b.memory_w,memw)
+    assert b.cursor==cursor and b.sim_ms==sim_ms and b.total_spikes==total_spikes
+
+
 def test_no_learning_preserves_original_neural_kernel(tmp_path):
     from doom_learning_v4.brain import MemoryBrain as Previous
     b=brain(tmp_path);c=Previous(tmp_path/'graph.npz',circuit=b.circuit,modulation_mask=b.modulation_mask)

@@ -88,6 +88,18 @@ class MemoryBrain(NativeBrain):
         if not keep_memory:self.weight[self.circuit['edges']]=self.baseline_plastic
         else:self.memory_u[:],self.memory_w[:]=saved
 
+    # Milestone 6 Control E only: reset dynamic recurrent-activity state (membrane potentials,
+    # conductances, spike/refractory state, axonal/synaptic delay queues, KC adaptation) to the
+    # network's initial condition at each death, isolating whether continuity of that dynamic state
+    # -- as opposed to the learned KC->MBON11 weights -- matters. Unlike reset(), this keeps eligibility
+    # and modulation traces, learned weights, visual/decoder filters (luminance), the simulation clock
+    # and total_spikes untouched: one variable changes at a time. Normal runs never call this.
+    DYNAMIC_STATE_FIELDS=['v','g','refractory','drive','previous_drive','queue','queue_count',
+        'counts','active','active_flag','nactive','last','adaptation']
+
+    def reset_dynamic_state(self):
+        for k in self.DYNAMIC_STATE_FIELDS:getattr(self,k)[:]=self.initial[k]
+
     def _neural_step(self,luminance,duration_ms,*,learning=False,stimulation=None,lamina_bias=12.):
         light=np.asarray(luminance)
         if light.shape!=(len(self.retina),) or not np.isfinite(light).all():raise ValueError('Invalid retinal input')

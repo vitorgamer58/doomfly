@@ -1,0 +1,40 @@
+{
+  "run_id": "1d76aae5-cd3a-441c-8999-bdfdf40df096",
+  "study_id": "297dd6ea-712c-4692-af63-f105a5f31233",
+  "ended_at_ms": 1789685933833,
+  "end_reason": "max-neural-seconds",
+  "ticks": 188819,
+  "game_seconds": 5394.8286,
+  "simulation_age_ms": 5394828.6,
+  "neural_seconds_this_run": 636.0,
+  "deaths": 98,
+  "final_weight_sha256": "92f2dca109a7d759890019678a1c45144c0b8e7cc8f5026ef84d19a76d6b32d2",
+  "final_memory": {
+    "plastic_edges": 4184,
+    "changed_edges": 2163,
+    "mean_efficacy": 0.6890143752098083,
+    "minimum_efficacy": 0.10000000149011612,
+    "sha256": "2b2f4bc3955c01b175214f8ee176497476a5567ee0157933ff65089f80ea879c",
+    "model": "adaptive-centered-v6"
+  },
+  "final_damage_state": {
+    "until": 53912000,
+    "events": 6887,
+    "delivered_steps": 0,
+    "last_steps": 0,
+    "terminal_events": 853,
+    "cancelled_steps": 0,
+    "nociception": {
+      "until": 53943429,
+      "onset": 53941429,
+      "events": 7740,
+      "terminal_events": 853,
+      "delivered_steps": 12169737,
+      "last_steps": 0,
+      "spans_respawn": 853,
+      "peak": 30.0,
+      "damage_total": 85411.0,
+      "delivered_dose": 21232141.94999951
+    }
+  }
+}

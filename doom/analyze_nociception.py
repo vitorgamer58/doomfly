@@ -31,10 +31,15 @@ def read_events(directory):
     for path in paths:
         opener = gzip.open if path.suffix == '.gz' else open
         with opener(path, 'rt', encoding='utf-8') as f:
-            for line in f:
-                if line.strip():
-                    e = json.loads(line)
-                    rows[(e['run_id'], e['tick'])] = e
+            try:
+                for line in f:
+                    if line.strip():
+                        e = json.loads(line)
+                        rows[(e['run_id'], e['tick'])] = e
+            except EOFError:
+                # A process kill (e.g. out-of-memory) can truncate the last hourly gzip archive
+                # mid-write; keep every event decoded before the truncation point instead of failing.
+                pass
     return sorted(rows.values(), key=lambda e: (e['recorded_at_ms'], e['run_id'], e['tick']))
 
 
@@ -147,25 +152,40 @@ def lives_summary(lives):
             'note': 'Frozen-weight runs: survival differences across halves are not learning evidence.'}
 
 
-def analyze(runs, seed=0):
+def analyze(runs, seed=0, max_simulation_age_ms=None, reference=REFERENCE):
+    """max_simulation_age_ms: if given, only events/lives with recorded simulation time at or below
+    this are used. Milestone 6 arms restarted after interruptions can end up with unequal total
+    neural time (doom.server's --max-neural-seconds is per process, not a running total); comparing
+    arms fairly requires trimming every arm to the same absolute duration rather than using whatever
+    extra time some of them happened to accumulate.
+
+    reference: the run label to compare every other run against; defaults to 'none', but callers
+    whose labels aren't the bare damage_input (e.g. Milestone 6's 'C_none') must pass the actual label.
+    """
     rng = np.random.default_rng(seed)
     report = {'schema': 1, 'milestone': 4, 'windows_ms': {'pre': PRE_MS, **WINDOWS_MS}, 'bootstrap_resamples': BOOTSTRAP,
+              'max_simulation_age_ms': max_simulation_age_ms, 'reference': reference,
               'caveat': __doc__.split('Mandatory caveat: ')[1].strip(), 'conditions': {}, 'comparisons_vs_none': {}}
     clean = {}
     for label, directory in runs.items():
         events = read_events(directory)
+        if max_simulation_age_ms is not None:
+            events = [e for e in events if e['neural_ms'] <= max_simulation_age_ms]
         modes = {e.get('learning', {}).get('damage_input') for e in events}
+        lives = read_lives(directory)
+        if max_simulation_age_ms is not None:
+            lives = [l for l in lives if l['end_simulation_age_ms'] <= max_simulation_age_ms]
         summary, clean[label] = condition_summary(damage_windows(events), rng)
         report['conditions'][label] = {'directory': str(directory), 'damage_inputs_in_audit': sorted(m for m in modes if m),
-                                       'events': len(events), **summary, 'lives': lives_summary(read_lives(directory))}
-    if REFERENCE in clean:
+                                       'events': len(events), **summary, 'lives': lives_summary(lives)}
+    if reference in clean:
         for label in clean:
-            if label == REFERENCE:
+            if label == reference:
                 continue
             report['comparisons_vs_none'][label] = {}
             for window in WINDOWS_MS:
                 a = [w['deltas'][window] for w in clean[label] if window in w['deltas']]
-                b = [w['deltas'][window] for w in clean[REFERENCE] if window in w['deltas']]
+                b = [w['deltas'][window] for w in clean[reference] if window in w['deltas']]
                 keys = sorted(set.intersection(*(set(r) for r in a + b))) if a and b else []
                 report['comparisons_vs_none'][label][window] = {k: bootstrap_difference([r[k] for r in a], [r[k] for r in b], rng) for k in keys}
     return report
@@ -175,10 +195,12 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument('--run', action='append', required=True, help='label=audit_directory, e.g. snxx29=outputs/doom/nociception/run-snxx29')
     p.add_argument('--seed', type=int, default=0)
+    p.add_argument('--max-simulation-age-ms', type=float, help='Trim every run to this much total neural time before analysis')
+    p.add_argument('--reference', default=REFERENCE, help='Run label to compare every other run against')
     p.add_argument('--out', default='outputs/doom/nociception/analysis-v1.json')
     args = p.parse_args()
     runs = dict(item.split('=', 1) for item in args.run)
-    report = analyze(runs, args.seed)
+    report = analyze(runs, args.seed, max_simulation_age_ms=args.max_simulation_age_ms, reference=args.reference)
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, indent=2)+'\n')

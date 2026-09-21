@@ -22,10 +22,8 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT/'connectome_data/malecns_v1'
 DATASET = {'dataset': 'male-cns', 'dataset_version': 'v1.0'}
-SOURCES = ('snxx29', 'random-matched')
-RANDOM_SOURCES = ('random-matched', 'random-dose-matched')
-DOSE_CALIBRATION = ROOT/'outputs/doom/nociception/dose-calibration-v1.json'
 SNXX29 = 'SNxx29'
+SNCH01 = 'SNch01'
 PER_SIDE = 10
 MATCH_NEIGHBOURS = 3
 MATCH_TOLERANCE = .10
@@ -35,6 +33,38 @@ MODULATORY = ['dopamine', 'octopamine', 'serotonin']
 IDENTITY_EVIDENCE = ('ppk+/Gr28b.d+ heat-nociceptive leg sensory identity is inferred from MANC-era '
     'annotation literature. MaleCNS v1.0 has no receptorType for these cells and the MaleCNS paper '
     '(Berg et al.) does not describe SNxx29 or nociception.')
+SNCH01_IDENTITY_EVIDENCE = ('SNch01 abdominal population used as the connectomically best-supported proxy '
+    'for the published ppk+/class-IV (c4da) abdominal multidendritic (md) nociceptors. The MANC systematic '
+    'annotation study (Cheong et al., eLife 2024, reviewed preprint 97766) names SNch01 as the leading '
+    'candidate match for these cells and groups it with SNxx29 in a connectivity/morphology cluster '
+    'plausibly related to aversive stimuli. Some SNch01 instances outside the abdomen (e.g. wing-margin '
+    'gustatory bristles) are a different body region of the same type name; this population is filtered to '
+    'subclass == "abdomen" specifically to exclude them. This is a probable, not a demonstrated, identity.')
+
+# One "family" per nociceptive population: the exact reference type, its expected per-side symmetry (None
+# if not required to be exact), and the annotation filters defining its random-control candidate pool.
+FAMILIES = {
+    'snxx29': {'reference_type': SNXX29, 'per_side': PER_SIDE, 'pool_superclass': 'vnc_sensory', 'pool_subclass': 'leg',
+        'sources': ('snxx29', 'random-matched', 'random-dose-matched'), 'identity_evidence': IDENTITY_EVIDENCE,
+        'match_tolerance': MATCH_TOLERANCE},
+    # SNch01's own top-degree cells concentrate output beyond every same-side abdominal candidate: the best
+    # possible same-side assignment (top-N candidates by degree, ignoring the nearest-neighbour distance rule)
+    # tops out at ~90.6% of SNch01's total outgoing synapses. That leaves under 10% headroom for a stochastic
+    # nearest-neighbour draw, so the tolerance is widened to 15% for this family only; still far tighter than an
+    # unmatched random draw, and the achieved ratio is always recorded in the population report.
+    'snch01': {'reference_type': SNCH01, 'per_side': None, 'pool_superclass': 'vnc_sensory', 'pool_subclass': 'abdomen',
+        'sources': ('snch01', 'snch01-random-matched', 'snch01-random-dose-matched'),
+        'identity_evidence': SNCH01_IDENTITY_EVIDENCE, 'match_tolerance': .15},
+}
+SOURCES = tuple(s for cfg in FAMILIES.values() for s in cfg['sources'])
+RANDOM_SOURCES = tuple(s for s in SOURCES if 'random-matched' in s or 'random-dose-matched' in s)
+
+
+def family_for_source(source):
+    for name, cfg in FAMILIES.items():
+        if source in cfg['sources']:
+            return name, cfg
+    raise ValueError(f'Unknown nociceptive population: {source}')
 
 
 def _types(annotations):
@@ -45,24 +75,38 @@ def _sides(annotations):
     return annotations['rootSide'].fillna('').astype(str).to_numpy()
 
 
-def snxx29_indices(annotations, transmitter):
-    """Exact SNxx29 cells; composite types such as 'SNxx27,SNxx29' are excluded."""
-    ix = np.flatnonzero(_types(annotations).eq(SNXX29).to_numpy()).astype(np.int32)
+def type_indices(annotations, transmitter, type_name, per_side=None):
+    """Exact cells of ``type_name``; composite types such as 'SNxx27,SNxx29' are excluded.
+
+    ``per_side`` enforces an exact left/right split (SNxx29: 10 + 10). When
+    None, any side split is accepted and simply recorded.
+    """
+    ix = np.flatnonzero(_types(annotations).eq(type_name).to_numpy()).astype(np.int32)
+    if not len(ix):
+        raise ValueError(f'No cells of type {type_name!r} found in MaleCNS v1.0.')
     sides = _sides(annotations)[ix]
-    if len(ix) != 2*PER_SIDE or np.count_nonzero(sides == 'L') != PER_SIDE or np.count_nonzero(sides == 'R') != PER_SIDE:
-        raise ValueError('Expected 10 left and 10 right SNxx29 cells (rootSide) in MaleCNS v1.0.')
+    if per_side is not None:
+        if len(ix) != 2*per_side or np.count_nonzero(sides == 'L') != per_side or np.count_nonzero(sides == 'R') != per_side:
+            raise ValueError(f'Expected {per_side} left and {per_side} right {type_name} cells (rootSide) in MaleCNS v1.0.')
     if np.any(np.asarray(transmitter)[ix] != 'acetylcholine'):
-        raise ValueError('Every SNxx29 cell must carry the acetylcholine model transmitter.')
+        raise ValueError(f'Every {type_name} cell must carry the acetylcholine model transmitter.')
     return ix
 
 
-def matched_random_indices(annotations, transmitter, outgoing, reference, seed, modulation_mask=None):
-    """Leg sensory neurons matched one-to-one to the reference for side and output degree.
+def snxx29_indices(annotations, transmitter):
+    """Exact SNxx29 cells; kept as a thin wrapper for callers and tests written against it."""
+    return type_indices(annotations, transmitter, SNXX29, per_side=PER_SIDE)
 
-    Returns (indices, attempts). In MaleCNS v1.0 the two strongest left SNxx29
-    cells exceed every left leg sensory candidate, so even nearest-neighbour
-    matching undershoots the total. Whole draws are therefore repeated from the
-    same seeded generator until total outgoing synapses fall within tolerance.
+
+def matched_random_indices(annotations, transmitter, outgoing, reference, seed, modulation_mask=None,
+                            *, pool_superclass='vnc_sensory', pool_subclass='leg', exclude_type=SNXX29,
+                            tolerance=MATCH_TOLERANCE):
+    """Sensory neurons matched one-to-one to the reference for side and output degree.
+
+    Returns (indices, attempts). In MaleCNS v1.0 the strongest reference cells
+    can exceed every same-pool candidate, so even nearest-neighbour matching
+    undershoots the total. Whole draws are therefore repeated from the same
+    seeded generator until total outgoing synapses fall within tolerance.
     """
     if seed is None:
         raise ValueError('The random-matched control requires an explicit seed.')
@@ -71,10 +115,10 @@ def matched_random_indices(annotations, transmitter, outgoing, reference, seed, 
     outgoing = np.asarray(outgoing, dtype=np.float64)
     reference = np.asarray(reference)
     sides = _sides(annotations)
-    pool = (annotations['superclass'].eq('vnc_sensory').to_numpy()
-        & annotations['subclass'].eq('leg').to_numpy()
+    pool = (annotations['superclass'].eq(pool_superclass).to_numpy()
+        & annotations['subclass'].eq(pool_subclass).to_numpy()
         & (transmitter == 'acetylcholine')
-        & ~_types(annotations).str.contains(SNXX29, regex=False).to_numpy())
+        & ~_types(annotations).str.contains(exclude_type, regex=False).to_numpy())
     if modulation_mask is not None:
         pool &= np.asarray(modulation_mask) == 0
     for attempt in range(1, MATCH_ATTEMPTS + 1):
@@ -89,9 +133,9 @@ def matched_random_indices(annotations, transmitter, outgoing, reference, seed, 
             nearest = candidates[np.argsort(distance, kind='stable')[:MATCH_NEIGHBOURS]]
             chosen.append(int(rng.choice(nearest)))
         chosen = np.sort(np.asarray(chosen, dtype=np.int32))
-        if abs(outgoing[chosen].sum()/outgoing[reference].sum() - 1) <= MATCH_TOLERANCE:
+        if abs(outgoing[chosen].sum()/outgoing[reference].sum() - 1) <= tolerance:
             return chosen, attempt
-    raise ValueError(f'No matched random control within {MATCH_TOLERANCE:.0%} outgoing synapses after {MATCH_ATTEMPTS} draws.')
+    raise ValueError(f'No matched random control within {tolerance:.0%} outgoing synapses after {MATCH_ATTEMPTS} draws.')
 
 
 def select_population(source, annotations, transmitter, outgoing, *, seed=None, modulation_mask=None, predictions=None):
@@ -101,21 +145,26 @@ def select_population(source, annotations, transmitter, outgoing, *, seed=None, 
     transmitter per node; outgoing: outgoing synapse count per node;
     predictions: optional neurotransmitter prediction table indexed by body.
     """
-    reference = snxx29_indices(annotations, transmitter)
+    family, cfg = family_for_source(source)
+    reference_type = cfg['reference_type']
+    reference = type_indices(annotations, transmitter, reference_type, per_side=cfg['per_side'])
     attempts = None
-    if source == 'snxx29':
+    if source == cfg['sources'][0]:
         indices = reference
-        rule = 'Exact type == "SNxx29"; side from rootSide; 10 L + 10 R; acetylcholine model transmitter.'
+        side_rule = f'{cfg["per_side"]} L + {cfg["per_side"]} R' if cfg['per_side'] is not None else 'side from rootSide, not required to be symmetric'
+        rule = f'Exact type == "{reference_type}"; {side_rule}; acetylcholine model transmitter.'
         seed = None
     elif source in RANDOM_SOURCES:
-        indices, attempts = matched_random_indices(annotations, transmitter, outgoing, reference, seed, modulation_mask)
-        rule = (f'For each SNxx29 cell, one draw without replacement from the {MATCH_NEIGHBOURS} nearest '
-            'same-side leg sensory neurons (superclass vnc_sensory, subclass leg, acetylcholine, non-modulatory, '
-            f'not SNxx29) by outgoing synapse count; whole draws repeated from the seeded generator until total '
-            f'outgoing synapses are within {MATCH_TOLERANCE:.0%}.')
-        if source == 'random-dose-matched':
-            rule += (' Same cells as random-matched for this seed; the drive gain is calibrated separately so the '
-                'population spike rate matches SNxx29 (see the dose calibration record).')
+        indices, attempts = matched_random_indices(annotations, transmitter, outgoing, reference, seed, modulation_mask,
+            pool_superclass=cfg['pool_superclass'], pool_subclass=cfg['pool_subclass'], exclude_type=reference_type,
+            tolerance=cfg['match_tolerance'])
+        rule = (f'For each {reference_type} cell, one draw without replacement from the {MATCH_NEIGHBOURS} nearest '
+            f'same-side sensory neurons (superclass {cfg["pool_superclass"]}, subclass {cfg["pool_subclass"]}, '
+            f'acetylcholine, non-modulatory, not {reference_type}) by outgoing synapse count; whole draws repeated '
+            f'from the seeded generator until total outgoing synapses are within {cfg["match_tolerance"]:.0%}.')
+        if source == cfg['sources'][2]:
+            rule += (f' Same cells as {cfg["sources"][1]!r} for this seed; the drive gain is calibrated separately '
+                f'so the population spike rate matches {reference_type} (see the dose calibration record).')
     else:
         raise ValueError(f'Unknown nociceptive population: {source}')
     transmitter = np.asarray(transmitter)
@@ -142,13 +191,15 @@ def select_population(source, annotations, transmitter, outgoing, *, seed=None, 
                 'celltype_predicted_nt': text(p['celltype_predicted_nt']),
                 'celltype_predicted_nt_confidence': number(p['celltype_predicted_nt_confidence'])})
         rows.append(row)
-    report = {'source': source, 'selection_rule': rule, 'seed': seed, 'count': len(indices),
+    report = {'source': source, 'family': family, 'reference_type': reference_type, 'selection_rule': rule,
+        'seed': seed, 'count': len(indices),
         'sides': {s: int(np.count_nonzero(sides[indices] == s)) for s in ['L', 'R']},
         'outgoing_synapses_total': int(outgoing[indices].sum()),
-        'reference_snxx29_outgoing_synapses_total': int(outgoing[reference].sum()),
-        'outgoing_ratio_to_snxx29': round(float(outgoing[indices].sum()/outgoing[reference].sum()), 4),
+        'reference_outgoing_synapses_total': int(outgoing[reference].sum()),
+        'outgoing_ratio_to_reference': round(float(outgoing[indices].sum()/outgoing[reference].sum()), 4),
         'match_attempts': attempts,
-        'identity_evidence': IDENTITY_EVIDENCE if source == 'snxx29' else 'Control: identity deliberately not nociceptive-specific.',
+        'identity_evidence': cfg['identity_evidence'] if source == cfg['sources'][0]
+            else 'Control: identity deliberately not nociceptive-specific.',
         'neurons': rows, **DATASET}
     return {'source': source, 'indices': indices, 'report': report}
 
@@ -173,19 +224,22 @@ def load_population(source, ids, *, seed=None, modulation_mask=None, annotations
         modulation_mask=modulation_mask, predictions=predictions)
 
 
-def load_dose_calibration(path, *, seed, pulse_ms, decay_ms):
-    """Validated gain for the random-dose-matched control.
+def load_dose_calibration(path, *, seed, pulse_ms, decay_ms, family='snxx29'):
+    """Validated gain for a family's random-dose-matched control.
 
     The SNxx29 feedback loop (AN05B004 inhibits SNxx29) keeps SNxx29 far below
     a same-drive random population, so equal amplitude is not equal spike dose.
     The calibration matches single-pulse population rates on one equilibrated
-    state and frame; in-game dose still depends on state and hit size.
+    state and frame; in-game dose still depends on state and hit size. Each
+    family's record uses its own reference-rate key, e.g. 'snxx29_rate_hz' or
+    'snch01_rate_hz'.
     """
     import hashlib
+    reference_gain_key, reference_rate_key = f'{family}_gain_mv', f'{family}_rate_hz'
     path = Path(path)
     raw = path.read_bytes()
     c = json.loads(raw)
-    required = {'schema', 'seed', 'pulse_ms', 'decay_ms', 'snxx29_gain_mv', 'snxx29_rate_hz',
+    required = {'schema', 'seed', 'pulse_ms', 'decay_ms', reference_gain_key, reference_rate_key,
                 'random_dose_matched_gain_mv', 'random_rate_hz'}
     if c.get('schema') != 1 or not required <= set(c):
         raise ValueError('Invalid nociception dose calibration record')
@@ -227,8 +281,8 @@ class NociceptiveTransducer:
         indices = np.asarray(population['indices'], dtype=np.int32)
         if indices.ndim != 1 or not len(indices) or len(np.unique(indices)) != len(indices):
             raise ValueError('A nonempty set of unique neuron indices is required')
-        if (population['source'] == 'random-dose-matched') != (calibration is not None):
-            raise ValueError('A dose calibration is required exactly for the random-dose-matched control')
+        if population['source'].endswith('random-dose-matched') != (calibration is not None):
+            raise ValueError('A dose calibration is required exactly for a random-dose-matched control')
         self.source = population['source']
         self.report = population['report']
         self.calibration = calibration
@@ -303,6 +357,12 @@ class NociceptiveTransducer:
         # Deliberately not cancelled: death is not a special neural event.
         self.spans_respawn += int(self.until > cursor)
 
+    def cancel_pending(self):
+        # Milestone 6 Control E only: reset-on-death also clears any outstanding pulse.
+        self.until = 0
+        self.onset = 0
+        self.peak = 0.
+
     def state(self):
         return {k: getattr(self, k) for k in [*self.INTEGER_STATE, *self.FLOAT_STATE]}
 
@@ -343,7 +403,7 @@ def main():
     out.write_text(json.dumps(record, indent=2)+'\n')
     for source, r in record['populations'].items():
         print(f"{source}: {r['count']} cells {r['sides']} outgoing={r['outgoing_synapses_total']} "
-              f"(SNxx29 {r['reference_snxx29_outgoing_synapses_total']})")
+              f"({r['reference_type']} {r['reference_outgoing_synapses_total']})")
     print(out)
 
 

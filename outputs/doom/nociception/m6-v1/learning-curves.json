@@ -1,0 +1,1640 @@
+{
+  "schema": 1,
+  "milestone": 6,
+  "bin_seconds": 300.0,
+  "max_simulation_age_ms": 5400000.0,
+  "caveat": "significance test here: a trend across bins within one arm, compared across\narms, is what task_atualizado.md section 24 calls a learning curve, not\nevidence by itself. Any claim of learning still needs the arm comparisons in\nsection 25 (A vs B vs C vs D vs E vs F).",
+  "arms": {
+    "A_snxx29": {
+      "lives_by_simulation_age": [
+        {
+          "bin_start_simulation_age_ms": 0.0,
+          "lives": 51,
+          "median_survival_seconds": 5.7429,
+          "mean_damage_per_minute": 1023.1033921568628,
+          "mean_kills_per_life": 0.6078431372549019,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 300000.0,
+          "lives": 41,
+          "median_survival_seconds": 6.6,
+          "mean_damage_per_minute": 873.3278292682927,
+          "mean_kills_per_life": 0.9024390243902439,
+          "deaths": 41
+        },
+        {
+          "bin_start_simulation_age_ms": 600000.0,
+          "lives": 40,
+          "median_survival_seconds": 6.528600000000001,
+          "mean_damage_per_minute": 874.40775,
+          "mean_kills_per_life": 0.975,
+          "deaths": 40
+        },
+        {
+          "bin_start_simulation_age_ms": 900000.0,
+          "lives": 38,
+          "median_survival_seconds": 7.2714,
+          "mean_damage_per_minute": 828.7869210526316,
+          "mean_kills_per_life": 1.0526315789473684,
+          "deaths": 38
+        },
+        {
+          "bin_start_simulation_age_ms": 1200000.0,
+          "lives": 42,
+          "median_survival_seconds": 7.32855,
+          "mean_damage_per_minute": 896.2705476190478,
+          "mean_kills_per_life": 1.119047619047619,
+          "deaths": 42
+        },
+        {
+          "bin_start_simulation_age_ms": 1500000.0,
+          "lives": 50,
+          "median_survival_seconds": 5.7429,
+          "mean_damage_per_minute": 1020.45564,
+          "mean_kills_per_life": 0.78,
+          "deaths": 50
+        },
+        {
+          "bin_start_simulation_age_ms": 1800000.0,
+          "lives": 52,
+          "median_survival_seconds": 5.6714,
+          "mean_damage_per_minute": 1085.8191730769229,
+          "mean_kills_per_life": 0.5576923076923077,
+          "deaths": 52
+        },
+        {
+          "bin_start_simulation_age_ms": 2100000.0,
+          "lives": 52,
+          "median_survival_seconds": 5.6714,
+          "mean_damage_per_minute": 1051.0624807692307,
+          "mean_kills_per_life": 0.6923076923076923,
+          "deaths": 52
+        },
+        {
+          "bin_start_simulation_age_ms": 2400000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.7429,
+          "mean_damage_per_minute": 1045.9621764705882,
+          "mean_kills_per_life": 0.5294117647058824,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 2700000.0,
+          "lives": 53,
+          "median_survival_seconds": 5.5429,
+          "mean_damage_per_minute": 1077.2668867924529,
+          "mean_kills_per_life": 0.49056603773584906,
+          "deaths": 53
+        },
+        {
+          "bin_start_simulation_age_ms": 3000000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.6286,
+          "mean_damage_per_minute": 1050.1026078431373,
+          "mean_kills_per_life": 0.6862745098039216,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 3300000.0,
+          "lives": 48,
+          "median_survival_seconds": 5.94285,
+          "mean_damage_per_minute": 1021.1673333333334,
+          "mean_kills_per_life": 0.7708333333333334,
+          "deaths": 48
+        },
+        {
+          "bin_start_simulation_age_ms": 3600000.0,
+          "lives": 47,
+          "median_survival_seconds": 5.9429,
+          "mean_damage_per_minute": 980.9945957446805,
+          "mean_kills_per_life": 1.0,
+          "deaths": 47
+        },
+        {
+          "bin_start_simulation_age_ms": 3900000.0,
+          "lives": 52,
+          "median_survival_seconds": 5.5714500000000005,
+          "mean_damage_per_minute": 1061.1788461538463,
+          "mean_kills_per_life": 0.5961538461538461,
+          "deaths": 52
+        },
+        {
+          "bin_start_simulation_age_ms": 4200000.0,
+          "lives": 49,
+          "median_survival_seconds": 5.6286,
+          "mean_damage_per_minute": 1024.0815918367348,
+          "mean_kills_per_life": 0.6938775510204082,
+          "deaths": 49
+        },
+        {
+          "bin_start_simulation_age_ms": 4500000.0,
+          "lives": 37,
+          "median_survival_seconds": 7.4,
+          "mean_damage_per_minute": 797.6416216216217,
+          "mean_kills_per_life": 1.2702702702702702,
+          "deaths": 37
+        },
+        {
+          "bin_start_simulation_age_ms": 4800000.0,
+          "lives": 41,
+          "median_survival_seconds": 6.8286,
+          "mean_damage_per_minute": 871.5863902439024,
+          "mean_kills_per_life": 1.1219512195121952,
+          "deaths": 41
+        },
+        {
+          "bin_start_simulation_age_ms": 5100000.0,
+          "lives": 41,
+          "median_survival_seconds": 7.0857,
+          "mean_damage_per_minute": 884.9288536585366,
+          "mean_kills_per_life": 1.048780487804878,
+          "deaths": 41
+        }
+      ],
+      "weights_by_simulation_age": [
+        {
+          "bin_start_simulation_age_ms": 0.0,
+          "samples": 203,
+          "mean_efficacy": 0.9053770899772644,
+          "minimum_efficacy": 0.2657870650291443,
+          "changed_edges": 2048,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 300000.0,
+          "samples": 233,
+          "mean_efficacy": 0.8621993064880371,
+          "minimum_efficacy": 0.20263470709323883,
+          "changed_edges": 2065,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 600000.0,
+          "samples": 237,
+          "mean_efficacy": 0.8742161989212036,
+          "minimum_efficacy": 0.22523187100887299,
+          "changed_edges": 2080,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 900000.0,
+          "samples": 234,
+          "mean_efficacy": 0.8995224833488464,
+          "minimum_efficacy": 0.27524957060813904,
+          "changed_edges": 2083,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 1200000.0,
+          "samples": 232,
+          "mean_efficacy": 0.9870815277099609,
+          "minimum_efficacy": 0.629127562046051,
+          "changed_edges": 2089,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 1500000.0,
+          "samples": 227,
+          "mean_efficacy": 0.9826879501342773,
+          "minimum_efficacy": 0.5239222049713135,
+          "changed_edges": 2128,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 1800000.0,
+          "samples": 234,
+          "mean_efficacy": 1.002867341041565,
+          "minimum_efficacy": 0.5086327791213989,
+          "changed_edges": 2133,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 2100000.0,
+          "samples": 232,
+          "mean_efficacy": 1.012912631034851,
+          "minimum_efficacy": 0.47668731212615967,
+          "changed_edges": 2138,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 2400000.0,
+          "samples": 232,
+          "mean_efficacy": 1.022931456565857,
+          "minimum_efficacy": 0.4382138252258301,
+          "changed_edges": 2143,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 2700000.0,
+          "samples": 230,
+          "mean_efficacy": 1.0239003896713257,
+          "minimum_efficacy": 0.35003340244293213,
+          "changed_edges": 2145,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3000000.0,
+          "samples": 233,
+          "mean_efficacy": 1.0277572870254517,
+          "minimum_efficacy": 0.35163453221321106,
+          "changed_edges": 2146,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3300000.0,
+          "samples": 269,
+          "mean_efficacy": 1.0289689302444458,
+          "minimum_efficacy": 0.33972328901290894,
+          "changed_edges": 2148,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3600000.0,
+          "samples": 106,
+          "mean_efficacy": 1.0299737453460693,
+          "minimum_efficacy": 0.28325432538986206,
+          "changed_edges": 2149,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3900000.0,
+          "samples": 127,
+          "mean_efficacy": 1.0315265655517578,
+          "minimum_efficacy": 0.2602994441986084,
+          "changed_edges": 2152,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 4200000.0,
+          "samples": 126,
+          "mean_efficacy": 0.9536045789718628,
+          "minimum_efficacy": 0.1843707412481308,
+          "changed_edges": 2155,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 4500000.0,
+          "samples": 128,
+          "mean_efficacy": 0.9616383910179138,
+          "minimum_efficacy": 0.26033324003219604,
+          "changed_edges": 2156,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 4800000.0,
+          "samples": 129,
+          "mean_efficacy": 0.9724708199501038,
+          "minimum_efficacy": 0.3100215494632721,
+          "changed_edges": 2158,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 5100000.0,
+          "samples": 127,
+          "mean_efficacy": 0.9719446301460266,
+          "minimum_efficacy": 0.2599078416824341,
+          "changed_edges": 2158,
+          "plastic_edges": 4184
+        }
+      ],
+      "total_lives": 836,
+      "learning_enabled": true
+    },
+    "B_random_dose_matched": {
+      "lives_by_simulation_age": [
+        {
+          "bin_start_simulation_age_ms": 0.0,
+          "lives": 51,
+          "median_survival_seconds": 5.6286,
+          "mean_damage_per_minute": 1029.3262352941176,
+          "mean_kills_per_life": 0.5686274509803921,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 300000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.8571,
+          "mean_damage_per_minute": 1048.4524901960785,
+          "mean_kills_per_life": 0.5098039215686274,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 600000.0,
+          "lives": 40,
+          "median_survival_seconds": 7.6,
+          "mean_damage_per_minute": 858.9920750000001,
+          "mean_kills_per_life": 1.075,
+          "deaths": 40
+        },
+        {
+          "bin_start_simulation_age_ms": 900000.0,
+          "lives": 41,
+          "median_survival_seconds": 6.8286,
+          "mean_damage_per_minute": 864.5723170731707,
+          "mean_kills_per_life": 0.8292682926829268,
+          "deaths": 41
+        },
+        {
+          "bin_start_simulation_age_ms": 1200000.0,
+          "lives": 43,
+          "median_survival_seconds": 7.0,
+          "mean_damage_per_minute": 889.5412093023257,
+          "mean_kills_per_life": 1.0,
+          "deaths": 43
+        },
+        {
+          "bin_start_simulation_age_ms": 1500000.0,
+          "lives": 38,
+          "median_survival_seconds": 7.4857,
+          "mean_damage_per_minute": 811.9759473684211,
+          "mean_kills_per_life": 1.0526315789473684,
+          "deaths": 38
+        },
+        {
+          "bin_start_simulation_age_ms": 1800000.0,
+          "lives": 44,
+          "median_survival_seconds": 6.41425,
+          "mean_damage_per_minute": 935.2876590909091,
+          "mean_kills_per_life": 1.0,
+          "deaths": 44
+        },
+        {
+          "bin_start_simulation_age_ms": 2100000.0,
+          "lives": 40,
+          "median_survival_seconds": 7.071400000000001,
+          "mean_damage_per_minute": 870.132,
+          "mean_kills_per_life": 1.2,
+          "deaths": 40
+        },
+        {
+          "bin_start_simulation_age_ms": 2400000.0,
+          "lives": 42,
+          "median_survival_seconds": 7.02855,
+          "mean_damage_per_minute": 885.5546904761907,
+          "mean_kills_per_life": 0.9761904761904762,
+          "deaths": 42
+        },
+        {
+          "bin_start_simulation_age_ms": 2700000.0,
+          "lives": 44,
+          "median_survival_seconds": 6.5,
+          "mean_damage_per_minute": 929.8091136363636,
+          "mean_kills_per_life": 0.8409090909090909,
+          "deaths": 44
+        },
+        {
+          "bin_start_simulation_age_ms": 3000000.0,
+          "lives": 42,
+          "median_survival_seconds": 6.6,
+          "mean_damage_per_minute": 904.4905476190479,
+          "mean_kills_per_life": 0.8095238095238095,
+          "deaths": 42
+        },
+        {
+          "bin_start_simulation_age_ms": 3300000.0,
+          "lives": 42,
+          "median_survival_seconds": 6.7143,
+          "mean_damage_per_minute": 928.3287857142856,
+          "mean_kills_per_life": 1.0,
+          "deaths": 42
+        },
+        {
+          "bin_start_simulation_age_ms": 3600000.0,
+          "lives": 42,
+          "median_survival_seconds": 6.9714,
+          "mean_damage_per_minute": 869.4881666666668,
+          "mean_kills_per_life": 0.9523809523809523,
+          "deaths": 42
+        },
+        {
+          "bin_start_simulation_age_ms": 3900000.0,
+          "lives": 42,
+          "median_survival_seconds": 6.7857,
+          "mean_damage_per_minute": 897.7685714285714,
+          "mean_kills_per_life": 1.0714285714285714,
+          "deaths": 42
+        },
+        {
+          "bin_start_simulation_age_ms": 4200000.0,
+          "lives": 52,
+          "median_survival_seconds": 5.642849999999999,
+          "mean_damage_per_minute": 1058.5677692307693,
+          "mean_kills_per_life": 0.6346153846153846,
+          "deaths": 52
+        },
+        {
+          "bin_start_simulation_age_ms": 4500000.0,
+          "lives": 53,
+          "median_survival_seconds": 5.5429,
+          "mean_damage_per_minute": 1077.0529056603773,
+          "mean_kills_per_life": 0.4528301886792453,
+          "deaths": 53
+        },
+        {
+          "bin_start_simulation_age_ms": 4800000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.7143,
+          "mean_damage_per_minute": 1048.1331960784314,
+          "mean_kills_per_life": 0.5882352941176471,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 5100000.0,
+          "lives": 50,
+          "median_survival_seconds": 5.6286,
+          "mean_damage_per_minute": 1067.6163600000002,
+          "mean_kills_per_life": 0.56,
+          "deaths": 50
+        }
+      ],
+      "weights_by_simulation_age": [
+        {
+          "bin_start_simulation_age_ms": 0.0,
+          "samples": 203,
+          "mean_efficacy": 0.8993460536003113,
+          "minimum_efficacy": 0.2434287965297699,
+          "changed_edges": 2082,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 300000.0,
+          "samples": 217,
+          "mean_efficacy": 0.847368597984314,
+          "minimum_efficacy": 0.15572306513786316,
+          "changed_edges": 2094,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 600000.0,
+          "samples": 223,
+          "mean_efficacy": 0.8732075691223145,
+          "minimum_efficacy": 0.2176225483417511,
+          "changed_edges": 2103,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 900000.0,
+          "samples": 221,
+          "mean_efficacy": 0.8903512358665466,
+          "minimum_efficacy": 0.22701039910316467,
+          "changed_edges": 2108,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 1200000.0,
+          "samples": 221,
+          "mean_efficacy": 0.9059303998947144,
+          "minimum_efficacy": 0.27966931462287903,
+          "changed_edges": 2110,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 1500000.0,
+          "samples": 221,
+          "mean_efficacy": 0.9139684438705444,
+          "minimum_efficacy": 0.2509914040565491,
+          "changed_edges": 2114,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 1800000.0,
+          "samples": 221,
+          "mean_efficacy": 0.9161871671676636,
+          "minimum_efficacy": 0.3019174337387085,
+          "changed_edges": 2121,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 2100000.0,
+          "samples": 220,
+          "mean_efficacy": 0.9319580793380737,
+          "minimum_efficacy": 0.3406098186969757,
+          "changed_edges": 2135,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 2400000.0,
+          "samples": 221,
+          "mean_efficacy": 0.9370636940002441,
+          "minimum_efficacy": 0.3420933783054352,
+          "changed_edges": 2138,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 2700000.0,
+          "samples": 218,
+          "mean_efficacy": 0.9408361911773682,
+          "minimum_efficacy": 0.3690783977508545,
+          "changed_edges": 2138,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3000000.0,
+          "samples": 222,
+          "mean_efficacy": 0.9524970650672913,
+          "minimum_efficacy": 0.3313602805137634,
+          "changed_edges": 2141,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3300000.0,
+          "samples": 232,
+          "mean_efficacy": 0.9612700939178467,
+          "minimum_efficacy": 0.40922001004219055,
+          "changed_edges": 2143,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3600000.0,
+          "samples": 209,
+          "mean_efficacy": 0.9611734747886658,
+          "minimum_efficacy": 0.38457977771759033,
+          "changed_edges": 2144,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3900000.0,
+          "samples": 132,
+          "mean_efficacy": 1.064509630203247,
+          "minimum_efficacy": 0.7264514565467834,
+          "changed_edges": 2151,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 4200000.0,
+          "samples": 129,
+          "mean_efficacy": 1.0609513521194458,
+          "minimum_efficacy": 0.6930191516876221,
+          "changed_edges": 2156,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 4500000.0,
+          "samples": 129,
+          "mean_efficacy": 1.05832040309906,
+          "minimum_efficacy": 0.5964027643203735,
+          "changed_edges": 2157,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 4800000.0,
+          "samples": 129,
+          "mean_efficacy": 1.0523921251296997,
+          "minimum_efficacy": 0.5252151489257812,
+          "changed_edges": 2161,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 5100000.0,
+          "samples": 129,
+          "mean_efficacy": 1.0614689588546753,
+          "minimum_efficacy": 0.5338095426559448,
+          "changed_edges": 2165,
+          "plastic_edges": 4184
+        }
+      ],
+      "total_lives": 808,
+      "learning_enabled": true
+    },
+    "C_none": {
+      "lives_by_simulation_age": [
+        {
+          "bin_start_simulation_age_ms": 0.0,
+          "lives": 51,
+          "median_survival_seconds": 5.8,
+          "mean_damage_per_minute": 1043.2668039215685,
+          "mean_kills_per_life": 0.5882352941176471,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 300000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.5714,
+          "mean_damage_per_minute": 1053.478843137255,
+          "mean_kills_per_life": 0.6470588235294118,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 600000.0,
+          "lives": 49,
+          "median_survival_seconds": 5.8,
+          "mean_damage_per_minute": 1029.9020408163265,
+          "mean_kills_per_life": 0.7346938775510204,
+          "deaths": 49
+        },
+        {
+          "bin_start_simulation_age_ms": 900000.0,
+          "lives": 49,
+          "median_survival_seconds": 5.9429,
+          "mean_damage_per_minute": 1007.3606326530613,
+          "mean_kills_per_life": 0.5714285714285714,
+          "deaths": 49
+        },
+        {
+          "bin_start_simulation_age_ms": 1200000.0,
+          "lives": 52,
+          "median_survival_seconds": 5.585699999999999,
+          "mean_damage_per_minute": 1050.7548846153848,
+          "mean_kills_per_life": 0.5576923076923077,
+          "deaths": 52
+        },
+        {
+          "bin_start_simulation_age_ms": 1500000.0,
+          "lives": 52,
+          "median_survival_seconds": 5.55715,
+          "mean_damage_per_minute": 1080.9893461538463,
+          "mean_kills_per_life": 0.6538461538461539,
+          "deaths": 52
+        },
+        {
+          "bin_start_simulation_age_ms": 1800000.0,
+          "lives": 52,
+          "median_survival_seconds": 5.8286,
+          "mean_damage_per_minute": 1056.6622499999999,
+          "mean_kills_per_life": 0.6730769230769231,
+          "deaths": 52
+        },
+        {
+          "bin_start_simulation_age_ms": 2100000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.5143,
+          "mean_damage_per_minute": 1048.496274509804,
+          "mean_kills_per_life": 0.6470588235294118,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 2400000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.6,
+          "mean_damage_per_minute": 1041.80768627451,
+          "mean_kills_per_life": 0.6470588235294118,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 2700000.0,
+          "lives": 50,
+          "median_survival_seconds": 5.77145,
+          "mean_damage_per_minute": 1047.78242,
+          "mean_kills_per_life": 0.56,
+          "deaths": 50
+        },
+        {
+          "bin_start_simulation_age_ms": 3000000.0,
+          "lives": 53,
+          "median_survival_seconds": 5.8,
+          "mean_damage_per_minute": 1064.2115471698112,
+          "mean_kills_per_life": 0.5471698113207547,
+          "deaths": 53
+        },
+        {
+          "bin_start_simulation_age_ms": 3300000.0,
+          "lives": 50,
+          "median_survival_seconds": 5.8857,
+          "mean_damage_per_minute": 1020.67374,
+          "mean_kills_per_life": 0.62,
+          "deaths": 50
+        },
+        {
+          "bin_start_simulation_age_ms": 3600000.0,
+          "lives": 52,
+          "median_survival_seconds": 5.699999999999999,
+          "mean_damage_per_minute": 1072.82625,
+          "mean_kills_per_life": 0.5961538461538461,
+          "deaths": 52
+        },
+        {
+          "bin_start_simulation_age_ms": 3900000.0,
+          "lives": 50,
+          "median_survival_seconds": 5.699999999999999,
+          "mean_damage_per_minute": 1025.8838,
+          "mean_kills_per_life": 0.58,
+          "deaths": 50
+        },
+        {
+          "bin_start_simulation_age_ms": 4200000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.5143,
+          "mean_damage_per_minute": 1051.301705882353,
+          "mean_kills_per_life": 0.6862745098039216,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 4500000.0,
+          "lives": 50,
+          "median_survival_seconds": 5.8857,
+          "mean_damage_per_minute": 1025.24368,
+          "mean_kills_per_life": 0.7,
+          "deaths": 50
+        },
+        {
+          "bin_start_simulation_age_ms": 4800000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.8,
+          "mean_damage_per_minute": 1041.5725490196078,
+          "mean_kills_per_life": 0.6470588235294118,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 5100000.0,
+          "lives": 45,
+          "median_survival_seconds": 6.0286,
+          "mean_damage_per_minute": 987.0299555555557,
+          "mean_kills_per_life": 0.7333333333333333,
+          "deaths": 45
+        }
+      ],
+      "weights_by_simulation_age": [
+        {
+          "bin_start_simulation_age_ms": 0.0,
+          "samples": 196,
+          "mean_efficacy": 0.9079036116600037,
+          "minimum_efficacy": 0.27360472083091736,
+          "changed_edges": 2045,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 300000.0,
+          "samples": 203,
+          "mean_efficacy": 0.9264907836914062,
+          "minimum_efficacy": 0.3190050721168518,
+          "changed_edges": 2068,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 600000.0,
+          "samples": 203,
+          "mean_efficacy": 0.92035973072052,
+          "minimum_efficacy": 0.2436322569847107,
+          "changed_edges": 2077,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 900000.0,
+          "samples": 203,
+          "mean_efficacy": 0.9207108020782471,
+          "minimum_efficacy": 0.18805845081806183,
+          "changed_edges": 2088,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 1200000.0,
+          "samples": 206,
+          "mean_efficacy": 0.9250762462615967,
+          "minimum_efficacy": 0.1690066158771515,
+          "changed_edges": 2094,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 1500000.0,
+          "samples": 203,
+          "mean_efficacy": 0.9455292224884033,
+          "minimum_efficacy": 0.24187393486499786,
+          "changed_edges": 2102,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 1800000.0,
+          "samples": 203,
+          "mean_efficacy": 0.9394630193710327,
+          "minimum_efficacy": 0.19629104435443878,
+          "changed_edges": 2109,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 2100000.0,
+          "samples": 202,
+          "mean_efficacy": 0.942034900188446,
+          "minimum_efficacy": 0.1868300884962082,
+          "changed_edges": 2110,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 2400000.0,
+          "samples": 200,
+          "mean_efficacy": 0.9519367218017578,
+          "minimum_efficacy": 0.18915610015392303,
+          "changed_edges": 2110,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 2700000.0,
+          "samples": 203,
+          "mean_efficacy": 0.9635456800460815,
+          "minimum_efficacy": 0.2576276659965515,
+          "changed_edges": 2112,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3000000.0,
+          "samples": 202,
+          "mean_efficacy": 0.9596437811851501,
+          "minimum_efficacy": 0.19600820541381836,
+          "changed_edges": 2115,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3300000.0,
+          "samples": 203,
+          "mean_efficacy": 0.9685390591621399,
+          "minimum_efficacy": 0.23693645000457764,
+          "changed_edges": 2116,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3600000.0,
+          "samples": 220,
+          "mean_efficacy": 0.9650924205780029,
+          "minimum_efficacy": 0.20424020290374756,
+          "changed_edges": 2116,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3900000.0,
+          "samples": 196,
+          "mean_efficacy": 0.9753314256668091,
+          "minimum_efficacy": 0.27040132880210876,
+          "changed_edges": 2118,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 4200000.0,
+          "samples": 127,
+          "mean_efficacy": 0.9747751951217651,
+          "minimum_efficacy": 0.190740704536438,
+          "changed_edges": 2120,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 4500000.0,
+          "samples": 127,
+          "mean_efficacy": 0.9749663472175598,
+          "minimum_efficacy": 0.25149503350257874,
+          "changed_edges": 2124,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 4800000.0,
+          "samples": 126,
+          "mean_efficacy": 0.9778015613555908,
+          "minimum_efficacy": 0.22569116950035095,
+          "changed_edges": 2126,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 5100000.0,
+          "samples": 129,
+          "mean_efficacy": 0.9219074249267578,
+          "minimum_efficacy": 0.20531311631202698,
+          "changed_edges": 2128,
+          "plastic_edges": 4184
+        }
+      ],
+      "total_lives": 910,
+      "learning_enabled": true
+    },
+    "D_ppl101": {
+      "lives_by_simulation_age": [
+        {
+          "bin_start_simulation_age_ms": 0.0,
+          "lives": 50,
+          "median_survival_seconds": 5.84285,
+          "mean_damage_per_minute": 1016.2206199999999,
+          "mean_kills_per_life": 0.7,
+          "deaths": 50
+        },
+        {
+          "bin_start_simulation_age_ms": 300000.0,
+          "lives": 49,
+          "median_survival_seconds": 5.8,
+          "mean_damage_per_minute": 1012.5257346938777,
+          "mean_kills_per_life": 0.7551020408163265,
+          "deaths": 49
+        },
+        {
+          "bin_start_simulation_age_ms": 600000.0,
+          "lives": 39,
+          "median_survival_seconds": 7.3143,
+          "mean_damage_per_minute": 811.804076923077,
+          "mean_kills_per_life": 1.2564102564102564,
+          "deaths": 39
+        },
+        {
+          "bin_start_simulation_age_ms": 900000.0,
+          "lives": 37,
+          "median_survival_seconds": 7.7429,
+          "mean_damage_per_minute": 819.7364594594594,
+          "mean_kills_per_life": 1.135135135135135,
+          "deaths": 37
+        },
+        {
+          "bin_start_simulation_age_ms": 1200000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.7429,
+          "mean_damage_per_minute": 1041.8298823529412,
+          "mean_kills_per_life": 0.6274509803921569,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 1500000.0,
+          "lives": 53,
+          "median_survival_seconds": 5.6286,
+          "mean_damage_per_minute": 1074.5464150943394,
+          "mean_kills_per_life": 0.5849056603773585,
+          "deaths": 53
+        },
+        {
+          "bin_start_simulation_age_ms": 1800000.0,
+          "lives": 53,
+          "median_survival_seconds": 5.6286,
+          "mean_damage_per_minute": 1088.7620566037735,
+          "mean_kills_per_life": 0.5094339622641509,
+          "deaths": 53
+        },
+        {
+          "bin_start_simulation_age_ms": 2100000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.6857,
+          "mean_damage_per_minute": 1024.2477843137253,
+          "mean_kills_per_life": 0.7647058823529411,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 2400000.0,
+          "lives": 48,
+          "median_survival_seconds": 5.8571,
+          "mean_damage_per_minute": 1000.6259166666667,
+          "mean_kills_per_life": 0.6666666666666666,
+          "deaths": 48
+        },
+        {
+          "bin_start_simulation_age_ms": 2700000.0,
+          "lives": 40,
+          "median_survival_seconds": 6.84285,
+          "mean_damage_per_minute": 876.2548999999999,
+          "mean_kills_per_life": 1.075,
+          "deaths": 40
+        },
+        {
+          "bin_start_simulation_age_ms": 3000000.0,
+          "lives": 42,
+          "median_survival_seconds": 7.0,
+          "mean_damage_per_minute": 898.5449523809524,
+          "mean_kills_per_life": 1.0476190476190477,
+          "deaths": 42
+        },
+        {
+          "bin_start_simulation_age_ms": 3300000.0,
+          "lives": 41,
+          "median_survival_seconds": 6.9714,
+          "mean_damage_per_minute": 892.4209756097562,
+          "mean_kills_per_life": 1.170731707317073,
+          "deaths": 41
+        },
+        {
+          "bin_start_simulation_age_ms": 3600000.0,
+          "lives": 38,
+          "median_survival_seconds": 7.77145,
+          "mean_damage_per_minute": 786.8041052631578,
+          "mean_kills_per_life": 1.368421052631579,
+          "deaths": 38
+        },
+        {
+          "bin_start_simulation_age_ms": 3900000.0,
+          "lives": 40,
+          "median_survival_seconds": 6.6,
+          "mean_damage_per_minute": 857.335275,
+          "mean_kills_per_life": 1.075,
+          "deaths": 40
+        },
+        {
+          "bin_start_simulation_age_ms": 4200000.0,
+          "lives": 47,
+          "median_survival_seconds": 5.8571,
+          "mean_damage_per_minute": 1002.4215531914892,
+          "mean_kills_per_life": 0.723404255319149,
+          "deaths": 47
+        },
+        {
+          "bin_start_simulation_age_ms": 4500000.0,
+          "lives": 50,
+          "median_survival_seconds": 5.7286,
+          "mean_damage_per_minute": 1023.4975999999999,
+          "mean_kills_per_life": 0.78,
+          "deaths": 50
+        },
+        {
+          "bin_start_simulation_age_ms": 4800000.0,
+          "lives": 50,
+          "median_survival_seconds": 5.699999999999999,
+          "mean_damage_per_minute": 1038.97624,
+          "mean_kills_per_life": 0.56,
+          "deaths": 50
+        },
+        {
+          "bin_start_simulation_age_ms": 5100000.0,
+          "lives": 43,
+          "median_survival_seconds": 6.1714,
+          "mean_damage_per_minute": 941.2383488372094,
+          "mean_kills_per_life": 0.6976744186046512,
+          "deaths": 43
+        }
+      ],
+      "weights_by_simulation_age": [
+        {
+          "bin_start_simulation_age_ms": 0.0,
+          "samples": 206,
+          "mean_efficacy": 0.8993957042694092,
+          "minimum_efficacy": 0.25540289282798767,
+          "changed_edges": 2057,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 300000.0,
+          "samples": 210,
+          "mean_efficacy": 0.8591176867485046,
+          "minimum_efficacy": 0.19207218289375305,
+          "changed_edges": 2068,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 600000.0,
+          "samples": 216,
+          "mean_efficacy": 0.8864440321922302,
+          "minimum_efficacy": 0.2711820602416992,
+          "changed_edges": 2074,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 900000.0,
+          "samples": 212,
+          "mean_efficacy": 0.8934438228607178,
+          "minimum_efficacy": 0.26418453454971313,
+          "changed_edges": 2082,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 1200000.0,
+          "samples": 213,
+          "mean_efficacy": 0.9653916954994202,
+          "minimum_efficacy": 0.4622997045516968,
+          "changed_edges": 2093,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 1500000.0,
+          "samples": 209,
+          "mean_efficacy": 0.9759511947631836,
+          "minimum_efficacy": 0.436718225479126,
+          "changed_edges": 2098,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 1800000.0,
+          "samples": 210,
+          "mean_efficacy": 0.9779260754585266,
+          "minimum_efficacy": 0.40430688858032227,
+          "changed_edges": 2107,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 2100000.0,
+          "samples": 210,
+          "mean_efficacy": 0.9946268200874329,
+          "minimum_efficacy": 0.33623284101486206,
+          "changed_edges": 2123,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 2400000.0,
+          "samples": 212,
+          "mean_efficacy": 0.9237399697303772,
+          "minimum_efficacy": 0.18072201311588287,
+          "changed_edges": 2125,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 2700000.0,
+          "samples": 214,
+          "mean_efficacy": 0.9356752634048462,
+          "minimum_efficacy": 0.21033664047718048,
+          "changed_edges": 2125,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3000000.0,
+          "samples": 217,
+          "mean_efficacy": 0.9461341500282288,
+          "minimum_efficacy": 0.2920735478401184,
+          "changed_edges": 2126,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3300000.0,
+          "samples": 217,
+          "mean_efficacy": 0.9503824710845947,
+          "minimum_efficacy": 0.27782341837882996,
+          "changed_edges": 2126,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3600000.0,
+          "samples": 252,
+          "mean_efficacy": 0.9583473205566406,
+          "minimum_efficacy": 0.3179530203342438,
+          "changed_edges": 2132,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3900000.0,
+          "samples": 125,
+          "mean_efficacy": 0.9656029939651489,
+          "minimum_efficacy": 0.3672013282775879,
+          "changed_edges": 2136,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 4200000.0,
+          "samples": 127,
+          "mean_efficacy": 1.0512653589248657,
+          "minimum_efficacy": 0.619025707244873,
+          "changed_edges": 2141,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 4500000.0,
+          "samples": 125,
+          "mean_efficacy": 1.0662193298339844,
+          "minimum_efficacy": 0.6609284281730652,
+          "changed_edges": 2150,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 4800000.0,
+          "samples": 126,
+          "mean_efficacy": 1.04987370967865,
+          "minimum_efficacy": 0.5266171097755432,
+          "changed_edges": 2153,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 5100000.0,
+          "samples": 127,
+          "mean_efficacy": 0.9539321064949036,
+          "minimum_efficacy": 0.2157810777425766,
+          "changed_edges": 2153,
+          "plastic_edges": 4184
+        }
+      ],
+      "total_lives": 822,
+      "learning_enabled": true
+    },
+    "E_snxx29_reset_on_death": {
+      "lives_by_simulation_age": [
+        {
+          "bin_start_simulation_age_ms": 0.0,
+          "lives": 48,
+          "median_survival_seconds": 5.95715,
+          "mean_damage_per_minute": 981.7628125,
+          "mean_kills_per_life": 0.6458333333333334,
+          "deaths": 48
+        },
+        {
+          "bin_start_simulation_age_ms": 300000.0,
+          "lives": 48,
+          "median_survival_seconds": 5.72855,
+          "mean_damage_per_minute": 1017.0648125000001,
+          "mean_kills_per_life": 0.5,
+          "deaths": 48
+        },
+        {
+          "bin_start_simulation_age_ms": 600000.0,
+          "lives": 46,
+          "median_survival_seconds": 6.44285,
+          "mean_damage_per_minute": 949.0446086956523,
+          "mean_kills_per_life": 0.9782608695652174,
+          "deaths": 46
+        },
+        {
+          "bin_start_simulation_age_ms": 900000.0,
+          "lives": 49,
+          "median_survival_seconds": 5.7429,
+          "mean_damage_per_minute": 1038.5508775510204,
+          "mean_kills_per_life": 0.46938775510204084,
+          "deaths": 49
+        },
+        {
+          "bin_start_simulation_age_ms": 1200000.0,
+          "lives": 46,
+          "median_survival_seconds": 5.928599999999999,
+          "mean_damage_per_minute": 976.0923695652173,
+          "mean_kills_per_life": 0.6956521739130435,
+          "deaths": 46
+        },
+        {
+          "bin_start_simulation_age_ms": 1500000.0,
+          "lives": 47,
+          "median_survival_seconds": 5.9143,
+          "mean_damage_per_minute": 982.7077021276594,
+          "mean_kills_per_life": 0.574468085106383,
+          "deaths": 47
+        },
+        {
+          "bin_start_simulation_age_ms": 1800000.0,
+          "lives": 48,
+          "median_survival_seconds": 5.7857,
+          "mean_damage_per_minute": 1018.4320833333335,
+          "mean_kills_per_life": 0.7708333333333334,
+          "deaths": 48
+        },
+        {
+          "bin_start_simulation_age_ms": 2100000.0,
+          "lives": 48,
+          "median_survival_seconds": 5.9,
+          "mean_damage_per_minute": 1003.21725,
+          "mean_kills_per_life": 0.5833333333333334,
+          "deaths": 48
+        },
+        {
+          "bin_start_simulation_age_ms": 2400000.0,
+          "lives": 46,
+          "median_survival_seconds": 6.15715,
+          "mean_damage_per_minute": 951.4577391304347,
+          "mean_kills_per_life": 0.7608695652173914,
+          "deaths": 46
+        },
+        {
+          "bin_start_simulation_age_ms": 2700000.0,
+          "lives": 49,
+          "median_survival_seconds": 5.7714,
+          "mean_damage_per_minute": 1030.804693877551,
+          "mean_kills_per_life": 0.4897959183673469,
+          "deaths": 49
+        },
+        {
+          "bin_start_simulation_age_ms": 3000000.0,
+          "lives": 47,
+          "median_survival_seconds": 5.8286,
+          "mean_damage_per_minute": 1007.8018723404256,
+          "mean_kills_per_life": 0.6382978723404256,
+          "deaths": 47
+        },
+        {
+          "bin_start_simulation_age_ms": 3300000.0,
+          "lives": 47,
+          "median_survival_seconds": 6.0571,
+          "mean_damage_per_minute": 975.4540851063832,
+          "mean_kills_per_life": 0.6382978723404256,
+          "deaths": 47
+        },
+        {
+          "bin_start_simulation_age_ms": 3600000.0,
+          "lives": 49,
+          "median_survival_seconds": 5.7714,
+          "mean_damage_per_minute": 1007.3850612244898,
+          "mean_kills_per_life": 0.3673469387755102,
+          "deaths": 49
+        },
+        {
+          "bin_start_simulation_age_ms": 3900000.0,
+          "lives": 49,
+          "median_survival_seconds": 5.8286,
+          "mean_damage_per_minute": 1036.4669387755102,
+          "mean_kills_per_life": 0.4489795918367347,
+          "deaths": 49
+        },
+        {
+          "bin_start_simulation_age_ms": 4200000.0,
+          "lives": 48,
+          "median_survival_seconds": 5.7143,
+          "mean_damage_per_minute": 999.4447291666667,
+          "mean_kills_per_life": 0.3958333333333333,
+          "deaths": 48
+        },
+        {
+          "bin_start_simulation_age_ms": 4500000.0,
+          "lives": 48,
+          "median_survival_seconds": 5.9857499999999995,
+          "mean_damage_per_minute": 974.4986458333333,
+          "mean_kills_per_life": 0.625,
+          "deaths": 48
+        },
+        {
+          "bin_start_simulation_age_ms": 4800000.0,
+          "lives": 46,
+          "median_survival_seconds": 6.1429,
+          "mean_damage_per_minute": 939.122652173913,
+          "mean_kills_per_life": 0.6739130434782609,
+          "deaths": 46
+        },
+        {
+          "bin_start_simulation_age_ms": 5100000.0,
+          "lives": 46,
+          "median_survival_seconds": 5.814299999999999,
+          "mean_damage_per_minute": 1014.5604130434784,
+          "mean_kills_per_life": 0.5217391304347826,
+          "deaths": 46
+        }
+      ],
+      "weights_by_simulation_age": [
+        {
+          "bin_start_simulation_age_ms": 0.0,
+          "samples": 171,
+          "mean_efficacy": 0.6801954507827759,
+          "minimum_efficacy": 0.09999999403953552,
+          "changed_edges": 2032,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 300000.0,
+          "samples": 172,
+          "mean_efficacy": 0.6970227956771851,
+          "minimum_efficacy": 0.09999999403953552,
+          "changed_edges": 2051,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 600000.0,
+          "samples": 173,
+          "mean_efficacy": 0.6799684166908264,
+          "minimum_efficacy": 0.10000051558017731,
+          "changed_edges": 2058,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 900000.0,
+          "samples": 174,
+          "mean_efficacy": 0.6699981689453125,
+          "minimum_efficacy": 0.09999999403953552,
+          "changed_edges": 2071,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 1200000.0,
+          "samples": 175,
+          "mean_efficacy": 0.7245271801948547,
+          "minimum_efficacy": 0.10065644234418869,
+          "changed_edges": 2092,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 1500000.0,
+          "samples": 168,
+          "mean_efficacy": 0.6746734976768494,
+          "minimum_efficacy": 0.09999999403953552,
+          "changed_edges": 2098,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 1800000.0,
+          "samples": 172,
+          "mean_efficacy": 0.6607478260993958,
+          "minimum_efficacy": 0.09999999403953552,
+          "changed_edges": 2099,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 2100000.0,
+          "samples": 170,
+          "mean_efficacy": 0.6516521573066711,
+          "minimum_efficacy": 0.09999999403953552,
+          "changed_edges": 2105,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 2400000.0,
+          "samples": 170,
+          "mean_efficacy": 0.6536028981208801,
+          "minimum_efficacy": 0.09999999403953552,
+          "changed_edges": 2109,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 2700000.0,
+          "samples": 171,
+          "mean_efficacy": 0.7070159912109375,
+          "minimum_efficacy": 0.10000000149011612,
+          "changed_edges": 2116,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3000000.0,
+          "samples": 170,
+          "mean_efficacy": 0.6922718286514282,
+          "minimum_efficacy": 0.09999999403953552,
+          "changed_edges": 2122,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3300000.0,
+          "samples": 171,
+          "mean_efficacy": 0.6817699670791626,
+          "minimum_efficacy": 0.09999999403953552,
+          "changed_edges": 2123,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3600000.0,
+          "samples": 170,
+          "mean_efficacy": 0.6543633937835693,
+          "minimum_efficacy": 0.10000286251306534,
+          "changed_edges": 2126,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 3900000.0,
+          "samples": 174,
+          "mean_efficacy": 0.6667057275772095,
+          "minimum_efficacy": 0.09999999403953552,
+          "changed_edges": 2153,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 4200000.0,
+          "samples": 175,
+          "mean_efficacy": 0.6913915276527405,
+          "minimum_efficacy": 0.09999999403953552,
+          "changed_edges": 2155,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 4500000.0,
+          "samples": 214,
+          "mean_efficacy": 0.6750041246414185,
+          "minimum_efficacy": 0.10000000149011612,
+          "changed_edges": 2157,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 4800000.0,
+          "samples": 88,
+          "mean_efficacy": 0.7198527455329895,
+          "minimum_efficacy": 0.09999999403953552,
+          "changed_edges": 2159,
+          "plastic_edges": 4184
+        },
+        {
+          "bin_start_simulation_age_ms": 5100000.0,
+          "samples": 85,
+          "mean_efficacy": 0.6846465468406677,
+          "minimum_efficacy": 0.09999999403953552,
+          "changed_edges": 2163,
+          "plastic_edges": 4184
+        }
+      ],
+      "total_lives": 856,
+      "learning_enabled": true
+    },
+    "F_snxx29_no_learning": {
+      "lives_by_simulation_age": [
+        {
+          "bin_start_simulation_age_ms": 0.0,
+          "lives": 50,
+          "median_survival_seconds": 5.9,
+          "mean_damage_per_minute": 994.13906,
+          "mean_kills_per_life": 0.7,
+          "deaths": 50
+        },
+        {
+          "bin_start_simulation_age_ms": 300000.0,
+          "lives": 52,
+          "median_survival_seconds": 5.55715,
+          "mean_damage_per_minute": 1091.4111153846154,
+          "mean_kills_per_life": 0.46153846153846156,
+          "deaths": 52
+        },
+        {
+          "bin_start_simulation_age_ms": 600000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.6286,
+          "mean_damage_per_minute": 1053.4613333333334,
+          "mean_kills_per_life": 0.6274509803921569,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 900000.0,
+          "lives": 53,
+          "median_survival_seconds": 5.5429,
+          "mean_damage_per_minute": 1081.0185283018868,
+          "mean_kills_per_life": 0.39622641509433965,
+          "deaths": 53
+        },
+        {
+          "bin_start_simulation_age_ms": 1200000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.6286,
+          "mean_damage_per_minute": 1045.129725490196,
+          "mean_kills_per_life": 0.6078431372549019,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 1500000.0,
+          "lives": 53,
+          "median_survival_seconds": 5.6,
+          "mean_damage_per_minute": 1074.5131132075471,
+          "mean_kills_per_life": 0.6037735849056604,
+          "deaths": 53
+        },
+        {
+          "bin_start_simulation_age_ms": 1800000.0,
+          "lives": 52,
+          "median_survival_seconds": 5.7143,
+          "mean_damage_per_minute": 1055.1603461538461,
+          "mean_kills_per_life": 0.6346153846153846,
+          "deaths": 52
+        },
+        {
+          "bin_start_simulation_age_ms": 2100000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.6286,
+          "mean_damage_per_minute": 1057.1829803921567,
+          "mean_kills_per_life": 0.5882352941176471,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 2400000.0,
+          "lives": 53,
+          "median_survival_seconds": 5.5143,
+          "mean_damage_per_minute": 1076.2977547169812,
+          "mean_kills_per_life": 0.5849056603773585,
+          "deaths": 53
+        },
+        {
+          "bin_start_simulation_age_ms": 2700000.0,
+          "lives": 50,
+          "median_survival_seconds": 5.8,
+          "mean_damage_per_minute": 1035.413,
+          "mean_kills_per_life": 0.54,
+          "deaths": 50
+        },
+        {
+          "bin_start_simulation_age_ms": 3000000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.6286,
+          "mean_damage_per_minute": 1050.4530980392155,
+          "mean_kills_per_life": 0.47058823529411764,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 3300000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.7714,
+          "mean_damage_per_minute": 1039.4829607843137,
+          "mean_kills_per_life": 0.5882352941176471,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 3600000.0,
+          "lives": 53,
+          "median_survival_seconds": 5.7143,
+          "mean_damage_per_minute": 1042.3199433962266,
+          "mean_kills_per_life": 0.5094339622641509,
+          "deaths": 53
+        },
+        {
+          "bin_start_simulation_age_ms": 3900000.0,
+          "lives": 52,
+          "median_survival_seconds": 5.528600000000001,
+          "mean_damage_per_minute": 1061.5675192307692,
+          "mean_kills_per_life": 0.5576923076923077,
+          "deaths": 52
+        },
+        {
+          "bin_start_simulation_age_ms": 4200000.0,
+          "lives": 52,
+          "median_survival_seconds": 5.6143,
+          "mean_damage_per_minute": 1073.8315576923076,
+          "mean_kills_per_life": 0.5961538461538461,
+          "deaths": 52
+        },
+        {
+          "bin_start_simulation_age_ms": 4500000.0,
+          "lives": 52,
+          "median_survival_seconds": 5.6286,
+          "mean_damage_per_minute": 1062.4584423076924,
+          "mean_kills_per_life": 0.46153846153846156,
+          "deaths": 52
+        },
+        {
+          "bin_start_simulation_age_ms": 4800000.0,
+          "lives": 51,
+          "median_survival_seconds": 5.7429,
+          "mean_damage_per_minute": 1049.9870588235294,
+          "mean_kills_per_life": 0.5882352941176471,
+          "deaths": 51
+        },
+        {
+          "bin_start_simulation_age_ms": 5100000.0,
+          "lives": 50,
+          "median_survival_seconds": 5.82855,
+          "mean_damage_per_minute": 1058.97518,
+          "mean_kills_per_life": 0.64,
+          "deaths": 50
+        }
+      ],
+      "weights_by_simulation_age": [],
+      "total_lives": 929,
+      "learning_enabled": false
+    }
+  }
+}

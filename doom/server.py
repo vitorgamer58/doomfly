@@ -24,7 +24,12 @@ from doom.monitor import ActivityMonitor,activity_groups
 from doom.life_metrics import LifeMetrics
 from doom.death_snapshots import DeathSnapshots
 ROOT=Path(__file__).resolve().parents[1]
-NOCICEPTIVE_INPUTS=['snxx29','random-matched','random-dose-matched'];RANDOM_INPUTS=['random-matched','random-dose-matched']
+WEIGHT_LOG_SECONDS=30 # Milestone 6: KC->MBON11 weight statistics vs simulation_age, wall-clock cadence
+from doom.nociception import SOURCES as NOCICEPTIVE_INPUTS,FAMILIES as NOCICEPTION_FAMILIES,family_for_source
+RANDOM_INPUTS=[s for s in NOCICEPTIVE_INPUTS if s!='snxx29' and s!='snch01']
+DOSE_MATCHED_INPUTS=[s for s in NOCICEPTIVE_INPUTS if s.endswith('random-dose-matched')]
+DOSE_CALIBRATION_DEFAULTS={'snxx29':str(ROOT/'outputs/doom/nociception/dose-calibration-v1.json'),
+    'snch01':str(ROOT/'outputs/doom/nociception/dose-calibration-snch01-v1.json')}
 latest={'status':'starting','generated_at_ms':0}; stop=threading.Event()
 broadcast=Broadcast()
 observer=None
@@ -54,9 +59,10 @@ def run_loop(args):
                 from doom.nociception import NociceptiveTransducer,load_population,load_dose_calibration
                 population=load_population(args.damage_input,brain.ids,seed=args.nociception_seed,modulation_mask=brain.modulation_mask)
                 calibration=None;gain=args.nociception_gain
-                if args.damage_input=='random-dose-matched':
+                if args.damage_input in DOSE_MATCHED_INPUTS:
+                    family,_=family_for_source(args.damage_input)
                     calibration=load_dose_calibration(args.nociception_dose_calibration,seed=args.nociception_seed,
-                        pulse_ms=args.nociception_pulse_ms,decay_ms=args.nociception_decay_ms)
+                        pulse_ms=args.nociception_pulse_ms,decay_ms=args.nociception_decay_ms,family=family)
                     gain=calibration['random_dose_matched_gain_mv']
                 transducer=NociceptiveTransducer(population,gain=gain,pulse_ms=args.nociception_pulse_ms,
                     decay_ms=args.nociception_decay_ms,damage_reference=args.nociception_damage_reference,
@@ -121,6 +127,11 @@ def run_loop(args):
         archive=AuditArchive(audit_dir/'archive',run_id)
         audit_logger=logging.getLogger('doom-audit');audit_logger.handlers=[audit_handler,archive];audit_logger.setLevel(logging.INFO);audit_logger.propagate=False
         lives=LifeMetrics(audit_dir/'lives.jsonl');lives.start(game.observation(),brain.sim_ms)
+        weights_log=audit_dir/'weights.jsonl' if args.learning else None
+        def log_weights():
+            if weights_log:
+                with weights_log.open('a') as f:
+                    f.write(json.dumps({'simulation_age_ms':round(brain.sim_ms,3),**brain.memory()})+'\n')
         snapshots=DeathSnapshots(audit_dir/'death-snapshots.jsonl',full_dir=audit_dir/'death-voltages' if args.death_snapshot_full else None)
         previous_light=None
         run_record={'run_id':run_id,'study_id':study_id,'phase':phase,'started_at_ms':int(time.time()*1000),
@@ -137,7 +148,8 @@ def run_loop(args):
                 checkpoints.save(brain,controls,game,{'run_id':run_id,'study_id':study_id,'tick':tick,
                     'total_actions':total_actions,'episodes':list(episodes),'reward':reward.__dict__.copy(),
                     **({'training':training.state()} if training else {})})
-        last_checkpoint=time.monotonic()
+        last_checkpoint=time.monotonic();last_weight_log=time.monotonic()
+        if weights_log:log_weights()
         frozen=None;deaths=0;end_reason='error'
         print(json.dumps({'status':'running','run_id':run_id,'condition':args.condition,'port':args.port}),flush=True)
         try:
@@ -149,6 +161,11 @@ def run_loop(args):
                 if observer:observer.advance(game,reset=True)
                 # Death resets the world, not the brain: only pending PPL101 exposure is cancelled.
                 if training:training.new_round()
+                if args.reset_on_death:
+                    # Control E only (Milestone 6): reset dynamic MaleCNS neural state, keeping the
+                    # learned weights, eligibility/modulation traces, visual filters and simulation clock.
+                    brain.reset_dynamic_state()
+                    if transducer:transducer.cancel_pending()
                 before=game.observation();lives.start(before,brain.sim_ms)
             frame=game.pixels();light=retinal_samples(frame,brain.uv)
             spectator=game.spectator() # Same pre-action state as RGB; observer path only.
@@ -250,6 +267,8 @@ def run_loop(args):
                 last_publish=now;window_counts.fill(0);window_ms=0
             if checkpoints and now-last_checkpoint>=args.checkpoint_seconds:
                 checkpoint();last_checkpoint=time.monotonic()
+            if weights_log and now-last_weight_log>=WEIGHT_LOG_SECONDS:
+                log_weights();last_weight_log=time.monotonic()
             if args.max_neural_seconds and brain.sim_ms/1000-neural_start>=args.max_neural_seconds:
                 end_reason='max-neural-seconds';break
             remaining=start+(brain.sim_ms/1000-neural_start)-time.monotonic()
@@ -327,18 +346,24 @@ def parse_args(argv=None):
     p.add_argument('--seed',type=int,default=41027);p.add_argument('--reward',choices=['off','sugar'],default='off')
     p.add_argument('--condition',choices=['intact','blank_vision','frozen_vision','retina_disconnected','all_edges_disconnected','controls_clamped'],default='intact')
     p.add_argument('--damage-input',choices=['ppl101','none',*NOCICEPTIVE_INPUTS],default='ppl101',
-        help='How v6 health loss reaches the network: upstream PPL101 pulse, nothing, SNxx29 nociceptors, or matched random leg sensory neurons (same drive or calibrated spike dose)')
+        help='How v6 health loss reaches the network: upstream PPL101 pulse, nothing, SNxx29/SNch01 nociceptors, or their matched random sensory-neuron controls (same drive or calibrated spike dose)')
     p.add_argument('--nociception-gain',type=float,default=30.,
-        help='mV-equivalent drive at damage_reference HP (engineering value; 30 is the lowest probed gain recruiting AN05B004 and AN09B018)')
+        help='mV-equivalent drive at damage_reference HP (engineering value; 30 is the lowest probed SNxx29 gain recruiting AN05B004 and AN09B018 -- pass explicitly for the snch01 family)')
     p.add_argument('--nociception-pulse-ms',type=float,default=200.)
     p.add_argument('--nociception-decay-ms',type=float,default=0.,help='0 keeps a constant pulse')
     p.add_argument('--nociception-damage-reference',type=float,default=20.,help='HP loss that produces the full gain')
     p.add_argument('--nociception-left-right-mode',choices=['bilateral'],default='bilateral')
     p.add_argument('--nociception-seed',type=int,help='Required seed for the random control populations')
-    p.add_argument('--nociception-dose-calibration',default=str(ROOT/'outputs/doom/nociception/dose-calibration-v1.json'),
-        help='Calibration record providing the random-dose-matched gain (python -m doom.nociception_probe --calibrate-dose)')
+    p.add_argument('--nociception-dose-calibration',
+        help='Calibration record providing the random-dose-matched gain (python -m doom.nociception_probe --calibrate-dose); '
+             'defaults to the per-family record under outputs/doom/nociception/')
     p.add_argument('--death-snapshot-full',action='store_true',help='Also save whole-brain voltages around each death')
     p.add_argument('--max-neural-seconds',type=float,help='Automated experiments: stop cleanly after this much neural time in this process')
+    p.add_argument('--reset-on-death',action='store_true',
+        help='Milestone 6 Control E only: at each death, reset dynamic MaleCNS neural state (membrane potentials, '
+             'synaptic currents/conductances, spike/refractory state, axonal/synaptic delay queues, outstanding '
+             'nociceptive pulses) while preserving learned KC->MBON11 weights, eligibility traces, visual/decoder '
+             'filters, simulation_age and RNG state. Requires --learning; changes normal fork behavior for this run only.')
     args=p.parse_args(argv)
     if args.learning and args.model!='experimental-v6':p.error('Learning requires the explicit experimental-v6 model')
     if args.model=='experimental-v6' and (args.condition!='intact' or args.reward!='off' or args.decoder!='bci'):
@@ -349,10 +374,16 @@ def parse_args(argv=None):
     nociceptive=['nociception_gain','nociception_pulse_ms','nociception_decay_ms','nociception_damage_reference','nociception_dose_calibration']
     if args.damage_input not in NOCICEPTIVE_INPUTS and any(getattr(args,k)!=p.get_default(k) for k in nociceptive):
         p.error('Nociception parameters require a sensory --damage-input')
-    if args.damage_input=='random-dose-matched' and args.nociception_gain!=p.get_default('nociception_gain'):
-        p.error('random-dose-matched takes its gain from the dose calibration record')
-    if args.damage_input!='random-dose-matched' and args.nociception_dose_calibration!=p.get_default('nociception_dose_calibration'):
-        p.error('--nociception-dose-calibration only applies to random-dose-matched')
+    if args.damage_input in DOSE_MATCHED_INPUTS and args.nociception_gain!=p.get_default('nociception_gain'):
+        p.error('A random-dose-matched input takes its gain from the dose calibration record')
+    if args.damage_input in DOSE_MATCHED_INPUTS:
+        family,_=family_for_source(args.damage_input)
+        if args.nociception_dose_calibration is None:
+            args.nociception_dose_calibration=DOSE_CALIBRATION_DEFAULTS[family]
+    elif args.nociception_dose_calibration is not None:
+        p.error('--nociception-dose-calibration only applies to a random-dose-matched damage input')
+    if args.reset_on_death and not args.learning:
+        p.error('--reset-on-death (Control E) requires --learning')
     if args.max_neural_seconds is not None and not args.max_neural_seconds>0:p.error('--max-neural-seconds must be positive')
     if args.checkpoint_seconds<30:p.error('Checkpoint interval must be at least 30 seconds')
     if args.resume and not args.checkpoint_dir:p.error('--resume requires --checkpoint-dir')

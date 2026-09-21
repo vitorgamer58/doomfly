@@ -7,6 +7,10 @@ import hashlib
 import numpy as np
 
 TOP_SNXX29_ASCENDING = ['AN09B018', 'AN05B004', 'AN17A018', 'ANXXX196', 'AN05B097']
+# SNch01's strongest downstream partners by summed synapse weight (this graph, male-cns:v1.0). AN09B018,
+# AN05B004 and ANXXX196 overlap with SNxx29's own top ascending partners; AN01A021 and ANXXX055 are specific
+# to SNch01.
+TOP_SNCH01_ASCENDING = ['AN01A021', 'ANXXX055']
 LISTED_ID_LIMIT = 64
 
 
@@ -16,8 +20,9 @@ def activity_groups(annotations, stimulated=None):
     superclass = annotations['superclass'].fillna('').astype(str)
     cls = annotations['class'].fillna('').astype(str)
     side = annotations['somaSide'].fillna(annotations['rootSide']).fillna('').astype(str)
-    masks = {'SNxx29': types.eq('SNxx29')}
+    masks = {'SNxx29': types.eq('SNxx29'), 'SNch01': types.eq('SNch01')}
     masks.update({t: types.eq(t) for t in TOP_SNXX29_ASCENDING})
+    masks.update({t: types.eq(t) for t in TOP_SNCH01_ASCENDING})
     masks.update({
         'ascending_neuron': superclass.eq('ascending_neuron'),
         'DAN': cls.eq('DAN'),

@@ -7,16 +7,16 @@ explicit damage input:
   terminal damage and interrupted pulses are recorded, not paired with a fresh
   round's unrelated image.
 - none: no neural damage signal; only the game image changes.
-- snxx29 / random-matched: an artificial transducer drives an identified
-  sensory population (doom/nociception.py); PPL101 is not stimulated by damage.
+- snxx29 / snch01 and their matched-random controls: an artificial transducer
+  drives an identified sensory population (doom/nociception.py); PPL101 is not
+  stimulated by damage.
 
 The fixed decoder receives only actual neural spike counts. No game state
 selects buttons or directly sets weights, and no damage reward exists.
 """
 import hashlib
 import numpy as np
-
-NOCICEPTIVE_INPUTS = ('snxx29', 'random-matched', 'random-dose-matched')
+from doom.nociception import SOURCES as NOCICEPTIVE_INPUTS
 DAMAGE_INPUTS = ('ppl101', 'none', *NOCICEPTIVE_INPUTS)
 
 
@@ -146,6 +146,9 @@ REINFORCEMENT = {
     'snxx29': 'Simulated nociception: health loss drives the 20 identified SNxx29 leg sensory neurons through an artificial transducer (see nociception parameters). Fatal damage included; pulses continue across arena resets. No PPL101 damage pulse (calibrated tonic background retained) and no damage reward.',
     'random-matched': 'Control: health loss drives 20 leg sensory neurons matched to SNxx29 for side, transmitter and outgoing synapses, with the same transducer. No PPL101 damage pulse and no damage reward.',
     'random-dose-matched': 'Control: the same matched leg sensory neurons as random-matched, with the transducer gain calibrated so their spike rate matches SNxx29 at the SNxx29 gain. No PPL101 damage pulse and no damage reward.',
+    'snch01': 'Milestone 5: health loss drives the 35 identified SNch01 abdominal sensory neurons through an artificial transducer. SNch01 is the connectomically best-supported (not confirmed) proxy for the published ppk+/c4da abdominal multidendritic (md) nociceptors. Fatal damage included; pulses continue across arena resets. No PPL101 damage pulse and no damage reward.',
+    'snch01-random-matched': 'Control: health loss drives 35 abdominal sensory neurons matched to SNch01 for side, transmitter and outgoing synapses, with the same transducer. No PPL101 damage pulse and no damage reward.',
+    'snch01-random-dose-matched': 'Control: the same matched abdominal sensory neurons as snch01-random-matched, with the transducer gain calibrated so their spike rate matches SNch01 at the SNch01 gain. No PPL101 damage pulse and no damage reward.',
 }
 
 

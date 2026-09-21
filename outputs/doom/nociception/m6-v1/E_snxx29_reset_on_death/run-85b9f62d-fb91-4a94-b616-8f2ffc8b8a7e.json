@@ -1,0 +1,2463 @@
+{
+  "run_id": "85b9f62d-fb91-4a94-b616-8f2ffc8b8a7e",
+  "study_id": "297dd6ea-712c-4692-af63-f105a5f31233",
+  "phase": "training",
+  "started_at_ms": 1789680245232,
+  "damage_input": "snxx29",
+  "monitor": {
+    "dataset": "male-cns",
+    "dataset_version": "v1.0",
+    "measure": "spike count per game tic",
+    "groups": {
+      "stimulated": {
+        "neurons": 20,
+        "body_ids_sha256": "7fec446782e9690ea70a7e701c0fbbf2466cdf55d444b1576dc579602c8e3108",
+        "body_ids": [
+          "802125",
+          "802282",
+          "803140",
+          "803903",
+          "804191",
+          "805000",
+          "805001",
+          "806548",
+          "807533",
+          "807629",
+          "807767",
+          "808503",
+          "813268",
+          "816463",
+          "816922",
+          "820805",
+          "902991",
+          "905002",
+          "906292",
+          "935915"
+        ]
+      },
+      "SNxx29": {
+        "neurons": 20,
+        "body_ids_sha256": "7fec446782e9690ea70a7e701c0fbbf2466cdf55d444b1576dc579602c8e3108",
+        "body_ids": [
+          "802125",
+          "802282",
+          "803140",
+          "803903",
+          "804191",
+          "805000",
+          "805001",
+          "806548",
+          "807533",
+          "807629",
+          "807767",
+          "808503",
+          "813268",
+          "816463",
+          "816922",
+          "820805",
+          "902991",
+          "905002",
+          "906292",
+          "935915"
+        ]
+      },
+      "SNch01": {
+        "neurons": 35,
+        "body_ids_sha256": "ca6699da7043406d5ed6bddec27218d5cf98574ceb31d43735878c76fd939104",
+        "body_ids": [
+          "801695",
+          "804024",
+          "804528",
+          "805314",
+          "805347",
+          "805493",
+          "805534",
+          "805587",
+          "805594",
+          "805623",
+          "805812",
+          "805956",
+          "805975",
+          "806067",
+          "806078",
+          "806261",
+          "806454",
+          "806527",
+          "806589",
+          "806594",
+          "807192",
+          "807328",
+          "807705",
+          "807967",
+          "810474",
+          "902929",
+          "903750",
+          "905881",
+          "906190",
+          "906486",
+          "906519",
+          "908138",
+          "914105",
+          "936625",
+          "1050213678"
+        ]
+      },
+      "AN09B018": {
+        "neurons": 8,
+        "body_ids_sha256": "9334f1bf2d07f9bc016a6ed9fedb7459eae708b0a38377fea811d6a36566b9ca",
+        "body_ids": [
+          "18325",
+          "19197",
+          "29334",
+          "32085",
+          "37979",
+          "512555",
+          "513169",
+          "808335"
+        ]
+      },
+      "AN05B004": {
+        "neurons": 2,
+        "body_ids_sha256": "a477facc62fe5bddf955033b24fb8543d2eea05a0095b1640d8394effe81b992",
+        "body_ids": [
+          "11604",
+          "14026"
+        ]
+      },
+      "AN17A018": {
+        "neurons": 6,
+        "body_ids_sha256": "0abd81af2c8c7ab41a272641a861dd9398af7e17132a358793d66536dbb5ff86",
+        "body_ids": [
+          "28852",
+          "29643",
+          "29665",
+          "32193",
+          "530686",
+          "801206"
+        ]
+      },
+      "ANXXX196": {
+        "neurons": 2,
+        "body_ids_sha256": "f33632aa4510610d96df4cf5f3da6fc67c67f81efb05a877c4e00c716231dae7",
+        "body_ids": [
+          "514484",
+          "515447"
+        ]
+      },
+      "AN05B097": {
+        "neurons": 8,
+        "body_ids_sha256": "a688ca4dff95024fe8ed32409d2fdf7db7eaafe6910cf1a1876609c67763ffd1",
+        "body_ids": [
+          "12548",
+          "15192",
+          "16500",
+          "16569",
+          "19709",
+          "21195",
+          "520177",
+          "523547"
+        ]
+      },
+      "AN01A021": {
+        "neurons": 2,
+        "body_ids_sha256": "33eaa1bbfb5944611ecab4994b290b733d381830297bf5446acd5083fb23a2b3",
+        "body_ids": [
+          "56710",
+          "80727"
+        ]
+      },
+      "ANXXX055": {
+        "neurons": 2,
+        "body_ids_sha256": "a54d18acb842f178b2bce4b9bbd9117142ba141bd9c666bb9b5232bf40c3b6f3",
+        "body_ids": [
+          "20065",
+          "512119"
+        ]
+      },
+      "ascending_neuron": {
+        "neurons": 1846,
+        "body_ids_sha256": "186c7d9f0c2300b5c91c13b5e487ad9c68686267a649b5a9d7a5f565ec636dc1"
+      },
+      "DAN": {
+        "neurons": 340,
+        "body_ids_sha256": "ad153340b578e6c82df17546e3202f8d50a898eca861f9770b05c5a51db880c3"
+      },
+      "PPL1": {
+        "neurons": 16,
+        "body_ids_sha256": "3eb25bf5d4d8671edece9d6e276cf8b55279a9d640086b9a4bd7de94799e5665",
+        "body_ids": [
+          "11327",
+          "11618",
+          "11752",
+          "11900",
+          "12902",
+          "13428",
+          "14182",
+          "14225",
+          "14705",
+          "15310",
+          "21145",
+          "512326",
+          "515048",
+          "519616",
+          "529512",
+          "529516"
+        ]
+      },
+      "PPL101": {
+        "neurons": 2,
+        "body_ids_sha256": "7ad79c726c1c509f3c1f72c01b96b9a3f7aa53bcef5f456ee45c26489894a3f8",
+        "body_ids": [
+          "11327",
+          "11900"
+        ]
+      },
+      "PAM": {
+        "neurons": 316,
+        "body_ids_sha256": "e4690e3c3a921d84aa054272ca67ed23c0dbb8da5d064e6885be0b4619fd64ed"
+      },
+      "MBON": {
+        "neurons": 97,
+        "body_ids_sha256": "f93c845d150194faa13af2ce49b86b57867432438e2fe0d5163d337c512b30c8"
+      },
+      "KC": {
+        "neurons": 4064,
+        "body_ids_sha256": "58d08c3b674b12479639b8c3b2bd19f85dfb647dff641f47887ecba5c816c777"
+      },
+      "descending_neuron": {
+        "neurons": 1314,
+        "body_ids_sha256": "60c9f24158ee5bc7e169eb8b38f3a198d65f3da31cd050bdb5954b12170dfc02"
+      },
+      "DNp20_L": {
+        "neurons": 1,
+        "body_ids_sha256": "677f83ec95be3c652975a2036fc122df2a8457eb1bc886bf731a8a0700ff61e4",
+        "body_ids": [
+          "10162"
+        ]
+      },
+      "DNp20_R": {
+        "neurons": 1,
+        "body_ids_sha256": "cff5465a6d6a52a541d998e30f293b7a22d0f9511a0fa5fef90306e052d0956c",
+        "body_ids": [
+          "10059"
+        ]
+      },
+      "DNpe017": {
+        "neurons": 2,
+        "body_ids_sha256": "84de6fa5d86ad24c5386fcab55e78c282b8c7e3a8ff9cd1de2b2f8d3257091d0",
+        "body_ids": [
+          "10527",
+          "555871"
+        ]
+      }
+    }
+  },
+  "logs": {
+    "lives": "lives.jsonl",
+    "death_snapshots": "death-snapshots.jsonl"
+  },
+  "code": {
+    "fork_commit": "8a54a22e2b6b7210bf1c480a09a8dbbcb58898eb",
+    "upstream_base_commit": "71ecf53d78eaffaf1a57ed7b0ccf5d458abc9f33",
+    "uncommitted_source_changes": "M doom/monitor.py\n M doom/nociception.py\n M doom/nociception_experiment.py\n M doom/nociception_probe.py\n M doom/server.py\n M doom/training.py\n M doom_learning_v6/brain.py\n?? doom/analyze_learning.py"
+  },
+  "arguments": {
+    "port": 8826,
+    "decoder": "bci",
+    "scenario": "combat_survival",
+    "audit_dir": "outputs/doom/nociception/m6-v1/E_snxx29_reset_on_death",
+    "bind": "127.0.0.1",
+    "checkpoint_dir": "outputs/doom/nociception/m6-v1/E_snxx29_reset_on_death/checkpoints",
+    "resume": true,
+    "checkpoint_seconds": 300,
+    "model": "experimental-v6",
+    "learning": true,
+    "seed": 41027,
+    "reward": "off",
+    "condition": "intact",
+    "damage_input": "snxx29",
+    "nociception_gain": 30.0,
+    "nociception_pulse_ms": 200.0,
+    "nociception_decay_ms": 0.0,
+    "nociception_damage_reference": 20.0,
+    "nociception_left_right_mode": "bilateral",
+    "nociception_seed": null,
+    "nociception_dose_calibration": null,
+    "death_snapshot_full": false,
+    "max_neural_seconds": 5400.0,
+    "reset_on_death": true
+  },
+  "continuation_of": "297dd6ea-712c-4692-af63-f105a5f31233",
+  "interrupted_round": {
+    "episode": 756,
+    "tick": 182,
+    "finished": false,
+    "health": 40,
+    "kills": 0,
+    "ammo": 95,
+    "hits": 0,
+    "score": 0.0,
+    "enemies": 5,
+    "enemies_spawned": 5,
+    "ammo_pickups": 0,
+    "ammo_spawned": 4,
+    "imps": 3,
+    "zombies": 2
+  },
+  "recovery": "learned and fast neural state retained; new arena; interrupted round censored",
+  "provenance": {
+    "model_revision": "adaptive-centered-v6-live-v1",
+    "kernel": {
+      "model": "adaptive-centered-v6",
+      "source_sha256": "0c2fa74922323acb8b55309af7b720d54377de962266272f69375c6d77e40180",
+      "binary_sha256": "31788ff73b551a07b02c70785e97af55377454883a60aa9a1baf230074c2bd64",
+      "flags": [
+        "-O3",
+        "-std=c++17",
+        "-shared",
+        "-Xlinker",
+        "/EXPORT:memory_advance"
+      ]
+    },
+    "graph_sha256": "dfc765c999404463110a6e993348fb77d5db559d9e0e6f4fee16932a516bc296",
+    "source_sha256": {
+      "doom\\__init__.py": "705232e35f70169709db4cf82f7209d14ed4266bca99a54bc7661206efa10c2b",
+      "doom\\analyze_learning.py": "a842e1f5a5c74e38f365b859d2a253182afa03bed17829705d5a1e2821ba9996",
+      "doom\\analyze_nociception.py": "bf177d2c5355f1c3888e2c42a48574597203c2bb7f20584fb6bd17f3d3c6c597",
+      "doom\\analyze_observation.py": "6a310487716d7d0d790ee14dddc50116067c89ee41ec90ba6e1e409a4f1bb3ce",
+      "doom\\archive.py": "d3f9fe9cc6096d7d5202199208448c8a0ca5414491b34cfbbf373f47fdd39d5d",
+      "doom\\arena_probe.py": "5c218b230fdb822a9017c558657c14289b697c64d09673d0b8aac6a2a77c40e3",
+      "doom\\audit_data.py": "983ff055a6b94b4bcd30ee914bf96e6a952a0da0f4daa6323f9bff9dd96ec9dc",
+      "doom\\audit_experiments.py": "7c2b4fab3322f44c67054b3460d5fc1484c02fc55b9edc359630328419f583aa",
+      "doom\\audit_remote.py": "4929720f21d313242d31ecc5007fc10c789f216f00d9e8cc139a702b45986943",
+      "doom\\audit_retina.py": "cca97b2213ea2c24f7faceef77622d8c4e86f1581aabfb55f500fd63450dbcf7",
+      "doom\\broadcast.py": "1870869ae8093c4e9afb9aac13b79d1bb2d22b0a48a8faca914f89cac165c215",
+      "doom\\build_kernel.py": "1079417fe0621c73a5a63327f280b66dc0c525f8a7daecb52e00aad5d3a7c93f",
+      "doom\\checkpoint.py": "b6c9870544a079614068af48cb8204d4a365d862786e86cebef04b287ee2a937",
+      "doom\\combat_arena.py": "5c4b47eff9d975c02080deb7c66729c41489b8cbef53b9573c2640b382986467",
+      "doom\\connectome.py": "33dcf39ecbc3cf0f3a166f6183cf83c9b0b23cc952d6c341d7fe7fb5e72680a0",
+      "doom\\death_snapshots.py": "78b272a174ec56f04dea4906e96ee9b16fe005b531be6777400375cc2c59cb56",
+      "doom\\engine.py": "f6c13b29b5b8407eb4b0720f80f752e28c303f8734f2d78f3cafd84594bef1d3",
+      "doom\\game.py": "2572d3071dff613300e4b6af6cac11184979d6d39593c1a8396077fa766bf156",
+      "doom\\life_metrics.py": "0b441a18b628fca586b4035fa9046599be55a075cebdd3aec43ac5a2493e80fa",
+      "doom\\monitor.py": "f4500dd642ce86786e2073e34f80d17a2708d09788d337351d025fba8e56e5e3",
+      "doom\\native.py": "68125e6e863add417299c9c0152a00fc7bf2b8a87fcf892d9758947bcfa6a15b",
+      "doom\\nociception.py": "36ec8fbab38b7b75293bf1086d1bef6297b639b876b6d9020079cd4876efa608",
+      "doom\\nociception_experiment.py": "af454d7415d5a41743bfbe7cf111b602a11b99c45a28234ae367e55a59f03793",
+      "doom\\nociception_probe.py": "fbba548f765aeae2a7a8a6fce32db77c605f537f6da5b6a1ff1343d21f329887",
+      "doom\\observe.py": "6b0f96d98a913084a362a96ea7c769340c39e68dcb050ec962e7529490193cb9",
+      "doom\\observe_public.py": "eceffe8775e6fb89ca762f0a08e0ef452de431a0a76c9d6a781ffeeb64c1e7b9",
+      "doom\\observer.py": "e1d7727066fa007bfc9c8a34e9988d8ec9c47379dd3da3cc434434577ecfcbc6",
+      "doom\\prepare.py": "863c0c2cf8b9d407ba0b0eb0027bbc8d8a530f9fd9573ca25f1ddebc338b4bfe",
+      "doom\\provenance.py": "f4cad308559276af0a883c0902eb5c0cbf1f6fbc396b334ac1c4c402c8f11d65",
+      "doom\\reward.py": "0d17b3d43540ebade145692aaf0b32ed7e07e4bfdfeba7f95b60bdd33731d851",
+      "doom\\server.py": "7ea9236ca97c49851dec2966c4549fab56520e7155db1c7fa2ed737e45affe6a",
+      "doom\\training.py": "1a5187c4b2e0660065165e43e219e6dda233387725d6c46fbeae31a21c6e9f01",
+      "doom\\training_checkpoint.py": "7b0985cd87132892363da5ffde38b8b99f3df33f60deff3709caf5de2542ffaa",
+      "doom\\transmitters.py": "ea4e169c19065552d2699683b5e5f7581a7c4ef9fe3ba067cf910412e164f84d",
+      "doom\\validate.py": "4a9ca3b04f7ac159e95de80319e4a08cd00edaa4688754367307a911baf914dc",
+      "doom\\validate_bci.py": "2c7c5e68ba54faae7d76ec2dfd1f26796c3affd41783d13905338cd6f92abe61",
+      "doom\\kernel.cpp": "f755334c260758eaece63d3ab78e6496b2db60942a0a89a196e9f02a047e3586"
+    },
+    "assets": {
+      "vizdoom_version": "1.3.0",
+      "scenario": "combat_survival",
+      "sha256": {
+        "combat_survival.cfg": "744dcd5b9039b65d5fd7635e98e937b0550ef2402f2481dd37a8b3b669baf014",
+        "combat_survival.wad": "40350fd06042e0d610c258345b90e0db69037562d1f2302d850d8cd6ee9d184b",
+        "freedoom2.wad": "a8772e088847032510d97ba2312406a6998f21cbab44d4ff10696faa9c0ecd4b"
+      },
+      "rules": {
+        "revision": "combat-survival-v2",
+        "arena_size_units": [
+          768,
+          768
+        ],
+        "initial_enemies": 4,
+        "maximum_alive_enemies": 8,
+        "maximum_alive_per_type": {
+          "DoomFlyImp": 4,
+          "Zombieman": 4
+        },
+        "spawn_interval_game_seconds": 3,
+        "spawn_rule": "One attempt every 105 engine tics; occupied pads are skipped. Alternate types when possible, filling the other type when one reaches its four-enemy cap. At most eight living enemies.",
+        "enemy": "DoomImp (30 health, native projectile/melee AI, Clip drop) and native Zombieman (20 health, hitscan attacks, Clip drop); at most four of each",
+        "ammo": "Four ClipBox pickup pads; each respawns eight game seconds after collection. Enemy kills drop a Clip.",
+        "initial_bullets": 100,
+        "episode_end": "player death only; no time limit or level exit",
+        "neural_state": "preserved across arena resets; baseline synaptic weights are fixed",
+        "observation_boundary": "Enemy counts, item counters and other engine state are spectator telemetry only. Controller input remains RGB pixels.",
+        "comparison": "New environment revision; do not pool with combat-survival-v1, defend_the_center or blue-floor learning experiments. V1 permits eight projectile-only survivors and a circling stalemate.",
+        "sources": [
+          "https://github.com/ZDoom/acc",
+          "https://vizdoom.farama.org/"
+        ],
+        "sha256": {
+          "combat_arena.py": "2be1b8e6f4dccbec3d565672e4f9c3cae954a7b6ca1e777b36f31c6023a63dc3",
+          "combat_survival.acs": "7fbc38bf27fa12999a05a4cb55e09d18a0632fc3b947306b466dadd65764b261",
+          "combat_survival.decorate": "268d72045a392501b1a0647ff5b06e53c890d2b19a34874fa494fb9e37970ff6",
+          "combat_survival.cfg": "bd2160dd42e997db16f8ba0ab38244a672c06416226a21b1ebd198d3a584d943",
+          "combat_survival.wad": "40350fd06042e0d610c258345b90e0db69037562d1f2302d850d8cd6ee9d184b"
+        },
+        "compiler": {
+          "source": "https://github.com/ZDoom/acc",
+          "commit": "bdb9bc4d2c5aee7ca3ff8da985d73aaf83af0557"
+        }
+      }
+    },
+    "data_audit_sha256": "1ff8be457ed3b3e738717382fe61ef55268eb3c04217554325446926bc1dd77d",
+    "candidate": {
+      "model": "adaptive-centered-v6-live-v1",
+      "validated": false,
+      "kernel": {
+        "model": "adaptive-centered-v6",
+        "source_sha256": "0c2fa74922323acb8b55309af7b720d54377de962266272f69375c6d77e40180",
+        "binary_sha256": "31788ff73b551a07b02c70785e97af55377454883a60aa9a1baf230074c2bd64",
+        "flags": [
+          "-O3",
+          "-std=c++17",
+          "-shared",
+          "-Xlinker",
+          "/EXPORT:memory_advance"
+        ]
+      },
+      "parameters": {
+        "trace_kc_seconds": 1.0,
+        "trace_dan_seconds": 1.0,
+        "memory_decay_seconds": 1800.0,
+        "weight_filter_seconds": 0.05,
+        "minimum_fraction": 0.1,
+        "maximum_fraction": 2.0,
+        "maximum_rate_bin_ms": 10.0,
+        "source": "https://doi.org/10.1038/s41586-024-07819-w",
+        "interpretation": "Combines v4 KC adaptation/rest hypothesis with v5 baseline-centered anti-Hebbian rate-rule adaptation on the full graph. Tonic currents calibrated to published baseline rates; associative gain and trace constants remain hypotheses. No game-based parameter fitting.",
+        "neural_dt_ms": 0.1,
+        "modulator_delivery_trace_ms": 100.0,
+        "kc_rest_mV": -60.0,
+        "kc_adaptation_jump_mV": 8.0,
+        "kc_adaptation_tau_ms": 200.0,
+        "eta": 0.001
+      },
+      "configuration": {
+        "initial_weight": "40a2e78d7299197d24ba03a24c94a8e1cd0eb45a653d69f001fc3acee2fdc779",
+        "modulation_mask": "914dcf25dae442aecbcf27565f7bc8be76ea8254e7fbc944f2efe6e2413e6d5a",
+        "rule": {
+          "trace_kc_seconds": 1.0,
+          "trace_dan_seconds": 1.0,
+          "memory_decay_seconds": 1800.0,
+          "weight_filter_seconds": 0.05,
+          "minimum_fraction": 0.1,
+          "maximum_fraction": 2.0,
+          "maximum_rate_bin_ms": 10.0,
+          "source": "https://doi.org/10.1038/s41586-024-07819-w",
+          "interpretation": "Centered rate-rule adaptation on existing individual edges, not an exact reproduction of the published nine-unit model. Equal trace constants, efficacy bounds, gain and 50 ms weight filter require calibration."
+        },
+        "rule_sha256": "fc1da7d35eb64a709e0e31b8b512ba50dd73917ffe28e983be45008bc5779bad",
+        "tonic": "9987b0e2557db3948dd617b9a70397a9ad7bf0367f8cf9e3e29af4d8d05f0420",
+        "dan_baseline_hz": "986c1936fd3d3ff90de54565be34655fda3e5157d9bd1ee7e032be868fb9a799",
+        "rest": "275bd935e4f1a56cbc2ca22b8f258f1cef511894f42f531e9a52476dd7b02946",
+        "adaptation_jump": 8.0,
+        "adaptation_tau": 200.0,
+        "retina": "5ec145156d998f582e5d8f08c4174e10f7f853d34745118adab8589f192d04b4",
+        "uv": "51f7dafd4355a06176418e22373ffcdf5bc066f75050da6dcbaaaccbad55a714",
+        "lamina": "22d6fa8ac7aa40700d09394aea1cf35226711d2efc78bc716882920ba180e47e",
+        "sugar": "89b057c7b57d5e783f608815b4219b17b54c812c3fa229bcb78b1cafa30d37a1",
+        "pre": "a58bac7b66de7bbc48f47c4c5d12db216cbfbeed4a2148020ac4638dde143acd",
+        "gain": "94a6bdd055ad6010d8e476c97eea5af1c240009c7068be0d82b4bfa07fdc5cfd",
+        "kc_mask": "43e6ed840af2d547a3ae5848155e639f6e2abf60d5b7caa83c4298a3fb64c617",
+        "dan_index": "2a62818a14eb7fb9a288eaf1dd4e93dec4e66de1428f12e844ca2ba5497823dd",
+        "r8": "27c803c738f86c0509cabc57269e265bac832d8b4477773688e59a14d671f0ff",
+        "r8_uv": "e567b93a289fa467ec1096295c4682dce0dfd4f7d92844159f7eb4a380e22719",
+        "r8_channel": "350fc24c7884470b78254805a557e57bf12b89b71ea8a32af2f4929e951555ae",
+        "corrected_edges": "64916a520f2d1e7daf30bfd027a67d53ceb0f8270097b17c0635572ce2db658d"
+      },
+      "calibration": {
+        "MBON_current": 9.87,
+        "DAN_current": 11.3125,
+        "observed_MBON_hz": [
+          37,
+          37
+        ],
+        "observed_DAN_hz": [
+          23,
+          19
+        ],
+        "target_MBON_hz": 37.16625,
+        "target_MBON_sd": 9.06014,
+        "target_DAN_hz": 20.09,
+        "target_DAN_sd": 4.30193,
+        "evidence": "https://doi.org/10.1038/s41586-024-07819-w",
+        "source_data": "Figure 1, panels d/e, n=20 flies per type",
+        "limits": "A fitted background current is not identified pacemaker physiology. This only constrains baseline rates, not cue responses, burst statistics or learned behavior."
+      },
+      "visual": {
+        "model": "r8-rgb-ame12-v1",
+        "mapped_R8p": 330,
+        "mapped_R8y": 481,
+        "known_unmapped": 0,
+        "projection_confidence_median": 1.0,
+        "projection_below_80_percent": 22,
+        "corrected_existing_edges": 390,
+        "corrected_edge_sha256": "64916a520f2d1e7daf30bfd027a67d53ceb0f8270097b17c0635572ce2db658d",
+        "coordinate_inference": "Modal column of all outgoing contacts to any column-annotated target; same viewport transform as R1-R6.",
+        "spectrum": "Linear sRGB B for R8p; G for R8y. Display proxy, not calibrated photon flux or spectral sensitivity. R7, dorsal and untyped R8 receive no invented optical drive.",
+        "physiology": "R8 to aMe12 net sign positive; original contact magnitudes retained. Other R8 targets retain baseline sign. Photoreceptors still use a LIF rate proxy, not graded in-vivo dynamics.",
+        "evidence": [
+          "https://doi.org/10.1038/s41586-023-06681-6",
+          "https://doi.org/10.1038/s41467-024-49616-z",
+          "https://doi.org/10.7554/eLife.71858"
+        ],
+        "validated": false
+      },
+      "circuit": {
+        "dataset": "MaleCNS v1.0",
+        "neurons": 166700,
+        "edges": 25582938,
+        "kc_count": 4064,
+        "plastic_edges": 4184,
+        "plastic_edge_index_sha256": "550335ad546f5c3106e4988426197ad24d8556367c9285e2f4c8c33f37f3cc68",
+        "plastic_presynaptic_index_sha256": "a58bac7b66de7bbc48f47c4c5d12db216cbfbeed4a2148020ac4638dde143acd",
+        "DAN": [
+          {
+            "index": 1235,
+            "id": "11327",
+            "type": "PPL101",
+            "instance": "PPL101(y1ped)_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 1774,
+            "id": "11900",
+            "type": "PPL101",
+            "instance": "PPL101(y1ped)_L",
+            "soma_side": "L"
+          }
+        ],
+        "MBON": [
+          {
+            "index": 655,
+            "id": "10704",
+            "type": "MBON11",
+            "instance": "MBON11(y1pedc>a/B)_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 1306,
+            "id": "11402",
+            "type": "MBON11",
+            "instance": "MBON11(y1pedc>a/B)_R",
+            "soma_side": "R"
+          }
+        ],
+        "gamma_d_KC": [
+          {
+            "index": 8303,
+            "id": "19102",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 8904,
+            "id": "19788",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 17000,
+            "id": "28848",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 18370,
+            "id": "30397",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 20372,
+            "id": "32683",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 22576,
+            "id": "35180",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 23943,
+            "id": "36723",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 25649,
+            "id": "38657",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 26229,
+            "id": "39316",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 26643,
+            "id": "39771",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 26866,
+            "id": "40027",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 27848,
+            "id": "41134",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 28942,
+            "id": "42370",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 29455,
+            "id": "42969",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 30246,
+            "id": "43867",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 30424,
+            "id": "44069",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 30793,
+            "id": "44485",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 31197,
+            "id": "44948",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 32293,
+            "id": "46196",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 33147,
+            "id": "47181",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 33293,
+            "id": "47354",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 33482,
+            "id": "47567",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 33720,
+            "id": "47847",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 33960,
+            "id": "48122",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 33982,
+            "id": "48147",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 34232,
+            "id": "48438",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 34321,
+            "id": "48533",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 34409,
+            "id": "48632",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 34418,
+            "id": "48641",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 34702,
+            "id": "48978",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 34761,
+            "id": "49052",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 35014,
+            "id": "49345",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 35330,
+            "id": "49709",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 35331,
+            "id": "49710",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 36079,
+            "id": "50582",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 36387,
+            "id": "50933",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 37017,
+            "id": "51679",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 37285,
+            "id": "51998",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 37797,
+            "id": "52594",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 37936,
+            "id": "52751",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 38067,
+            "id": "52907",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 38334,
+            "id": "53217",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 38379,
+            "id": "53271",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 38584,
+            "id": "53505",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 38728,
+            "id": "53680",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 40847,
+            "id": "56145",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 40968,
+            "id": "56284",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 41810,
+            "id": "57302",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 41902,
+            "id": "57413",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 41936,
+            "id": "57460",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 41969,
+            "id": "57498",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 42013,
+            "id": "57545",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 42017,
+            "id": "57550",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 42844,
+            "id": "58501",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 42863,
+            "id": "58524",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 43078,
+            "id": "58782",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 43096,
+            "id": "58802",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 44370,
+            "id": "60344",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 44673,
+            "id": "60708",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 44776,
+            "id": "60829",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 44962,
+            "id": "61056",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 45810,
+            "id": "62076",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 45976,
+            "id": "62274",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 47024,
+            "id": "63543",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 47654,
+            "id": "64302",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 47659,
+            "id": "64310",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 49607,
+            "id": "66659",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 49867,
+            "id": "66973",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 50179,
+            "id": "67355",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 50568,
+            "id": "67853",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 50673,
+            "id": "67984",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 52226,
+            "id": "69885",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 53514,
+            "id": "71486",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 53683,
+            "id": "71688",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 54118,
+            "id": "72230",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 54346,
+            "id": "72512",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 54904,
+            "id": "73227",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 55588,
+            "id": "74094",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 55734,
+            "id": "74269",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 55804,
+            "id": "74362",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 55958,
+            "id": "74542",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 57170,
+            "id": "76023",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 57216,
+            "id": "76076",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 57530,
+            "id": "76455",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 59359,
+            "id": "78768",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 59875,
+            "id": "79419",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 61044,
+            "id": "80905",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 61060,
+            "id": "80924",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 61176,
+            "id": "81056",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 61286,
+            "id": "81177",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 61607,
+            "id": "81577",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 61667,
+            "id": "81656",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 61760,
+            "id": "81781",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 62532,
+            "id": "82728",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 63206,
+            "id": "83584",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 63540,
+            "id": "84011",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 64039,
+            "id": "84628",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 64497,
+            "id": "85213",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 64601,
+            "id": "85349",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 64617,
+            "id": "85368",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 64974,
+            "id": "85851",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 65030,
+            "id": "85923",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 65225,
+            "id": "86183",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 65375,
+            "id": "86372",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 65789,
+            "id": "86909",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 65813,
+            "id": "86940",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 66132,
+            "id": "87387",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 66497,
+            "id": "87868",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 67600,
+            "id": "89327",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 68697,
+            "id": "90790",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 69022,
+            "id": "91244",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 69203,
+            "id": "91487",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 69535,
+            "id": "91926",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 69599,
+            "id": "92008",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 69603,
+            "id": "92013",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 69725,
+            "id": "92168",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 70326,
+            "id": "92967",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 72087,
+            "id": "95291",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 72229,
+            "id": "95484",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 72843,
+            "id": "96304",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 73794,
+            "id": "97591",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 74411,
+            "id": "98462",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 74713,
+            "id": "98901",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 75084,
+            "id": "99391",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 75985,
+            "id": "100592",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 76739,
+            "id": "101647",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 77197,
+            "id": "102283",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 78213,
+            "id": "103663",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 78243,
+            "id": "103715",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 78284,
+            "id": "103770",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 78836,
+            "id": "104513",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 79690,
+            "id": "105662",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 80139,
+            "id": "106301",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 83326,
+            "id": "110746",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 83643,
+            "id": "111197",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 84028,
+            "id": "111744",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 85755,
+            "id": "114179",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 86656,
+            "id": "115470",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 87632,
+            "id": "116917",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 88351,
+            "id": "117936",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 88590,
+            "id": "118280",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 89191,
+            "id": "119167",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 90350,
+            "id": "120949",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 91489,
+            "id": "122647",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 92436,
+            "id": "124097",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 93421,
+            "id": "125644",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 93520,
+            "id": "125813",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 94287,
+            "id": "127046",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 94606,
+            "id": "127577",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 95445,
+            "id": "128925",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 96238,
+            "id": "130231",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 99178,
+            "id": "135219",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 99188,
+            "id": "135241",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 99279,
+            "id": "135421",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 99412,
+            "id": "135662",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 99539,
+            "id": "135897",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 99626,
+            "id": "136046",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 100083,
+            "id": "136912",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 100274,
+            "id": "137283",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 100283,
+            "id": "137302",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 100631,
+            "id": "137952",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 100756,
+            "id": "138186",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 100761,
+            "id": "138198",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 101480,
+            "id": "139591",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 101790,
+            "id": "140175",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 102720,
+            "id": "142069",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 102786,
+            "id": "142203",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 103044,
+            "id": "142733",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 103306,
+            "id": "143262",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 103791,
+            "id": "144220",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 103975,
+            "id": "144578",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 104041,
+            "id": "144747",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 104069,
+            "id": "144819",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 104207,
+            "id": "145085",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 104766,
+            "id": "146301",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 105355,
+            "id": "147585",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 105589,
+            "id": "148137",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 105591,
+            "id": "148145",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 105593,
+            "id": "148150",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 106387,
+            "id": "150014",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 106480,
+            "id": "150259",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 107157,
+            "id": "151944",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 107354,
+            "id": "152470",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 107442,
+            "id": "152688",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 107768,
+            "id": "153545",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 108677,
+            "id": "155996",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 108954,
+            "id": "156785",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 109136,
+            "id": "157325",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 109523,
+            "id": "158447",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 109917,
+            "id": "159580",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 121141,
+            "id": "216580",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 130610,
+            "id": "520204",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 130612,
+            "id": "520206",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 132315,
+            "id": "524455",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 133394,
+            "id": "526900",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 135004,
+            "id": "531428",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 135843,
+            "id": "533220",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 135903,
+            "id": "533345",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 136600,
+            "id": "534786",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 137005,
+            "id": "535720",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 137032,
+            "id": "535795",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 137229,
+            "id": "536363",
+            "type": "KCg-d",
+            "instance": "KCg-d_R",
+            "soma_side": "R"
+          },
+          {
+            "index": 137464,
+            "id": "537090",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 138936,
+            "id": "542818",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 142217,
+            "id": "553483",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          },
+          {
+            "index": 142517,
+            "id": "556005",
+            "type": "KCg-d",
+            "instance": "KCg-d_L",
+            "soma_side": "L"
+          }
+        ],
+        "dan_to_mbon_contact_fraction": [
+          [
+            0.4826086759567261,
+            0.5614665746688843
+          ],
+          [
+            0.5173913240432739,
+            0.43853339552879333
+          ]
+        ],
+        "selection": "All existing KC-to-MBON11 edges; no graph pruning or added connections.",
+        "compartment_assignment": "Cell-type-level gamma1/peduncle inference; aggregate edges do not resolve receptor localization.",
+        "modulation": "PPL101 outgoing edges deliver a transmitter trace to every recorded target. Only the specified KC-to-MBON11 efficacy response is modeled. Other target responses remain unknown.",
+        "baseline_difference": "Two PPL101 cells use a modulatory channel rather than the baseline default fast excitatory sign.",
+        "evidence": [
+          "https://doi.org/10.1016/j.neuron.2015.11.003",
+          "https://doi.org/10.7554/eLife.16135",
+          "https://male-cns.janelia.org/download/"
+        ]
+      },
+      "source_sha256": {
+        "doom_learning\\analyze.py": "8c8a83e94db356c437e1d2da161e2192f41e299b92397ea952727cf02fce4d5d",
+        "doom_learning\\benchmark.py": "9c7540f9335de32937d0eddccf4069261f537971a4a70a39797a8377cb5b17be",
+        "doom_learning\\brain.py": "7508ae16bc94b7b0780ce5a0d4cbca251adc2f64bf345df7c173e83a3e515967",
+        "doom_learning\\circuit.py": "16030ede149729f04aff017326216213b525ad523ff58c16c3443c425062e39b",
+        "doom_learning\\common.py": "d53c7946f66455a51d39389eddbc4c20c8023b312f8fbd39f7fdfbbc194e7263",
+        "doom_learning\\conditioning.py": "efe60f9afa1a2e88df99b09169975f9559403e61426030d186f1c52f82bc59d7",
+        "doom_learning\\controls.py": "779b7ba01c135003ba8ed71514ec5434d34793316157cc28e8c063bedf53d562",
+        "doom_learning\\export_iterations.py": "d92778c66304dae0a11d1220a831af8537b4f8e3b60239491da1ba3671c97517",
+        "doom_learning\\run.py": "4b5b49cb040c035c07a9cde9f747ec97c86e348f10bbf9a4e00aafd7e3e4b8d7",
+        "doom_learning\\survival_arena.py": "59126f1785b400feaab7623e712fcfa36e52c8279bbbb5a097f40cf55399c583",
+        "doom_learning\\sweep.py": "51872879041861e6c0c74f0056b4bfc5ad6f362246315bac24e9f076a66144c5",
+        "doom_learning\\vision.py": "ce30b1fa25b4a5a2325b8cdf587a9db9564662a06a26f268533cab81974d9311",
+        "doom_learning\\__init__.py": "57c194e6fbb3ae8a5074c6203995e9fb73a8bb724e3e5ae42421a51686c7ad7d",
+        "doom_learning\\kernel.cpp": "ec8051eb69b04d0f1ce1411c51d6f7a583e8e799a50732b9d77f980acd3a2d42",
+        "doom_learning_v6\\analyze.py": "99417eb7ed166973abf75bc9f2283e363808b71976754c91c00579eb68bc4eac",
+        "doom_learning_v6\\brain.py": "d29ace9f257e5b05ba565ea0b93d4df56def0f09a075fbf8e1a82ca5dab7fb13",
+        "doom_learning_v6\\calibration.py": "3a97c413e7e094932357f3fc80e034c59c9e6697ec1804afcc600bcc7c97961f",
+        "doom_learning_v6\\rule.py": "fc1da7d35eb64a709e0e31b8b512ba50dd73917ffe28e983be45008bc5779bad",
+        "doom_learning_v6\\stability.py": "75a0e9395512a00a540e402d588c5b5cc6788cdb8de596f800528487b7d2ae1c",
+        "doom_learning_v6\\survival.py": "721ebd6dfd51aa196ff0abfe3ed3223593a9019ef8bc9b77b74299c9b66c5e4d",
+        "doom_learning_v6\\visual.py": "746ac5420aa1a98ce985ac3f21c32fc962df8cbf6519b2ddfa6e241ef32b03c7",
+        "doom_learning_v6\\__init__.py": "a7478ec465d68788c27fdfbae6f02bcedd32dde9cc6c386090d71ea60efcae81",
+        "doom_learning_v6\\kernel.cpp": "0c2fa74922323acb8b55309af7b720d54377de962266272f69375c6d77e40180"
+      },
+      "reinforcement": "Simulated nociception: health loss drives the 20 identified SNxx29 leg sensory neurons through an artificial transducer (see nociception parameters). Fatal damage included; pulses continue across arena resets. No PPL101 damage pulse (calibrated tonic background retained) and no damage reward.",
+      "rounds": "Continuous fast neural state, efficacy state and memory traces across normal game resets; no per-round equilibration. Different from the historical isolated-trial pilot.",
+      "claim": "Simulated nociception experiment, not pain. Propagation, behavioral effects and learning have not been established.",
+      "damage_input": "snxx29",
+      "nociception": {
+        "source": "snxx29",
+        "gain_mv": 30.0,
+        "pulse_ms": 200.0,
+        "decay_ms": 0.0,
+        "damage_reference_hp": 20.0,
+        "left_right_mode": "bilateral",
+        "seed": null,
+        "body_ids": [
+          "802125",
+          "802282",
+          "803140",
+          "803903",
+          "804191",
+          "805000",
+          "805001",
+          "806548",
+          "807533",
+          "807629",
+          "807767",
+          "808503",
+          "813268",
+          "816463",
+          "816922",
+          "820805",
+          "902991",
+          "905002",
+          "906292",
+          "935915"
+        ],
+        "transducer": "drive_mv = gain * clip(max(previous_health - max(current_health, 0), 0) / damage_reference, 0, 1); engineering conversion, not physiology",
+        "population": {
+          "source": "snxx29",
+          "family": "snxx29",
+          "reference_type": "SNxx29",
+          "selection_rule": "Exact type == \"SNxx29\"; 10 L + 10 R; acetylcholine model transmitter.",
+          "seed": null,
+          "count": 20,
+          "sides": {
+            "L": 10,
+            "R": 10
+          },
+          "outgoing_synapses_total": 35140,
+          "reference_outgoing_synapses_total": 35140,
+          "outgoing_ratio_to_reference": 1.0,
+          "match_attempts": null,
+          "identity_evidence": "ppk+/Gr28b.d+ heat-nociceptive leg sensory identity is inferred from MANC-era annotation literature. MaleCNS v1.0 has no receptorType for these cells and the MaleCNS paper (Berg et al.) does not describe SNxx29 or nociception.",
+          "neurons": [
+            {
+              "index": 145904,
+              "body_id": "802125",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "R",
+              "entry_nerve": "MetaLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 1760,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "acetylcholine",
+              "predicted_nt_confidence": 0.8920744012972635,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 146015,
+              "body_id": "802282",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "R",
+              "entry_nerve": "MetaLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 3182,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "acetylcholine",
+              "predicted_nt_confidence": 0.7134973375903879,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 146668,
+              "body_id": "803140",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "L",
+              "entry_nerve": "MetaLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 3125,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "acetylcholine",
+              "predicted_nt_confidence": 0.7467833619746883,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 147263,
+              "body_id": "803903",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "L",
+              "entry_nerve": "MesoLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 3084,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "acetylcholine",
+              "predicted_nt_confidence": 0.8012891244685291,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 147503,
+              "body_id": "804191",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "R",
+              "entry_nerve": "MetaLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 1625,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "serotonin",
+              "predicted_nt_confidence": 0.6285437344913152,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 148151,
+              "body_id": "805000",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "L",
+              "entry_nerve": "ProLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 2522,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "acetylcholine",
+              "predicted_nt_confidence": 0.8335728210026497,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 148152,
+              "body_id": "805001",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "R",
+              "entry_nerve": "MesoLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 1543,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "acetylcholine",
+              "predicted_nt_confidence": 0.670060623663992,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 149426,
+              "body_id": "806548",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "L",
+              "entry_nerve": "MesoLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 1493,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "acetylcholine",
+              "predicted_nt_confidence": 0.811963828264727,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 150261,
+              "body_id": "807533",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "L",
+              "entry_nerve": "MesoLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 1406,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "acetylcholine",
+              "predicted_nt_confidence": 0.8177246242832686,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 150341,
+              "body_id": "807629",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "R",
+              "entry_nerve": "MetaLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 1657,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "serotonin",
+              "predicted_nt_confidence": 0.5307227366255145,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 150458,
+              "body_id": "807767",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "L",
+              "entry_nerve": "MetaLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 1542,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "serotonin",
+              "predicted_nt_confidence": 0.5827069080594026,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 151065,
+              "body_id": "808503",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "L",
+              "entry_nerve": "MetaLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 1394,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "serotonin",
+              "predicted_nt_confidence": 0.6477415716999051,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 154926,
+              "body_id": "813268",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "R",
+              "entry_nerve": "ProLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 502,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "acetylcholine",
+              "predicted_nt_confidence": 0.7025972932348479,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 157305,
+              "body_id": "816463",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "L",
+              "entry_nerve": "MesoLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 713,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "acetylcholine",
+              "predicted_nt_confidence": 0.667216997701657,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 157593,
+              "body_id": "816922",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "L",
+              "entry_nerve": "ProLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 576,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "acetylcholine",
+              "predicted_nt_confidence": 0.7073628098277852,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 159284,
+              "body_id": "820805",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "R",
+              "entry_nerve": "ProLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 389,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "unclear",
+              "predicted_nt_confidence": 0.40271461963450916,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 160812,
+              "body_id": "902991",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "L",
+              "entry_nerve": "MetaLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 2298,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "acetylcholine",
+              "predicted_nt_confidence": 0.6049716836430837,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 161487,
+              "body_id": "905002",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "R",
+              "entry_nerve": "MesoLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 2992,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "acetylcholine",
+              "predicted_nt_confidence": 0.861508560947988,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 161932,
+              "body_id": "906292",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "R",
+              "entry_nerve": "ProLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 1962,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "acetylcholine",
+              "predicted_nt_confidence": 0.9008614629299039,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            },
+            {
+              "index": 164554,
+              "body_id": "935915",
+              "type": "SNxx29",
+              "class": "unknown_sensory",
+              "superclass": "vnc_sensory",
+              "subclass": "leg",
+              "side": "R",
+              "entry_nerve": "MesoLN",
+              "model_neurotransmitter": "acetylcholine",
+              "outgoing_synapses": 1375,
+              "dataset": "male-cns",
+              "dataset_version": "v1.0",
+              "predicted_nt": "serotonin",
+              "predicted_nt_confidence": 0.6379820411070412,
+              "celltype_predicted_nt": "acetylcholine",
+              "celltype_predicted_nt_confidence": 0.6743733507066244
+            }
+          ],
+          "dataset": "male-cns",
+          "dataset_version": "v1.0"
+        }
+      }
+    }
+  },
+  "planned_learning_window_hours": 72,
+  "learning_window_started": true,
+  "scientifically_validated": false
+}

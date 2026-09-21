@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "milestone": 6,
+  "preset": "m6",
+  "arms": {
+    "A_snxx29": {
+      "damage_input": "snxx29",
+      "learning": true,
+      "reset_on_death": false
+    },
+    "B_random_dose_matched": {
+      "damage_input": "random-dose-matched",
+      "learning": true,
+      "reset_on_death": false
+    },
+    "C_none": {
+      "damage_input": "none",
+      "learning": true,
+      "reset_on_death": false
+    },
+    "D_ppl101": {
+      "damage_input": "ppl101",
+      "learning": true,
+      "reset_on_death": false
+    },
+    "E_snxx29_reset_on_death": {
+      "damage_input": "snxx29",
+      "learning": true,
+      "reset_on_death": true
+    },
+    "F_snxx29_no_learning": {
+      "damage_input": "snxx29",
+      "learning": false,
+      "reset_on_death": false
+    }
+  },
+  "arguments": {
+    "preset": "m6",
+    "out": "outputs/doom/nociception/m6-v1",
+    "conditions": null,
+    "neural_seconds": 5400.0,
+    "seed": 41027,
+    "nociception_seed": 41027,
+    "max_jobs": 5,
+    "min_free_gb": 3.5,
+    "settle_seconds": 150.0,
+    "base_port": 8810,
+    "checkpoint_seconds": null,
+    "analysis_only": true
+  },
+  "reward": "off",
+  "model": "experimental-v6",
+  "started_at_ms": 1789697983320
+}

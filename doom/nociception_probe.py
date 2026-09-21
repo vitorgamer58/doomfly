@@ -79,16 +79,17 @@ def pulse_rate(brain, state, frame, groups, controls, key, indices, gain, pulse_
     return float(spikes[100//BIN_MS:, column].sum()/len(groups[key])/(pulse_ms/1000))
 
 
-def calibrate_dose(brain, state, frame, groups, controls, snxx29, random, gain, pulse_ms):
-    """Grid then refined search for the random-population gain matching the SNxx29 rate at ``gain``.
+def calibrate_dose(brain, state, frame, groups, controls, reference, random, gain, pulse_ms, *,
+                    reference_key='SNxx29', random_key='random_matched'):
+    """Grid then refined search for the random-population gain matching the reference rate at ``gain``.
 
     The recurrent network is not guaranteed monotonic in drive, so every
     evaluated point is kept and the best observed point is chosen.
     """
-    target = pulse_rate(brain, state, frame, groups, controls, 'SNxx29', snxx29, gain, pulse_ms)
+    target = pulse_rate(brain, state, frame, groups, controls, reference_key, reference, gain, pulse_ms)
     search = []
     def evaluate(g):
-        rate = pulse_rate(brain, state, frame, groups, controls, 'random_matched', random, g, pulse_ms)
+        rate = pulse_rate(brain, state, frame, groups, controls, random_key, random, g, pulse_ms)
         search.append({'gain_mv': round(g, 4), 'random_rate_hz': round(rate, 4)})
         print(json.dumps(search[-1]), flush=True)
         return rate
@@ -141,12 +142,15 @@ def summarize(spikes, decoded, sham_spikes, sham_decoded, groups, starts):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--arms', default='sham,snxx29,random-matched,random-dose-matched')
+    p.add_argument('--family', choices=['snxx29', 'snch01'], default='snxx29',
+                   help='Which nociceptive population family to probe (Milestone 3: snxx29; Milestone 5: snch01)')
+    p.add_argument('--arms', default='sham,{reference},{random},{dose}',
+                   help='Comma-separated arms; {reference}/{random}/{dose} are filled in from --family')
     p.add_argument('--gain', type=float, default=30.)
     p.add_argument('--calibrate-dose', action='store_true',
                    help='Only calibrate the random-dose-matched gain and write the calibration record')
-    p.add_argument('--calibration', default=str(ROOT/'outputs/doom/nociception/dose-calibration-v1.json'))
-    p.add_argument('--gain-sweep', default='', help='Comma-separated gains for a single-pulse SNxx29 sweep, e.g. 5,7.5,10,15,20,30,40')
+    p.add_argument('--calibration', help='Defaults to outputs/doom/nociception/dose-calibration[-family]-v1.json')
+    p.add_argument('--gain-sweep', default='', help='Comma-separated gains for a single-pulse reference-population sweep, e.g. 5,7.5,10,15,20,30,40')
     p.add_argument('--pulses', type=int, default=5)
     p.add_argument('--pulse-ms', type=int, default=200)
     p.add_argument('--interval-ms', type=int, default=1200)
@@ -154,11 +158,23 @@ def main():
     p.add_argument('--warmup-ms', type=int, default=2000)
     p.add_argument('--seed', type=int, default=41027, help='Seeds the random population and pulse jitter')
     p.add_argument('--frame', help='RGB image viewed throughout; default uniform gray 64')
-    p.add_argument('--out', default=str(ROOT/'outputs/doom/nociception/probe-snxx29-v1'))
+    p.add_argument('--out', help='Defaults to outputs/doom/nociception/probe-<family>-v1')
     args = p.parse_args()
-    arms = args.arms.split(',')
-    if not args.calibrate_dose and ('sham' not in arms or not set(arms) <= {'sham', 'snxx29', 'random-matched', 'random-dose-matched'}):
-        p.error('Arms must include sham and only sham, snxx29, random-matched, random-dose-matched')
+
+    from doom.nociception import FAMILIES
+    cfg = FAMILIES[args.family]
+    reference_source, random_source, dose_source = cfg['sources']
+    reference_key = cfg['reference_type']  # activity_groups() key, e.g. 'SNxx29' or 'SNch01'
+    random_key = f'{args.family}_random_matched'
+    if args.calibration is None:
+        suffix = '' if args.family == 'snxx29' else f'-{args.family}'
+        args.calibration = str(ROOT/f'outputs/doom/nociception/dose-calibration{suffix}-v1.json')
+    if args.out is None:
+        args.out = str(ROOT/f'outputs/doom/nociception/probe-{args.family}-v1')
+    arms = [a.format(reference=reference_source, random=random_source, dose=dose_source) for a in args.arms.split(',')]
+    allowed = {'sham', reference_source, random_source, dose_source}
+    if not args.calibrate_dose and ('sham' not in arms or not set(arms) <= allowed):
+        p.error(f'Arms must include sham and only be drawn from {sorted(allowed)}')
     if args.pulse_ms % BIN_MS or args.interval_ms % BIN_MS or args.warmup_ms % BIN_MS or args.pulse_ms <= 0:
         p.error(f'Durations must be positive multiples of {BIN_MS} ms')
 
@@ -173,9 +189,9 @@ def main():
     brain.weights_frozen = True
     annotations = feather.read_table(ROOT/'connectome_data/malecns_v1/annotations.feather').to_pandas().set_index('bodyId')
     populations = {s: load_population(s, brain.ids, seed=args.seed, modulation_mask=brain.modulation_mask, annotations=annotations)
-                   for s in ['snxx29', 'random-matched']}
+                   for s in [reference_source, random_source]}
     groups = activity_groups(annotations.loc[brain.ids])
-    groups = {'random_matched': populations['random-matched']['indices'], **groups}
+    groups = {random_key: populations[random_source]['indices'], **groups}
     manifest = json.loads((ROOT/'outputs/doom/malecns_v1/manifest.json').read_text())
     frame = load_frame(args.frame)
     rng = np.random.default_rng(args.seed)
@@ -192,32 +208,34 @@ def main():
             state = Path(tmp)/'equilibrated.npz'
             brain.checkpoint(state)
             controls = NeuralControls(manifest['readouts'], mode='bci')
-            target, chosen, search = calibrate_dose(brain, state, frame, groups, controls, populations['snxx29']['indices'],
-                                                    populations['random-matched']['indices'], args.gain, args.pulse_ms)
-        record = {'schema': 1, 'purpose': 'Gain for the random-dose-matched control: equal population spike rate to SNxx29, not equal drive.',
+            target, chosen, search = calibrate_dose(brain, state, frame, groups, controls, populations[reference_source]['indices'],
+                                                    populations[random_source]['indices'], args.gain, args.pulse_ms,
+                                                    reference_key=reference_key, random_key=random_key)
+        record = {'schema': 1, 'purpose': f'Gain for the {dose_source} control: equal population spike rate to {reference_key}, not equal drive.',
                   'seed': args.seed, 'pulse_ms': float(args.pulse_ms), 'decay_ms': 0., 'warmup_ms': args.warmup_ms,
                   'frame_sha256': hashlib.sha256(frame.tobytes()).hexdigest(),
-                  'snxx29_gain_mv': args.gain, 'snxx29_rate_hz': round(target, 4),
+                  f'{args.family}_gain_mv': args.gain, f'{args.family}_rate_hz': round(target, 4),
                   'random_dose_matched_gain_mv': chosen['gain_mv'], 'random_rate_hz': chosen['random_rate_hz'],
                   'relative_rate_error': round(abs(chosen['random_rate_hz'] - target)/target, 4) if target else None,
-                  'search': search, 'random_population_body_ids': [r['body_id'] for r in populations['random-matched']['report']['neurons']],
+                  'search': search, 'random_population_body_ids': [r['body_id'] for r in populations[random_source]['report']['neurons']],
                   'limits': 'Matched for one pulse at full damage from one equilibrated state on a fixed frame. In-game dose still varies with network state and hit size, and spikes scale nonlinearly with drive.',
                   'provenance': provenance, 'wall_seconds': round(time.time() - started, 1)}
         path = Path(args.calibration)
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(record, indent=2)+'\n')
-        print(json.dumps({k: record[k] for k in ['snxx29_gain_mv', 'snxx29_rate_hz', 'random_dose_matched_gain_mv', 'random_rate_hz', 'relative_rate_error']}))
+        print(json.dumps({k: record[k] for k in [f'{args.family}_gain_mv', f'{args.family}_rate_hz',
+                                                   'random_dose_matched_gain_mv', 'random_rate_hz', 'relative_rate_error']}))
         print(path)
         return
-    gains = {'snxx29': args.gain, 'random-matched': args.gain}
+    gains = {reference_source: args.gain, random_source: args.gain}
     calibration = None
-    if 'random-dose-matched' in arms:
+    if dose_source in arms:
         from doom.nociception import load_dose_calibration
-        calibration = load_dose_calibration(args.calibration, seed=args.seed, pulse_ms=args.pulse_ms, decay_ms=0.)
-        if float(calibration['snxx29_gain_mv']) != args.gain:
-            p.error('Dose calibration was made for a different SNxx29 gain')
-        gains['random-dose-matched'] = calibration['random_dose_matched_gain_mv']
-        populations['random-dose-matched'] = populations['random-matched']
+        calibration = load_dose_calibration(args.calibration, seed=args.seed, pulse_ms=args.pulse_ms, decay_ms=0., family=args.family)
+        if float(calibration[f'{args.family}_gain_mv']) != args.gain:
+            p.error(f'Dose calibration was made for a different {reference_key} gain')
+        gains[dose_source] = calibration['random_dose_matched_gain_mv']
+        populations[dose_source] = populations[random_source]
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     series = {}
@@ -238,28 +256,30 @@ def main():
             if arm != 'sham':
                 results[arm] = summarize(*series[arm], *series['sham'], groups, starts)
         dose = {}
-        for arm, key in [('snxx29', 'SNxx29'), ('random-matched', 'random_matched'), ('random-dose-matched', 'random_matched')]:
+        for arm, key in [(reference_source, reference_key), (random_source, random_key), (dose_source, random_key)]:
             if arm in series:
                 col = list(groups).index(key)
                 during = sum(series[arm][0][s//BIN_MS:(s + args.pulse_ms)//BIN_MS, col].sum() for s in starts)
                 dose[arm] = {'gain_mv': gains[arm], 'stimulated_population_spikes_during_pulses': int(during),
                              'rate_hz': round(during/len(groups[key])/(len(starts)*args.pulse_ms/1000), 3)}
         sweep = []
+        sweep_groups = [reference_key, 'ascending_neuron', 'DAN', 'descending_neuron']
+        sweep_groups += ['AN09B018', 'AN05B004'] if reference_key not in ('AN09B018', 'AN05B004') else []
         for gain in [float(x) for x in args.gain_sweep.split(',') if x.strip()]:
             brain.restore(state)
             controls = NeuralControls(manifest['readouts'], mode='bci')
-            spikes, _ = run_arm(brain, frame, groups, controls, indices=populations['snxx29']['indices'], gain=gain,
+            spikes, _ = run_arm(brain, frame, groups, controls, indices=populations[reference_source]['indices'], gain=gain,
                                 starts=[100], pulse_ms=args.pulse_ms, total_ms=100 + args.pulse_ms + 200)
             during = spikes[10:10 + args.pulse_ms//BIN_MS]
             names = list(groups)
             sweep.append({'gain_mv': gain, **{f'{k}_rate_hz': round(float(during[:, names.index(k)].sum()/max(1, len(groups[k]))/(args.pulse_ms/1000)), 3)
-                                              for k in ['SNxx29', 'AN09B018', 'AN05B004', 'ascending_neuron', 'DAN', 'descending_neuron']}})
+                                              for k in sweep_groups}})
             print(json.dumps(sweep[-1]), flush=True)
     np.savez_compressed(out/'series.npz', groups=np.array(list(groups)), bin_ms=BIN_MS, starts_ms=np.array(starts),
                         **{f'{arm}_spikes': s for arm, (s, _) in series.items()},
                         **{f'{arm}_decoded_turn_forward_attack': d for arm, (_, d) in series.items()})
-    report = {'schema': 1, 'experiment': 'nociception-open-loop-probe', 'milestone': 3,
-              'claim': 'Model propagation under an artificial drive; not pain, not validated physiology.',
+    report = {'schema': 1, 'experiment': 'nociception-open-loop-probe', 'milestone': 3 if args.family == 'snxx29' else 5,
+              'family': args.family, 'claim': 'Model propagation under an artificial drive; not pain, not validated physiology.',
               'deterministic': True, 'weights_frozen': True, 'game_running': False,
               'parameters': {**{k: v for k, v in vars(args).items() if k != 'out'}, 'bin_ms': BIN_MS, 'pulse_onsets_ms': starts,
                              'windows_ms': WINDOWS_MS, 'frame_sha256': hashlib.sha256(frame.tobytes()).hexdigest()},
