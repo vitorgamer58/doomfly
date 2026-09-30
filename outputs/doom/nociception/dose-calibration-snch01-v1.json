@@ -1,0 +1,205 @@
+{
+  "schema": 1,
+  "purpose": "Gain for the snch01-random-dose-matched control: equal population spike rate to SNch01, not equal drive.",
+  "seed": 41027,
+  "pulse_ms": 200.0,
+  "decay_ms": 0.0,
+  "warmup_ms": 2000,
+  "frame_sha256": "e542c4497387ecf0fd0edeb1e38c881f40bd74f7be404ca839499086143ac01d",
+  "snch01_gain_mv": 20.0,
+  "snch01_rate_hz": 16.1429,
+  "random_dose_matched_gain_mv": 8.25,
+  "random_rate_hz": 15.2857,
+  "relative_rate_error": 0.0531,
+  "search": [
+    {
+      "gain_mv": 7.0,
+      "random_rate_hz": 4.8571
+    },
+    {
+      "gain_mv": 7.25,
+      "random_rate_hz": 5.5714
+    },
+    {
+      "gain_mv": 7.5,
+      "random_rate_hz": 8.1429
+    },
+    {
+      "gain_mv": 7.75,
+      "random_rate_hz": 10.4286
+    },
+    {
+      "gain_mv": 8.0,
+      "random_rate_hz": 13.7143
+    },
+    {
+      "gain_mv": 8.25,
+      "random_rate_hz": 15.2857
+    },
+    {
+      "gain_mv": 8.5,
+      "random_rate_hz": 18.0
+    },
+    {
+      "gain_mv": 8.75,
+      "random_rate_hz": 19.8571
+    },
+    {
+      "gain_mv": 9.0,
+      "random_rate_hz": 21.5714
+    },
+    {
+      "gain_mv": 10.0,
+      "random_rate_hz": 30.1429
+    },
+    {
+      "gain_mv": 11.0,
+      "random_rate_hz": 37.0
+    },
+    {
+      "gain_mv": 12.0,
+      "random_rate_hz": 44.1429
+    },
+    {
+      "gain_mv": 13.0,
+      "random_rate_hz": 49.2857
+    },
+    {
+      "gain_mv": 14.0,
+      "random_rate_hz": 55.5714
+    },
+    {
+      "gain_mv": 15.0,
+      "random_rate_hz": 60.5714
+    },
+    {
+      "gain_mv": 16.0,
+      "random_rate_hz": 64.4286
+    },
+    {
+      "gain_mv": 17.0,
+      "random_rate_hz": 69.7143
+    },
+    {
+      "gain_mv": 18.0,
+      "random_rate_hz": 74.1429
+    },
+    {
+      "gain_mv": 19.0,
+      "random_rate_hz": 79.2857
+    },
+    {
+      "gain_mv": 20.0,
+      "random_rate_hz": 83.5714
+    }
+  ],
+  "random_population_body_ids": [
+    "801680",
+    "804076",
+    "804087",
+    "804176",
+    "804202",
+    "804762",
+    "804765",
+    "804777",
+    "806118",
+    "806328",
+    "806652",
+    "806778",
+    "806883",
+    "807145",
+    "807216",
+    "807306",
+    "807412",
+    "807526",
+    "807562",
+    "807596",
+    "808113",
+    "808164",
+    "809480",
+    "810832",
+    "815249",
+    "902687",
+    "905509",
+    "906089",
+    "906312",
+    "906662",
+    "908652",
+    "908829",
+    "909335",
+    "910099",
+    "936290"
+  ],
+  "limits": "Matched for one pulse at full damage from one equilibrated state on a fixed frame. In-game dose still varies with network state and hit size, and spikes scale nonlinearly with drive.",
+  "provenance": {
+    "fork_commit": "8a54a22e2b6b7210bf1c480a09a8dbbcb58898eb",
+    "kernel": {
+      "model": "adaptive-centered-v6",
+      "source_sha256": "0c2fa74922323acb8b55309af7b720d54377de962266272f69375c6d77e40180",
+      "binary_sha256": "31788ff73b551a07b02c70785e97af55377454883a60aa9a1baf230074c2bd64",
+      "flags": [
+        "-O3",
+        "-std=c++17",
+        "-shared",
+        "-Xlinker",
+        "/EXPORT:memory_advance"
+      ]
+    },
+    "graph_sha256": "dfc765c999404463110a6e993348fb77d5db559d9e0e6f4fee16932a516bc296",
+    "configuration": {
+      "initial_weight": "40a2e78d7299197d24ba03a24c94a8e1cd0eb45a653d69f001fc3acee2fdc779",
+      "modulation_mask": "914dcf25dae442aecbcf27565f7bc8be76ea8254e7fbc944f2efe6e2413e6d5a",
+      "rule": {
+        "trace_kc_seconds": 1.0,
+        "trace_dan_seconds": 1.0,
+        "memory_decay_seconds": 1800.0,
+        "weight_filter_seconds": 0.05,
+        "minimum_fraction": 0.1,
+        "maximum_fraction": 2.0,
+        "maximum_rate_bin_ms": 10.0,
+        "source": "https://doi.org/10.1038/s41586-024-07819-w",
+        "interpretation": "Centered rate-rule adaptation on existing individual edges, not an exact reproduction of the published nine-unit model. Equal trace constants, efficacy bounds, gain and 50 ms weight filter require calibration."
+      },
+      "rule_sha256": "fc1da7d35eb64a709e0e31b8b512ba50dd73917ffe28e983be45008bc5779bad",
+      "tonic": "9987b0e2557db3948dd617b9a70397a9ad7bf0367f8cf9e3e29af4d8d05f0420",
+      "dan_baseline_hz": "986c1936fd3d3ff90de54565be34655fda3e5157d9bd1ee7e032be868fb9a799",
+      "rest": "275bd935e4f1a56cbc2ca22b8f258f1cef511894f42f531e9a52476dd7b02946",
+      "adaptation_jump": 8.0,
+      "adaptation_tau": 200.0,
+      "retina": "5ec145156d998f582e5d8f08c4174e10f7f853d34745118adab8589f192d04b4",
+      "uv": "51f7dafd4355a06176418e22373ffcdf5bc066f75050da6dcbaaaccbad55a714",
+      "lamina": "22d6fa8ac7aa40700d09394aea1cf35226711d2efc78bc716882920ba180e47e",
+      "sugar": "89b057c7b57d5e783f608815b4219b17b54c812c3fa229bcb78b1cafa30d37a1",
+      "pre": "a58bac7b66de7bbc48f47c4c5d12db216cbfbeed4a2148020ac4638dde143acd",
+      "gain": "94a6bdd055ad6010d8e476c97eea5af1c240009c7068be0d82b4bfa07fdc5cfd",
+      "kc_mask": "43e6ed840af2d547a3ae5848155e639f6e2abf60d5b7caa83c4298a3fb64c617",
+      "dan_index": "2a62818a14eb7fb9a288eaf1dd4e93dec4e66de1428f12e844ca2ba5497823dd",
+      "r8": "27c803c738f86c0509cabc57269e265bac832d8b4477773688e59a14d671f0ff",
+      "r8_uv": "e567b93a289fa467ec1096295c4682dce0dfd4f7d92844159f7eb4a380e22719",
+      "r8_channel": "350fc24c7884470b78254805a557e57bf12b89b71ea8a32af2f4929e951555ae",
+      "corrected_edges": "64916a520f2d1e7daf30bfd027a67d53ceb0f8270097b17c0635572ce2db658d"
+    },
+    "calibration": {
+      "MBON_current": 9.87,
+      "DAN_current": 11.3125,
+      "observed_MBON_hz": [
+        37,
+        37
+      ],
+      "observed_DAN_hz": [
+        23,
+        19
+      ],
+      "target_MBON_hz": 37.16625,
+      "target_MBON_sd": 9.06014,
+      "target_DAN_hz": 20.09,
+      "target_DAN_sd": 4.30193,
+      "evidence": "https://doi.org/10.1038/s41586-024-07819-w",
+      "source_data": "Figure 1, panels d/e, n=20 flies per type",
+      "limits": "A fitted background current is not identified pacemaker physiology. This only constrains baseline rates, not cue responses, burst statistics or learned behavior."
+    },
+    "dataset": "male-cns",
+    "dataset_version": "v1.0"
+  },
+  "wall_seconds": 75.8
+}

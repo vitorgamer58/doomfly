@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "milestone": 4,
+  "arguments": {
+    "out": "outputs/doom/nociception/m4-v1",
+    "conditions": "none,snxx29,random-matched,random-dose-matched,ppl101",
+    "neural_seconds": 600.0,
+    "seed": 41027,
+    "nociception_seed": 41027,
+    "max_jobs": 5,
+    "min_free_gb": 3.5,
+    "settle_seconds": 150.0,
+    "base_port": 8810,
+    "analysis_only": false
+  },
+  "weights_frozen": true,
+  "reward": "off",
+  "model": "experimental-v6",
+  "started_at_ms": 1789511284223
+}

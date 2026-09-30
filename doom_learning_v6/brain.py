@@ -24,10 +24,16 @@ def build():
         if record['source_sha256']==sha and record['binary_sha256']==hashlib.sha256(LIBRARY.read_bytes()).hexdigest():return record
     LIBRARY.parent.mkdir(parents=True,exist_ok=True)
     temp=LIBRARY.with_suffix(LIBRARY.suffix+'.partial')
-    subprocess.run(['clang++','-O3','-std=c++17','-shared','-fPIC',str(SOURCE),'-o',str(temp)],check=True)
+    if sys.platform=='win32':
+        subprocess.run(['clang++','-O3','-std=c++17','-shared',str(SOURCE),'-o',str(temp),
+          '-Xlinker','/EXPORT:memory_advance'],check=True)
+        flags=['-O3','-std=c++17','-shared','-Xlinker','/EXPORT:memory_advance']
+    else:
+        subprocess.run(['clang++','-O3','-std=c++17','-shared','-fPIC',str(SOURCE),'-o',str(temp)],check=True)
+        flags=['-O3','-std=c++17','-shared','-fPIC']
     temp.replace(LIBRARY)
     record={'model':MODEL,'source_sha256':sha,'binary_sha256':hashlib.sha256(LIBRARY.read_bytes()).hexdigest(),
-            'flags':['-O3','-std=c++17','-shared','-fPIC']}
+            'flags':flags}
     save_json(metadata,record);return record
 
 
@@ -81,6 +87,18 @@ class MemoryBrain(NativeBrain):
         self.cursor=0;self.sim_ms=0.;self.total_spikes=0
         if not keep_memory:self.weight[self.circuit['edges']]=self.baseline_plastic
         else:self.memory_u[:],self.memory_w[:]=saved
+
+    # Milestone 6 Control E only: reset dynamic recurrent-activity state (membrane potentials,
+    # conductances, spike/refractory state, axonal/synaptic delay queues, KC adaptation) to the
+    # network's initial condition at each death, isolating whether continuity of that dynamic state
+    # -- as opposed to the learned KC->MBON11 weights -- matters. Unlike reset(), this keeps eligibility
+    # and modulation traces, learned weights, visual/decoder filters (luminance), the simulation clock
+    # and total_spikes untouched: one variable changes at a time. Normal runs never call this.
+    DYNAMIC_STATE_FIELDS=['v','g','refractory','drive','previous_drive','queue','queue_count',
+        'counts','active','active_flag','nactive','last','adaptation']
+
+    def reset_dynamic_state(self):
+        for k in self.DYNAMIC_STATE_FIELDS:getattr(self,k)[:]=self.initial[k]
 
     def _neural_step(self,luminance,duration_ms,*,learning=False,stimulation=None,lamina_bias=12.):
         light=np.asarray(luminance)
